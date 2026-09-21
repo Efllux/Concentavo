@@ -29,6 +29,10 @@ Run **Actions → Beta installers → Run workflow**. Both platforms test before
 
 For local packaging, run `npm run prepare:helpers`, `npm run build`, then `npm run dist:mac` on macOS or `npm run dist:win` on Windows. Helpers are pinned GitHub CLI downloads, verified against upstream release checksums. Runtime dependencies are bundled. End users do not install Node or the CLI.
 
+macOS releases use separate Apple Silicon (`arm64`) and Intel (`x64`) packages instead of one universal package. This avoids shipping two copies of Electron machine code to every Mac. The release ZIP files are required by the updater; users normally download the PKG matching their Mac.
+
+`build.electronLanguages` in `package.json` lists the Chromium locale resources shipped in the desktop app. Keep it aligned with the languages offered by `src/i18n.js` whenever a translation is added. App translations remain ordinary source data and are not limited to Dutch and English.
+
 ## Draft release
 
 1. Complete the blockers in BETA-PLAN.md and update CHANGELOG.md and BETA-NOTES.md.

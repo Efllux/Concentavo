@@ -1,5 +1,4 @@
-import {mkdir,writeFile,chmod,copyFile} from 'node:fs/promises';
-import {execFileSync} from 'node:child_process';
+import {mkdir,writeFile,chmod} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {unzipSync,strFromU8} from 'fflate';
 const version='2.97.0',base=`https://github.com/cli/cli/releases/download/v${version}/`;
@@ -18,9 +17,4 @@ for(const target of targets){
   if(!license)throw Error(`GitHub helper licence is missing: ${archive}`);
   await writeFile(`${dir}/LICENSE.txt`,license[1]);
   console.log(`Verified ${archive}`);
-}
-if(process.platform==='darwin'){
-  await mkdir('vendor/gh/mac-universal',{recursive:true});
-  await copyFile('vendor/gh/mac-arm64/LICENSE.txt','vendor/gh/mac-universal/LICENSE.txt');
-  execFileSync('lipo',['-create','vendor/gh/mac-arm64/gh','vendor/gh/mac-x64/gh','-output','vendor/gh/mac-universal/gh']);
 }

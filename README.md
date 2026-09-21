@@ -69,7 +69,7 @@ npm run prepare:helpers
 npm start
 ```
 
-`npm test` builds the app and runs crypto and browser regression tests. `npm run test:desktop` checks Electron isolation, mocked publishing and cursor timing. Packaging commands are `npm run dist:mac` (universal macOS PKG) and `npm run dist:win` (per-user x64 NSIS). Full instructions are in [docs/RELEASE.md](docs/RELEASE.md).
+`npm test` builds the app and runs crypto and browser regression tests. `npm run test:desktop` checks Electron isolation, mocked publishing and cursor timing. Packaging commands are `npm run dist:mac` (separate Apple Silicon and Intel macOS packages) and `npm run dist:win` (per-user x64 NSIS). Use `npm run dist:mac:arm64` or `npm run dist:mac:x64` for one Mac architecture. Full instructions are in [docs/RELEASE.md](docs/RELEASE.md).
 
 These development installers are not publisher-signed or Apple-notarized. macOS/Windows may require security approval. A warning-free public installation needs appropriate publisher signing and verification. Native Windows installation and real GitHub publishing remain release checks; browser tests do not substitute for them.
 
