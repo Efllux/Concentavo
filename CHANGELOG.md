@@ -1,11 +1,12 @@
 # Changelog
 
-## 1.1.0-beta.2
+## 1.1.0-beta.3
 
 - Reduce Mac download and installed sizes by replacing the universal build with separate Apple Silicon and Intel packages.
 - Keep only the Electron locale resources used by the current English and Dutch interfaces; the translation system remains extensible.
 - Stop creating a redundant universal GitHub CLI helper during packaging.
 - Reduce the Apple Silicon PKG to about 130 MB, the Intel PKG to about 138 MB and the Windows installer to about 118 MB in clean comparison builds.
+- Make the Electron cursor test wait for the musical transition instead of assuming fixed CI audio timing.
 
 ## 1.1.0-beta.1
 

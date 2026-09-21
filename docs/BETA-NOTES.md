@@ -1,4 +1,4 @@
-# Concentavo 1.1.0-beta.2
+# Concentavo 1.1.0-beta.3
 
 Concentavo turns MusicXML and MIDI into independent choir rehearsal websites. This beta adds a room sidebar, Dutch, dark mode, sample-based piano, chord-symbol playback, editable publishing parts, conditional octave doubling, responsive score flow, piece defaults, folders/tags, bulk actions, bar seeking/loops, encrypted password-protected exports and automatic update support. Singers do not need an account.
 

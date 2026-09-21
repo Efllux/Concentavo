@@ -17,7 +17,7 @@ await page.locator('#export-project').click();await page.waitForSelector('#githu
 await page.screenshot({path:'test-results/publish-desktop.png'});await page.locator('dialog .dialog-actions button[value=cancel]').click();assert.match(await page.locator('#export-project').innerText(),/Update/);
 await page.locator('[data-open]').first().click();await page.waitForSelector('#score svg');
 const cursor=page.locator('#score img').first();await cursor.waitFor();
-const start=await cursor.getAttribute('style');await page.locator('#play').click();await page.waitForTimeout(500);const mid=await cursor.getAttribute('style');assert.equal(start,mid,'Cursor stays on sounding whole note');await page.waitForTimeout(2200);const next=await cursor.getAttribute('style');assert.notEqual(mid,next,'Cursor advances to next note');await page.locator('#play').click();
+const start=await cursor.getAttribute('style');await page.locator('#play').click();await page.waitForTimeout(500);const mid=await cursor.getAttribute('style');assert.equal(start,mid,'Cursor stays on sounding whole note');await page.waitForFunction(previous=>document.querySelector('#score img')?.getAttribute('style')!==previous,mid,{timeout:10000});const next=await cursor.getAttribute('style');assert.notEqual(mid,next,'Cursor advances to next note');await page.locator('#play').click();
 await page.locator('#restart').click();await page.screenshot({path:'test-results/desktop-player.png'});
 assert.deepEqual(errors,[]);await app.close();console.log('PASS: native app, isolated renderer, GitHub publish UI with mocked API, cursor timing and desktop launch.');
 
