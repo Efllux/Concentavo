@@ -1,0 +1,22 @@
+name: Report a problem
+description: Something in the app or practice website is not working.
+body:
+  - type: input
+    id: version
+    attributes:
+      label: App version and operating system
+      placeholder: 1.1.0-beta.1, Windows 11
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: What happened?
+      description: Describe the steps, expected result, and actual result. Please omit passwords and private scores.
+    validations:
+      required: true
+  - type: textarea
+    id: file
+    attributes:
+      label: Score information
+      description: MusicXML or MIDI? Which program created it? If useful, attach a small original example you can share publicly.

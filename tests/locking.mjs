@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {encryptPiece,decryptPiece} from '../src/locking.js';
+const piece={id:'original-piece',title:'Test',score:{notes:[60,64,67]},xml:'<original-score/>'};
+const first=await encryptPiece(piece,'Long test passphrase'),second=await encryptPiece(piece,'Long test passphrase');
+assert.notEqual(first.salt,second.salt);assert.notEqual(first.iv,second.iv);assert.notEqual(first.data,second.data);
+assert.deepEqual(await decryptPiece(piece.id,first,'Long test passphrase'),piece);
+await assert.rejects(decryptPiece(piece.id,first,'wrong'));
+await assert.rejects(decryptPiece('different-piece',first,'Long test passphrase'));
+const modified={...first,data:(first.data[0]==='A'?'B':'A')+first.data.slice(1)};
+await assert.rejects(decryptPiece(piece.id,modified,'Long test passphrase'));
+console.log('PASS: password encryption, unique salts/nonces, wrong passwords and tamper detection.');

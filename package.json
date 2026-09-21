@@ -1,0 +1,88 @@
+{
+  "name": "concentavo",
+  "productName": "Concentavo",
+  "description": "A local-first desktop app for turning MusicXML and MIDI into self-contained choir rehearsal websites.",
+  "author": "Concentavo contributors",
+  "version": "1.1.0-beta.1",
+  "private": true,
+  "type": "module",
+  "main": "desktop/main.cjs",
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "npm run build && node tests/locking.mjs && node tests/run.mjs",
+    "start": "electron .",
+    "dist:mac": "electron-builder --mac pkg zip --universal --publish never",
+    "dist:win": "electron-builder --win nsis --x64 --publish never",
+    "prepare:helpers": "node scripts/prepare-helpers.mjs",
+    "release:check": "node scripts/release-check.mjs",
+    "release:checksums": "node scripts/checksums.mjs",
+    "test:desktop": "node tests/desktop.mjs"
+  },
+  "dependencies": {
+    "electron-updater": "6.6.2"
+  },
+  "devDependencies": {
+    "@tonejs/midi": "2.0.28",
+    "electron": "44.4.3",
+    "electron-builder": "26.0.12",
+    "esbuild": "0.25.10",
+    "fflate": "0.8.2",
+    "opensheetmusicdisplay": "1.9.2",
+    "playwright": "1.55.1"
+  },
+  "build": {
+    "appId": "org.choirloom.desktop",
+    "productName": "Concentavo",
+    "publish": [{"provider":"github","owner":"Efllux","repo":"Concentavo","releaseType":"prerelease"}],
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "desktop/**/*",
+      "package.json",
+      "build/icon.png",
+      "LICENSE",
+      "LICENSING.md",
+      "THIRD-PARTY-NOTICES.txt"
+    ],
+    "mac": {
+      "category": "public.app-category.music",
+      "identity": null,
+      "artifactName": "Concentavo-${version}-mac-${arch}.${ext}",
+      "icon": "build/icon.icns",
+      "hardenedRuntime": false
+    },
+    "win": {
+      "target": "nsis",
+      "signAndEditExecutable": false,
+      "artifactName": "Concentavo-${version}-windows-${arch}-setup.${ext}",
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": true,
+      "allowToChangeInstallationDirectory": false,
+      "perMachine": false,
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico"
+    },
+    "extraResources": [
+      {
+        "from": "vendor/gh/${os}-${arch}",
+        "to": "github",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "pkg": {
+      "identity": null,
+      "allowAnywhere": false
+    },
+    "afterPack": "scripts/sign-development.cjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "license": "AGPL-3.0-only"
+}

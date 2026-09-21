@@ -1,0 +1,10 @@
+import { readdir, readFile, writeFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
+import { join, basename } from 'node:path';
+const dir=process.argv[2] || 'release';
+const files=(await readdir(dir)).filter(name=>/\.(pkg|exe|zip|html)$/.test(name)).sort();
+if(!files.length) throw Error(`No release artifacts in ${dir}`);
+const lines=[];
+for(const file of files) lines.push(`${createHash('sha256').update(await readFile(join(dir,file))).digest('hex')}  ${basename(file)}`);
+await writeFile(join(dir,'SHA256SUMS.txt'),lines.join('\n')+'\n');
+console.log(`Checksummed ${files.length} artifacts`);
