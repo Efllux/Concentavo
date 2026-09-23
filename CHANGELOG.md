@@ -5,6 +5,7 @@
 - Improve recorded piano with 30 sampled notes and studio, mellow and bright sounds.
 - Save count-in with the other piece defaults, while letting singers override it in their own browser.
 - Add a visible folder colour bar and an Edit folder context action.
+- Reopen the last selected rehearsal room when returning to the app.
 - Join sparse, non-overlapping MusicXML voice-number changes from OCR into the main melody, including its displayed and published notation.
 - Remove imported print layout and positioning hints from the score display so scores can reflow to the available screen.
 
