@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.0-rc.1
+
+- Let recorded piano notes sustain for their written length before releasing, instead of fading across the whole note.
+- Check for desktop updates shortly after launch and every six hours, with visible checking, download and ready states. Release candidates receive prerelease updates; stable versions will follow stable releases.
+- Remove the beta label from the app and prepare a public release candidate with platform builds and checksums.
+
 ## 1.1.0-beta.4
 
 - Improve recorded piano with 30 sampled notes and studio, mellow and bright sounds.

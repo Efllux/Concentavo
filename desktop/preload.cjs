@@ -5,6 +5,7 @@ contextBridge.exposeInMainWorld('choirloomDesktop',{
   githubStatus:()=>invoke('github-status'),githubLogin:()=>invoke('github-login'),githubCancelLogin:()=>invoke('github-cancel-login'),
   githubPublish:data=>invoke('github-publish',data),githubSiteStatus:id=>invoke('github-site-status',id),githubOpen:id=>invoke('github-open',id),
   checkUpdates:()=>ipcRenderer.invoke('check-updates'),
+  updateStatus:()=>ipcRenderer.invoke('update-status'),
   onUpdateStatus:callback=>{const listener=(_event,data)=>callback(data);ipcRenderer.on('update-status',listener);return ()=>ipcRenderer.removeListener('update-status',listener);},
   onGithubProgress:callback=>{const listener=(_event,data)=>callback(data);ipcRenderer.on('github-progress',listener);return ()=>ipcRenderer.removeListener('github-progress',listener);}
 });

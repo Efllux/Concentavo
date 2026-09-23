@@ -1,4 +1,4 @@
-name: Beta installers
+name: Release installers
 on:
   workflow_dispatch:
   push:
@@ -66,7 +66,7 @@ jobs:
         run: |
           git archive --format=zip --prefix=concentavo/ --output=release/Concentavo-source.zip HEAD
           node scripts/checksums.mjs
-      - name: Create or update a draft beta
+      - name: Create or update a draft release
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
@@ -76,5 +76,7 @@ jobs:
             test "$(gh release view "$RELEASE_TAG" --json isDraft --jq .isDraft)" = true || { echo 'Refusing to modify an already published release'; exit 1; }
             gh release upload "$RELEASE_TAG" release/* --clobber
           else
-            gh release create "$RELEASE_TAG" release/* --verify-tag --draft --prerelease --title "Concentavo $RELEASE_TAG" --notes-file docs/BETA-NOTES.md
+            prerelease=()
+            if [[ "$RELEASE_TAG" == *-* ]]; then prerelease=(--prerelease); fi
+            gh release create "$RELEASE_TAG" release/* --verify-tag --draft "${prerelease[@]}" --title "Concentavo $RELEASE_TAG" --notes-file docs/RELEASE-NOTES.md
           fi

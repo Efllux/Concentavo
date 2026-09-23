@@ -2,7 +2,7 @@
 
 A local-first desktop app for turning MusicXML and MIDI into self-contained choir rehearsal websites. Organise music into independent rehearsal rooms, adjust parts, then publish to GitHub Pages. Singers need only a browser, without an account.
 
-Concentavo is in development beta; see [release verification](docs/RELEASE.md), [the revision checklist](docs/BETA-PLAN.md), and [research notes](docs/RESEARCH.md).
+Concentavo is preparing its first public release. See [release verification](docs/RELEASE.md), [the revision checklist](docs/BETA-PLAN.md), and [research notes](docs/RESEARCH.md).
 
 ## Quick start
 
@@ -22,6 +22,7 @@ No Node, Python, MIDI software or separate GitHub installation is required by si
 - Playback stays visible while the score scrolls. On phones, **Parts** opens the mixer above the transport.
 - Speed, pitch, count-in and repeat controls are next to playback. **My practice** holds optional local progress, private notes and playback caveats.
 - Studio, mellow and bright pianos use 30 bundled Salamander Grand Piano recordings. Organ, flute, strings, soft tone and choir ah/oo remain synthesized timbres. WAV export uses the same samples, sound engine and current mix.
+- The desktop app checks for updates after launch and every six hours. It downloads available updates and installs them when you close the app; Help shows the current update status and offers a manual check.
 
 Space plays/pauses, arrows seek five seconds, and Home restarts when focus is outside editable controls. Bar buttons and Go to bar provide keyboard access to score seeking.
 

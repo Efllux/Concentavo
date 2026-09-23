@@ -3,6 +3,14 @@ const { autoUpdater } = require('electron-updater');
 const path = require('node:path');
 const fs = require('node:fs/promises');
 let main;
+let updateStatus={state:'idle',current:app.getVersion()},updateCheck;
+function reportUpdate(status){updateStatus={...updateStatus,...status};main?.webContents.send('update-status',updateStatus);}
+function checkUpdates(){
+  if(!app.isPackaged)return Promise.resolve({state:'development',current:app.getVersion()});
+  if(updateCheck)return updateCheck;
+  updateCheck=autoUpdater.checkForUpdates().then(()=>updateStatus).catch(error=>{reportUpdate({state:'error',message:error.message});return updateStatus;}).finally(()=>{updateCheck=null;});
+  return updateCheck;
+}
 if(!process.argv.some(arg=>arg.startsWith('--user-data-dir=')))app.setPath('userData',path.join(app.getPath('appData'),'Choirloom'));
 app.setName('Concentavo');
 function openWindow(){
@@ -26,9 +34,20 @@ app.whenReady().then(()=>{
     const {canceled,filePath}=await dialog.showSaveDialog(main,{defaultPath:safe});if(canceled||!filePath)return false;
     await fs.writeFile(filePath,Buffer.from(bytes));return true;
   });
-  ipcMain.handle('check-updates',async()=>{if(!app.isPackaged)return {version:app.getVersion(),development:true};const result=await autoUpdater.checkForUpdates();return {version:result?.updateInfo?.version||app.getVersion(),current:app.getVersion()};});
+  ipcMain.handle('check-updates',()=>checkUpdates());
+  ipcMain.handle('update-status',()=>updateStatus);
   openWindow();
-  if(app.isPackaged){autoUpdater.autoDownload=true;autoUpdater.autoInstallOnAppQuit=true;autoUpdater.allowPrerelease=true;autoUpdater.on('update-downloaded',info=>main?.webContents.send('update-status',{state:'ready',version:info.version}));autoUpdater.on('error',error=>main?.webContents.send('update-status',{state:'error',message:error.message}));setTimeout(()=>autoUpdater.checkForUpdatesAndNotify().catch(()=>{}),8000);setInterval(()=>autoUpdater.checkForUpdatesAndNotify().catch(()=>{}),6*60*60*1000);}
+  if(app.isPackaged){
+    autoUpdater.autoDownload=true;autoUpdater.autoInstallOnAppQuit=true;
+    autoUpdater.allowPrerelease=app.getVersion().includes('-');
+    autoUpdater.on('checking-for-update',()=>reportUpdate({state:'checking',message:''}));
+    autoUpdater.on('update-available',info=>reportUpdate({state:'downloading',version:info.version}));
+    autoUpdater.on('update-not-available',()=>reportUpdate({state:'current',version:app.getVersion()}));
+    autoUpdater.on('update-downloaded',info=>reportUpdate({state:'ready',version:info.version}));
+    autoUpdater.on('error',error=>reportUpdate({state:'error',message:error.message}));
+    setTimeout(checkUpdates,8000);
+    setInterval(checkUpdates,6*60*60*1000);
+  }
   app.on('activate',()=>{if(BrowserWindow.getAllWindows().length===0)openWindow();});
 });
 app.on('window-all-closed',()=>{if(process.platform!=='darwin')app.quit();});

@@ -3,13 +3,13 @@
   "productName": "Concentavo",
   "description": "A local-first desktop app for turning MusicXML and MIDI into self-contained choir rehearsal websites.",
   "author": "Concentavo contributors",
-  "version": "1.1.0-beta.4",
+  "version": "1.1.0-rc.1",
   "private": true,
   "type": "module",
   "main": "desktop/main.cjs",
   "scripts": {
     "build": "node build.mjs",
-    "test": "npm run build && node tests/locking.mjs && node tests/run.mjs && node tests/mobile.mjs",
+    "test": "npm run build && node tests/audio.mjs && node tests/locking.mjs && node tests/run.mjs && node tests/mobile.mjs",
     "start": "electron .",
     "dist:mac": "node scripts/package-mac.mjs",
     "dist:mac:arm64": "electron-builder --mac pkg zip --arm64 --publish never",
@@ -40,7 +40,7 @@
         "provider": "github",
         "owner": "Efllux",
         "repo": "Concentavo",
-        "releaseType": "prerelease"
+        "releaseType": "release"
       }
     ],
     "directories": {
