@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.0-rc.2
+
+- Correct the desktop update-status smoke test so installer builds can complete.
+
 ## 1.1.0-rc.1
 
 - Let recorded piano notes sustain for their written length before releasing, instead of fading across the whole note.

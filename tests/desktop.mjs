@@ -8,7 +8,7 @@ assert.equal(await page.evaluate(()=>typeof window.require),'undefined','Rendere
 assert.equal(await page.evaluate(()=>typeof window.choirloomDesktop.githubPublish),'function');
 assert.equal((await page.evaluate(()=>window.choirloomDesktop.checkUpdates())).state,'development','Unpackaged builds identify update checks as development-only');
 await app.evaluate(({BrowserWindow})=>BrowserWindow.getAllWindows()[0].webContents.send('update-status',{state:'ready',version:'1.1.0'}));
-await page.locator('#help.update-ready').waitFor();await page.locator('#help').click();assert.match(await page.locator('#update-result').innerText(),/1\.1\.0 is ready/,'Automatic update status is visible in Help');await page.locator('dialog button[value=cancel]').click();
+await page.locator('#help.update-ready').waitFor();await page.locator('#help').click();assert.match(await page.locator('#update-result').innerText(),/1\.1\.0 is ready/,'Automatic update status is visible in Help');await page.locator('dialog .dialog-actions button[value=cancel]').click();
 await app.evaluate(({ipcMain})=>{
   let published=false;
   for(const channel of ['github-status','github-publish','github-site-status'])ipcMain.removeHandler(channel);
