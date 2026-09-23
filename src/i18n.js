@@ -12,6 +12,7 @@ const nl={
   'Speed':'Tempo','Pitch':'Toonhoogte','original':'origineel','Count-in':'Aftellen','Repeats':'Herhalingen','Download WAV':'WAV downloaden',
   'Go to bar':'Ga naar maat','Loop bars':'Herhaal maten','to':'tot','Loop off':'Herhaling uit','Reset mix':'Mix herstellen','Edit parts':'Partijen bewerken',
   'Voice':'Stem','Instrument':'Instrument','Focus':'Focus','Centre':'Midden','Left':'Links','Right':'Rechts','Vertical':'Verticaal','Sideways':'Zijwaarts',
+  'Studio piano · recorded':'Studiopiano · opname','Mellow piano · recorded':'Warme piano · opname','Bright piano · recorded':'Heldere piano · opname','Organ':'Orgel','Flute':'Fluit','Strings':'Strijkers','Choir · ah (synth)':'Koor · aa (synth)','Choir · oo (synth)':'Koor · oe (synth)','Soft tone':'Zachte toon',
   'Password protected':'Met wachtwoord','Password':'Wachtwoord','Set or change password':'Wachtwoord instellen of wijzigen','Shared room password':'Gedeeld wachtwoord voor de ruimte',
   'Separate password for this piece':'Apart wachtwoord voor dit stuk','Share this password with your singers.':'Deel dit wachtwoord met je zangers.',
   'Remove piece':'Stuk verwijderen','Cancel':'Annuleren','Save':'Opslaan','Close':'Sluiten','Create':'Aanmaken','Folder':'Map','Title':'Titel','Composer':'Componist',

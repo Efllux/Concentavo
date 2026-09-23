@@ -13,8 +13,8 @@ export function selectScorePart(xml, lanes, id) {
   doc.querySelectorAll('part-group').forEach(p=>p.remove());
   if(lane.part!==undefined){
     for(const note of [...part.querySelectorAll('note')]){
-      if(text(note,'staff','1')===String(lane.staff)&&text(note,'voice','1')===String(lane.voice)){
-        note.querySelector('staff')?.remove();
+      if(text(note,'staff','1')===String(lane.staff)&&(lane.sourceVoices||[lane.voice]).map(String).includes(text(note,'voice','1'))){
+        note.querySelector('staff')?.remove();const voice=note.querySelector('voice');if(voice)voice.textContent=String(lane.voice);
       }else{
         const duration=note.querySelector('duration');
         if(duration&&!note.querySelector('chord')){const forward=doc.createElement('forward');forward.append(duration.cloneNode(true));note.replaceWith(forward);}else note.remove();
@@ -32,7 +32,7 @@ export function selectScorePart(xml, lanes, id) {
 export function publishedScoreXML(xml, lanes) {
   const doc=new DOMParser().parseFromString(xml,'application/xml'),parts=[...doc.documentElement.children].filter(n=>n.localName==='part');
   const text=(n,name,fallback)=>n.querySelector(name)?.textContent||fallback;
-  parts.forEach((part,partIndex)=>{const source=lanes.filter(l=>!l.generated&&l.part===partIndex),kept=source.filter(l=>l.published!==false);if(source.length&&!kept.length){const id=part.getAttribute('id');part.remove();[...doc.querySelectorAll('score-part')].find(n=>n.getAttribute('id')===id)?.remove();return;}if(!source.length||kept.length===source.length)return;for(const note of [...part.querySelectorAll('note')]){const match=kept.some(l=>String(l.staff)===text(note,'staff','1')&&String(l.voice)===text(note,'voice','1'));if(match)continue;const duration=note.querySelector('duration');if(duration&&!note.querySelector('chord')){const forward=doc.createElement('forward');forward.append(duration.cloneNode(true));note.replaceWith(forward);}else note.remove();}});
+  parts.forEach((part,partIndex)=>{const source=lanes.filter(l=>!l.generated&&l.part===partIndex),kept=source.filter(l=>l.published!==false);if(source.length&&!kept.length){const id=part.getAttribute('id');part.remove();[...doc.querySelectorAll('score-part')].find(n=>n.getAttribute('id')===id)?.remove();return;}if(!source.length||kept.length===source.length)return;for(const note of [...part.querySelectorAll('note')]){const match=kept.some(l=>String(l.staff)===text(note,'staff','1')&&(l.sourceVoices||[l.voice]).map(String).includes(text(note,'voice','1')));if(match)continue;const duration=note.querySelector('duration');if(duration&&!note.querySelector('chord')){const forward=doc.createElement('forward');forward.append(duration.cloneNode(true));note.replaceWith(forward);}else note.remove();}});
   doc.querySelectorAll('part-group').forEach(n=>n.remove());
   return new XMLSerializer().serializeToString(doc);
 }

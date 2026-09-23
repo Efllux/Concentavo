@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.0-beta.4
+
+- Improve recorded piano with 30 sampled notes and studio, mellow and bright sounds.
+- Save count-in with the other piece defaults, while letting singers override it in their own browser.
+- Add a visible folder colour bar and an Edit folder context action.
+- Join sparse, non-overlapping MusicXML voice-number changes from OCR into the main melody, including its displayed and published notation.
+- Remove imported print layout and positioning hints from the score display so scores can reflow to the available screen.
+
 ## 1.1.0-beta.3
 
 - Reduce Mac download and installed sizes by replacing the universal build with separate Apple Silicon and Intel packages.

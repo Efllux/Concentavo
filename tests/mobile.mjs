@@ -1,0 +1,44 @@
+import { chromium } from 'playwright';
+import { existsSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import assert from 'node:assert/strict';
+
+const macChrome='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+const executablePath=process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH||(!existsSync(chromium.executablePath())&&process.platform==='darwin'&&existsSync(macChrome)?macChrome:undefined);
+const browser=await chromium.launch({executablePath,headless:true});
+try{
+  const page=await browser.newPage({viewport:{width:390,height:844}});
+  page.setDefaultTimeout(30000);
+  await page.goto(pathToFileURL(resolve('dist/index.html')).href);
+  await page.waitForSelector('.track-row');
+  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),'No mobile horizontal overflow');
+  await page.locator('[data-open]').first().click();
+  await page.waitForSelector('#score svg');
+  assert.ok(parseInt(await page.locator('#zoom-label').textContent())<80,'Phone score fits at a compact scale');
+  await page.locator('#score-part').selectOption({index:1});
+  await page.waitForFunction(()=>!document.querySelector('#score-part').disabled);
+  assert.equal(await page.locator('.measure-hit').count(),16,'Single part retains every bar');
+  await page.locator('#bar-controls-button').click();
+  await page.locator('#dialog-jump').fill('4');
+  await page.locator('#dialog-go').click();
+  assert.ok(Number(await page.locator('#seek').inputValue())>0,'Phone bar navigation works');
+  await page.locator('#score-part').selectOption('');
+  await page.waitForFunction(()=>!document.querySelector('#score-part').disabled);
+  await page.locator('#mobile-parts').click();
+  const bounds=await page.evaluate(()=>({mixer:document.querySelector('.mixer').getBoundingClientRect().bottom,transport:document.querySelector('.transport').getBoundingClientRect().top,height:document.documentElement.scrollHeight,viewport:innerHeight}));
+  assert.ok(bounds.mixer<=bounds.transport+1,'Phone mixer never covers transport controls');
+  assert.equal(bounds.height,bounds.viewport,'Phone player fits viewport');
+  await page.locator('#mobile-parts').click();
+  await page.setViewportSize({width:844,height:390});
+  await page.locator('#score-flow').selectOption('horizontal');
+  await page.waitForFunction(()=>!document.querySelector('#score-part').disabled);
+  assert.notEqual(await page.locator('#score-part').inputValue(),'','Landscape phone chooses one readable part');
+  assert.ok(await page.locator('#score-viewport').evaluate(e=>e.scrollWidth>e.clientWidth),'Landscape phone has a horizontal score strip');
+  assert.ok(await page.locator('#mobile-parts').isVisible(),'Landscape phone keeps Parts reachable');
+  assert.equal(await page.locator('.mixer').isVisible(),false,'Landscape mixer opens on demand');
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollHeight),390,'Landscape player fits viewport');
+  await page.locator('#mobile-parts').click();
+  assert.equal(await page.locator('.mixer').isVisible(),true,'Landscape mixer opens');
+  console.log('PASS: phone score, bar navigation, part picker, and landscape sideways layout.');
+}finally{await browser.close();}

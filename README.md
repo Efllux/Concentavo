@@ -2,7 +2,7 @@
 
 A local-first desktop app for turning MusicXML and MIDI into self-contained choir rehearsal websites. Organise music into independent rehearsal rooms, adjust parts, then publish to GitHub Pages. Singers need only a browser, without an account.
 
-Concentavo is the `1.1.0-beta.1` development beta; see [release verification](docs/RELEASE.md), [the revision checklist](docs/BETA-PLAN.md), and [research notes](docs/RESEARCH.md).
+Concentavo is in development beta; see [release verification](docs/RELEASE.md), [the revision checklist](docs/BETA-PLAN.md), and [research notes](docs/RESEARCH.md).
 
 ## Quick start
 
@@ -21,13 +21,13 @@ No Node, Python, MIDI software or separate GitHub installation is required by si
 - Choose **Sideways** for a continuous score strip. Phones held horizontally choose this automatically unless a previous preference was saved.
 - Playback stays visible while the score scrolls. On phones, **Parts** opens the mixer above the transport.
 - Speed, pitch, count-in and repeat controls are next to playback. **My practice** holds optional local progress, private notes and playback caveats.
-- The grand-piano sounds use bundled recordings from the Salamander Grand Piano. Organ, flute, strings, soft tone and choir ah/oo remain synthesized timbres. WAV export uses the same samples, sound engine and current mix.
+- Studio, mellow and bright pianos use 30 bundled Salamander Grand Piano recordings. Organ, flute, strings, soft tone and choir ah/oo remain synthesized timbres. WAV export uses the same samples, sound engine and current mix.
 
 Space plays/pauses, arrows seek five seconds, and Home restarts when focus is outside editable controls. Bar buttons and Go to bar provide keyboard access to score seeking.
 
 ## Rehearsal rooms, folders and tags
 
-Each rehearsal room has its own folders, colours, pieces and independent practice website. Use coloured folder tabs and tags to organise pieces; frequently used tags appear above the list. Sort by custom order, title, composer, newest or folder. Piece settings holds title, composer, folder, tags, notes and visibility. Managing folders renames, recolours or removes a folder without deleting its pieces.
+Each rehearsal room has its own folders, colours, pieces and independent practice website. Use coloured folder tabs and tags to organise pieces; frequently used tags appear above the list. Sort by custom order, title, composer, newest or folder. Piece settings holds title, composer, folder, tags, notes and visibility. Double-click a folder name or its colour bar, or right-click and choose Edit folder, to rename, recolour or remove it without deleting its pieces.
 
 Drag a piece's handle to reorder, or focus the handle and press Up/Down. Libraries can be dragged or moved with Alt + Up/Down. Select checkboxes for bulk move, show, hide, lock and remove. Removed scores go to Recently removed and can be restored.
 

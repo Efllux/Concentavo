@@ -1,19 +1,40 @@
 import A0 from './assets/piano/A0.mp3';
+import C1 from './assets/piano/C1.mp3';
+import Ds1 from './assets/piano/Ds1.mp3';
+import Fs1 from './assets/piano/Fs1.mp3';
+import A1 from './assets/piano/A1.mp3';
 import C2 from './assets/piano/C2.mp3';
+import Ds2 from './assets/piano/Ds2.mp3';
 import Fs2 from './assets/piano/Fs2.mp3';
+import A2 from './assets/piano/A2.mp3';
 import C3 from './assets/piano/C3.mp3';
+import Ds3 from './assets/piano/Ds3.mp3';
 import Fs3 from './assets/piano/Fs3.mp3';
+import A3 from './assets/piano/A3.mp3';
 import C4 from './assets/piano/C4.mp3';
+import Ds4 from './assets/piano/Ds4.mp3';
 import Fs4 from './assets/piano/Fs4.mp3';
+import A4 from './assets/piano/A4.mp3';
 import C5 from './assets/piano/C5.mp3';
+import Ds5 from './assets/piano/Ds5.mp3';
 import Fs5 from './assets/piano/Fs5.mp3';
+import A5 from './assets/piano/A5.mp3';
 import C6 from './assets/piano/C6.mp3';
+import Ds6 from './assets/piano/Ds6.mp3';
+import Fs6 from './assets/piano/Fs6.mp3';
+import A6 from './assets/piano/A6.mp3';
 import C7 from './assets/piano/C7.mp3';
+import Ds7 from './assets/piano/Ds7.mp3';
+import Fs7 from './assets/piano/Fs7.mp3';
+import A7 from './assets/piano/A7.mp3';
+import C8 from './assets/piano/C8.mp3';
 
-const pianoSources=[[21,A0],[36,C2],[42,Fs2],[48,C3],[54,Fs3],[60,C4],[66,Fs4],[72,C5],[78,Fs5],[84,C6],[96,C7]];
+// Salamander recordings at every minor third keep pitch-shifting within one semitone.
+const pianoSources=[[21,A0],[24,C1],[27,Ds1],[30,Fs1],[33,A1],[36,C2],[39,Ds2],[42,Fs2],[45,A2],[48,C3],[51,Ds3],[54,Fs3],[57,A3],[60,C4],[63,Ds4],[66,Fs4],[69,A4],[72,C5],[75,Ds5],[78,Fs5],[81,A5],[84,C6],[87,Ds6],[90,Fs6],[93,A6],[96,C7],[99,Ds7],[102,Fs7],[105,A7],[108,C8]];
 export const sounds={
-  piano:{label:'Grand piano · recorded',kind:'sample'},
-  pianoBright:{label:'Grand piano · bright',kind:'sample',bright:true},
+  piano:{label:'Studio piano · recorded',kind:'sample',tone:11200},
+  pianoMellow:{label:'Mellow piano · recorded',kind:'sample',tone:7200,mellow:true},
+  pianoBright:{label:'Bright piano · recorded',kind:'sample',tone:15500,bright:true},
   organ:{label:'Organ',harmonics:[1,.15,.45,.12,.2],attack:.02,decay:0,sustain:.85},
   flute:{label:'Flute',harmonics:[1,.12,.04],attack:.035,decay:0,sustain:.8},
   strings:{label:'Strings',harmonics:[1,.5,.3,.2,.13,.08],attack:.08,decay:0,sustain:.75},
@@ -47,7 +68,7 @@ export class PracticeAudio {
     if(settings.mute || (anySolo&&!settings.solo) || settings.volume===0)return;
     const gain=ctx.createGain(),pan=ctx.createStereoPanner();
     const preset=sounds[settings.sound]||sounds.piano,freq=440*2**((n.midi+transpose-69)/12);
-    if(preset.kind==='sample'&&this.samples?.length){const target=n.midi+transpose,sample=this.samples.reduce((best,item)=>Math.abs(item.midi-target)<Math.abs(best.midi-target)?item:best),source=ctx.createBufferSource(),filter=ctx.createBiquadFilter(),peak=(settings.volume??.75)*(n.velocity??.7)*.55,release=Math.min(.45,Math.max(.12,duration*.2));source.buffer=sample.buffer;source.playbackRate.value=2**((target-sample.midi)/12);filter.type='lowpass';filter.frequency.value=preset.bright?15000:10500;pan.pan.value=settings.pan||0;gain.gain.setValueAtTime(.0001,time);gain.gain.exponentialRampToValueAtTime(Math.max(.0002,peak),time+.008);gain.gain.setValueAtTime(Math.max(.0002,peak*.82),time+Math.min(.12,duration*.35));gain.gain.exponentialRampToValueAtTime(.0001,time+duration+release);source.connect(filter).connect(gain).connect(pan).connect(ctx.destination);source.start(time);source.stop(time+duration+release+.03);if(!offline){this.nodes.add(source);source.onended=()=>{this.nodes.delete(source);source.disconnect();filter.disconnect();gain.disconnect();pan.disconnect();};}return;}
+    if(preset.kind==='sample'&&this.samples?.length){const target=n.midi+transpose,sample=this.samples.reduce((best,item)=>Math.abs(item.midi-target)<Math.abs(best.midi-target)?item:best),source=ctx.createBufferSource(),filter=ctx.createBiquadFilter(),body=ctx.createBiquadFilter(),peak=(settings.volume??.75)*(n.velocity??.7)*.34,release=Math.min(.9,Math.max(.35,duration*.32));source.buffer=sample.buffer;source.playbackRate.value=2**((target-sample.midi)/12);filter.type='lowpass';filter.frequency.value=preset.tone||11200;filter.Q.value=.25;body.type='peaking';body.frequency.value=preset.mellow?240:310;body.Q.value=.7;body.gain.value=preset.mellow?2.2:.8;pan.pan.value=settings.pan||0;gain.gain.setValueAtTime(.0001,time);gain.gain.exponentialRampToValueAtTime(Math.max(.0002,peak),time+.006);gain.gain.setValueAtTime(Math.max(.0002,peak*.88),time+Math.min(.16,duration*.4));gain.gain.exponentialRampToValueAtTime(.0001,time+duration+release);source.connect(filter).connect(body).connect(gain).connect(pan).connect(ctx.destination);source.start(time);source.stop(time+duration+release+.04);if(!offline){this.nodes.add(source);source.onended=()=>{this.nodes.delete(source);source.disconnect();filter.disconnect();body.disconnect();gain.disconnect();pan.disconnect();};}return;}
     const osc=ctx.createOscillator();
     if(preset.kind==='piano'){
       const master=ctx.createGain(),filter=ctx.createBiquadFilter(),partials=preset.harmonics,peak=(settings.volume??.75)*(n.velocity??.7)*.075;

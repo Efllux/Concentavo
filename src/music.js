@@ -106,6 +106,18 @@ export function parseMusicXML(xml) {
     for(const n of lane.notes) {const prev=held.get(n.midi);if(n.tieStop && prev && Math.abs(prev.start+prev.duration-n.start)<.001){prev.duration+=n.duration;if(!n.tieStart)held.delete(n.midi);}else{merged.push(n);if(n.tieStart)held.set(n.midi,n);else held.delete(n.midi);}}
     lane.notes=merged;
   }
+  // OCR exports sometimes change a melody's voice number for one isolated bar.
+  // Join only tiny, non-overlapping fragments; genuine divisi voices remain separate.
+  for(const part of new Set(lanes.map(l=>l.part)))for(const staff of new Set(lanes.filter(l=>l.part===part).map(l=>l.staff))){
+    const group=lanes.filter(l=>l.part===part&&l.staff===staff&&!l.generated).sort((a,b)=>b.notes.length-a.notes.length),main=group[0];
+    if(!main)continue;
+    for(const fragment of group.slice(1)){
+      const overlaps=fragment.notes.some(n=>main.notes.some(o=>o.start<n.start+n.duration-.00001&&o.start+o.duration>n.start+.00001));
+      if(!overlaps&&fragment.notes.length<=8&&fragment.notes.length<main.notes.length*.12){main.notes.push(...fragment.notes.map(n=>({...n,lane:main.id})));main.sourceVoices=[...new Set([...(main.sourceVoices||[main.voice]),...(fragment.sourceVoices||[fragment.voice])])];lanes.splice(lanes.indexOf(fragment),1);warnings.add('A sparse MusicXML voice-number change was joined to the main line. Review the detected parts before publishing.');}
+    }
+    main.notes.sort((a,b)=>a.start-b.start);
+  }
+  for(const part of new Set(lanes.map(l=>l.part))){const remaining=lanes.filter(l=>l.part===part&&!l.generated);if(remaining.length===1)remaining[0].name=remaining[0].name.split(' · staff ')[0];}
   const harmonies=[];for(const h of rawHarmonies){const start=(rawMeasures[h.measure]?.start||0)+h.offset,key=`${start.toFixed(4)}:${h.notes.join(',')}`;if(!harmonies.some(x=>x.key===key))harmonies.push({...h,start,key});}
   harmonies.sort((a,b)=>a.start-b.start);if(harmonies.length){const notes=[];for(let i=0;i<harmonies.length;i++){const h=harmonies[i],measureEnd=(rawMeasures[h.measure]?.start||0)+(rawMeasures[h.measure]?.length||4),end=Math.max(h.start+.25,Math.min(harmonies[i+1]?.start??measureEnd,measureEnd));for(const midi of h.notes)notes.push({start:h.start,duration:end-h.start,midi,velocity:.48,lyric:''});}lanes.push({id:'chords',name:'Chord accompaniment',notes,partType:'instrument',sound:'piano',generated:true,published:true});}
   if(all(root,'ornaments').length) warnings.add('Grace notes and ornaments are displayed but not played.');

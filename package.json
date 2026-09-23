@@ -3,13 +3,13 @@
   "productName": "Concentavo",
   "description": "A local-first desktop app for turning MusicXML and MIDI into self-contained choir rehearsal websites.",
   "author": "Concentavo contributors",
-  "version": "1.1.0-beta.3",
+  "version": "1.1.0-beta.4",
   "private": true,
   "type": "module",
   "main": "desktop/main.cjs",
   "scripts": {
     "build": "node build.mjs",
-    "test": "npm run build && node tests/locking.mjs && node tests/run.mjs",
+    "test": "npm run build && node tests/locking.mjs && node tests/run.mjs && node tests/mobile.mjs",
     "start": "electron .",
     "dist:mac": "node scripts/package-mac.mjs",
     "dist:mac:arm64": "electron-builder --mac pkg zip --arm64 --publish never",
@@ -35,7 +35,14 @@
   "build": {
     "appId": "org.choirloom.desktop",
     "productName": "Concentavo",
-    "publish": [{"provider":"github","owner":"Efllux","repo":"Concentavo","releaseType":"prerelease"}],
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "Efllux",
+        "repo": "Concentavo",
+        "releaseType": "prerelease"
+      }
+    ],
     "directories": {
       "output": "release"
     },
