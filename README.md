@@ -1,6 +1,6 @@
 # Concentavo
 
-A local-first desktop app for turning MusicXML and MIDI into self-contained choir rehearsal websites. Organise music into independent rehearsal rooms, adjust parts, then publish to GitHub Pages. Singers need only a browser, without an account.
+A local-first desktop and web app for turning MusicXML and MIDI into self-contained choir rehearsal websites. Organise music into independent rehearsal rooms, adjust parts, then publish to GitHub Pages. Singers need only a browser, without an account.
 
 Concentavo is preparing its first public release. See [release verification](docs/RELEASE.md), [the revision checklist](docs/BETA-PLAN.md), and [research notes](docs/RESEARCH.md).
 
@@ -30,13 +30,15 @@ Space plays/pauses, arrows seek five seconds, and Home restarts when focus is ou
 
 Each rehearsal room has its own folders, colours, pieces and independent practice website. Use coloured folder tabs and tags to organise pieces; frequently used tags appear above the list. Sort by custom order, title, composer, newest or folder. Piece settings holds title, composer, folder, tags, notes and visibility. Double-click a folder name or its colour bar, or right-click and choose Edit folder, to rename, recolour or remove it without deleting its pieces.
 
+**Publish website** offers one public GitHub repository per room by default, or one shared public repository with a separate URL path for each room. The dialog explains the trade-offs, and existing room links keep their current layout.
+
 Drag a piece's handle to reorder, or focus the handle and press Up/Down. Libraries can be dragged or moved with Alt + Up/Down. Select checkboxes for bulk move, show, hide, lock and remove. Removed scores go to Recently removed and can be restored.
 
-Data saves automatically on the computer. **Back up room** saves an editable `.concentavo` file. Restore adds a separate rehearsal room. Old `.choirloom` backups remain supported. Keep backups: local browser or app data is not a cloud backup.
+Data saves automatically on the device. **Back up room** saves an editable `.concentavo` file. **Restore room** can add an independent copy or move a room from desktop while preserving its piece links. Old `.choirloom` backups remain supported. Browser users may also opt into automatic sync through one private GitHub repository. See [web app setup](docs/WEB-APP.md).
 
 ## Visibility and passwords
 
-Visible pieces are included in the next export. Hidden pieces remain in the authoring app and are omitted from HTML and website exports. Password protection is for sharing a published piece, not for locking the editable score inside the app. Protected exports use AES-256-GCM; the room listing still shows title, composer, tags and part/bar counts.
+Visible pieces are included in the next export. Hidden pieces remain in the authoring app and are omitted from HTML and website exports. Password protection is for sharing a published piece or whole room, not for locking the editable score inside the app. Protected exports use AES-256-GCM. A piece-only lock still shows its title and basic details in the room listing; a whole-room lock encrypts that listing too.
 
 Use the default room sharing password or choose a per-piece password in Piece settings. Four characters is accepted, and there is no confirmation field. Passwords are held only in memory until the app closes and are never included in HTML or backups. The authoring app and backups retain editable, unencrypted scores.
 
@@ -44,9 +46,9 @@ Changing visibility or a password changes newly exported files. It cannot revoke
 
 ## Sharing and local progress
 
-Direct publishing uses the bundled official GitHub CLI for browser sign-in and the GitHub REST API for updates. Tokens are encrypted with operating-system storage and excluded from exports. The app creates and updates its own website repositories using an ownership marker; it does not take over unrelated repositories.
+On desktop, direct publishing uses the bundled official GitHub CLI for sign-in and stores its token with operating-system encryption. The web editor uses a GitHub App and a stateless sign-in helper, keeps tokens in page memory, and sends scores directly to GitHub. Both publish through the GitHub REST API, use an ownership marker, and exclude tokens from exports.
 
-The exported ZIP contains `index.html` and `.nojekyll`. It works offline or on any static host. Individual pieces have stable `#track=` links. Locked pieces unlock locally in the singer's browser. GitHub Pages is public hosting; only share material you are entitled to distribute.
+The exported ZIP contains `index.html` and `.nojekyll`. It works offline or on any static host. Individual pieces have stable `#track=` links. Password-protected rooms and pieces unlock locally in the singer's browser. GitHub Pages is public hosting; only share material you are entitled to distribute.
 
 A browser can remember settings without an account. My practice data stays on the same browser and site origin, and is lost if its storage is cleared. Optional cross-device accounts are a future integration, not part of this beta. See [the research notes](docs/RESEARCH.md).
 

@@ -1,0 +1,9 @@
+name = "concentavo-auth"
+main = "worker.js"
+compatibility_date = "2026-09-01"
+
+[vars]
+ALLOWED_ORIGIN = "https://efllux.github.io"
+REDIRECT_URI = "https://efllux.github.io/Concentavo/"
+GITHUB_CLIENT_ID = "Iv23licLoMnFc6twUP93"
+# Set GITHUB_CLIENT_SECRET with `wrangler secret put` after generating it in GitHub.

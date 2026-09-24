@@ -29,7 +29,21 @@ const nl={
   'Sharing password':'Wachtwoord om te delen','Use password':'Wachtwoord gebruiken','Open piece':'Stuk openen','Optional sharing protection. Share the password with your singers.':'Optionele bescherming voor delen. Deel het wachtwoord met je zangers.',
   'Tag colour':'Labelkleur','Sort pieces':'Stukken sorteren','Visibility':'Zichtbaarheid',
   'Search pieces':'Stukken zoeken','Folders':'Mappen','Go':'Ga','Loop on':'Herhaling aan','Choose first bar':'Kies de eerste maat','Choose last bar':'Kies de laatste maat',
-  'App source & licence':'Broncode en licentie','Guide & shortcuts':'Handleiding en sneltoetsen','Prepare':'Voorbereiden','Practise':'Oefenen','Organise and share':'Ordenen en delen','Local saving':'Lokaal opslaan','Check for updates':'Controleren op updates'
+  'App source & licence':'Broncode en licentie','Guide & shortcuts':'Handleiding en sneltoetsen','Prepare':'Voorbereiden','Practise':'Oefenen','Organise and share':'Ordenen en delen','Local saving':'Lokaal opslaan','Check for updates':'Controleren op updates',
+  'Restore room':'Ruimte herstellen','Restore copy':'Kopie herstellen','Move from desktop':'Overzetten vanuit de desktopapp','Restore rehearsal room':'Repetitieruimte herstellen',
+  'Saved on this device':'Op dit apparaat opgeslagen','Saving…':'Opslaan…','Local save failed':'Lokaal opslaan mislukt','GitHub sync':'GitHub-synchronisatie',
+  'Syncing…':'Synchroniseren…','Waiting to sync':'Wacht op synchronisatie','Sign in to resume sync':'Log in om synchronisatie te hervatten','Offline · saved locally':'Offline · lokaal opgeslagen','Sync needs attention':'Synchronisatie vraagt aandacht',
+  'Review sync conflict':'Controleer synchronisatieconflict','Reviewed conflict':'Conflict gecontroleerd','Synced to GitHub':'Gesynchroniseerd met GitHub','Enable sync':'Synchronisatie inschakelen','Sync now':'Nu synchroniseren',
+  'Connect GitHub':'GitHub verbinden','Install the Concentavo GitHub App':'Installeer de Concentavo GitHub-app','GitHub sync unavailable':'GitHub-synchronisatie niet beschikbaar',
+  'Published website':'Gepubliceerde website','Anyone with the link':'Iedereen met de link','Password for the whole room':'Wachtwoord voor de hele ruimte',
+  'Set or change room password':'Wachtwoord voor de ruimte instellen of wijzigen','Singers enter one password before seeing the room. Your editable scores stay unlocked in this app.':'Zangers voeren één wachtwoord in voordat ze de ruimte zien. Bewerkbare partituren blijven in deze app ontgrendeld.',
+  'If this website was public before, older scores remain in its public Git history.':'Als deze website eerder openbaar was, blijven oudere partituren in de openbare Git-geschiedenis staan.',
+  'Where should public rooms live?':'Waar komen openbare ruimtes?','One repository per room':'Eén repository per ruimte','Default':'Standaard',
+  'Independent URL, settings and history for each room. More repositories to manage.':'Elke ruimte heeft een eigen URL, instellingen en geschiedenis. Je beheert meer repositories.',
+  'One repository for all public rooms':'Eén repository voor alle openbare ruimtes','Fewer repositories; each room gets its own URL path. Rooms share access, site settings, history and deployments.':'Minder repositories; elke ruimte krijgt een eigen URL-pad. Ruimtes delen toegang, website-instellingen, geschiedenis en publicaties.',
+  'This room keeps its existing publishing layout so shared links continue working.':'Deze ruimte behoudt de huidige publicatievorm, zodat gedeelde links blijven werken.',
+  'Shared repository name':'Naam van gedeelde repository','Website repository name':'Naam van website-repository',
+  'Room password':'Wachtwoord voor de ruimte','Protected rehearsal room':'Beveiligde repetitieruimte','Open room':'Ruimte openen'
 };
 export function translate(root,language='en'){
   document.documentElement.lang=language;
