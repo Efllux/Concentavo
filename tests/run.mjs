@@ -19,7 +19,7 @@ page.setDefaultTimeout(15000);
 const errors=[];page.on('pageerror',e=>errors.push(e.message));
 await page.goto(pathToFileURL(resolve('dist/index.html')).href);await page.waitForSelector('.track-row');
 await page.locator('#new-room').click();await page.locator('dialog .dialog-actions button[value=cancel]').click();assert.equal(await page.locator('dialog[open]').count(),0,'Cancel works with empty required fields');
-await page.locator('#language').selectOption('nl');await page.waitForFunction(()=>document.documentElement.lang==='nl');assert.match(await page.locator('.project-heading .eyebrow').innerText(),/repetitieruimte/i);await page.locator('#language').selectOption('en');
+await page.locator('#language').selectOption('nl');await page.waitForFunction(()=>document.documentElement.lang==='nl'&&/repetitieruimte/i.test(document.querySelector('.project-heading .eyebrow')?.textContent||''));assert.match(await page.locator('.project-heading .eyebrow').innerText(),/repetitieruimte/i);await page.locator('#language').selectOption('en');
 await page.addScriptTag({content:testModule.outputFiles[0].text});
 const parsing=await page.evaluate(async()=>{
   const m=window.testMusic,checks=[];const check=(condition,label)=>{if(!condition)throw Error(label);checks.push(label);};
