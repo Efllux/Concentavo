@@ -20,7 +20,7 @@ const nl={
   'Import scores':'Partituren importeren','Recently removed':'Recent verwijderd','No matching pieces':'Geen overeenkomende stukken','Add your first score':'Voeg je eerste partituur toe',
   'Open':'Openen','Unlock':'Ontgrendelen','Settings':'Instellingen','Parts':'Partijen','bars':'maten','Select all shown pieces':'Selecteer alle getoonde stukken',
   'Back to the room':'Terug naar de ruimte','Piece settings':'Stukinstellingen','Export HTML':'HTML exporteren','My practice':'Mijn repetitie',
-  'Show':'Toon','Full score':'Volledige partituur','Follow score':'Volg partituur','Select loop':'Herhaling kiezen','Bars':'Maten','Fit':'Passend','Print':'Afdrukken',
+  'Show':'Toon','Full score':'Volledige partituur','Follow score':'Volg partituur','Follow':'Volgen','Select loop':'Herhaling kiezen','Bars':'Maten','Fit':'Passend','Print':'Afdrukken',
   'Speed':'Tempo','Pitch':'Toonhoogte','original':'origineel','Count-in':'Aftellen','Repeats':'Herhalingen','Download WAV':'WAV downloaden',
   'Go to bar':'Ga naar maat','Loop bars':'Herhaal maten','to':'tot','Loop off':'Herhaling uit','Reset mix':'Mix herstellen','Edit parts':'Partijen bewerken',
   'Voice':'Stem','Instrument':'Instrument','Focus':'Focus','Centre':'Midden','Left':'Links','Right':'Rechts','Vertical':'Verticaal','Sideways':'Zijwaarts',

@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Use the full player width, enlarge notation on large screens and fit sideways staves and verse rows to the available height.
+- Reserve more engraving space for lyrics on narrow screens. Keep Follow and sideways scrolling controls directly accessible in landscape.
+- Follow musical time gradually with a preview of the upcoming phrase, preserving manual scrolling and the four-second resume delay.
+
 - Share choir lyrics with individual tenor and bass views, preserving written lyrics and all verses.
 - Add bar-scoped shared passages with octave shifts and replace/empty-bar modes; keep playback, notation, backups and published sites in agreement.
 - Default to Simple mode, with a persistent Advanced mode for detailed mixer, playback, import and publishing settings.

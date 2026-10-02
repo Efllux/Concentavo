@@ -17,8 +17,8 @@ No Node, Python, MIDI software or separate GitHub installation is required by si
 
 - **Focus** brings a part forward; clicking again restores the previous mix. S solos a part and M mutes it.
 - Click a score measure to seek. Choose **Select loop**, then click the first and last measures. The numeric bar controls also work with a keyboard.
-- **Follow score** tracks playback. Manual scrolling leaves the control on but pauses movement for four seconds. Turning it off keeps it off.
-- Choose **Sideways** for a continuous score strip. Phones held horizontally choose this automatically unless a previous preference was saved.
+- **Follow score** moves gradually with playback, keeping the upcoming notes and lyrics in view. Manual scrolling leaves the control on but pauses movement for four seconds. Turning it off keeps it off.
+- Choose **Sideways** for a continuous score strip. Sideways and Follow controls stay visible in phone landscape. Phones held horizontally choose this automatically unless a previous preference was saved.
 - Playback stays visible while the score scrolls. On phones, **Parts** opens the mixer above the transport.
 - Speed, pitch, count-in and repeat controls are next to playback. **My practice** holds optional local progress, private notes and playback caveats.
 - Studio, mellow and bright pianos use 30 bundled Salamander Grand Piano recordings. Organ, flute, strings, soft tone and choir ah/oo remain synthesized timbres. WAV export uses the same samples, sound engine and current mix.
@@ -82,4 +82,4 @@ AGPL-3.0-only, following Recitavo's open-source direction; optional commercial s
 
 OpenSheetMusicDisplay, fflate, @tonejs/midi, Electron, GitHub CLI and the Salamander Grand Piano samples retain their own licences. See THIRD-PARTY-NOTICES.txt. The project is not affiliated with Coria or GitHub.
 
-On phones, the score uses a compact fit scale. Use **Show** above the score to choose one voice or instrument, **Fit** to restore the automatic scale, and **Bars** for navigation and loops. Choosing a score part does not mute the other parts. The choice is remembered on this device. On phones, scores with more than eight parts initially show the first part; Full score is always available.
+The score fills the available player width and grows on large screens. On phones, the score uses a compact fit scale. Dense bars reserve space for lyrics and can be panned if they cannot fit at a readable size. Use **Show** above the score to choose one voice or instrument, **Fit** to restore the automatic scale, and **Bars** for navigation and loops. Choosing a score part does not mute the other parts. The choice is remembered on this device. On phones, scores with multiple parts initially show the first part; Full score is always available.

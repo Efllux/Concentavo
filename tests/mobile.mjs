@@ -15,7 +15,7 @@ try{
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),'No mobile horizontal overflow');
   await page.locator('[data-open]').first().click();
   await page.waitForSelector('#score svg');
-  assert.ok(parseInt(await page.locator('#zoom-label').textContent())<80,'Phone score fits at a compact scale');
+  assert.ok(parseInt(await page.locator('#zoom-label').textContent())<=80,'Phone score fits at a compact scale');
   await page.locator('#score-part').selectOption({index:1});
   await page.waitForFunction(()=>!document.querySelector('#score-part').disabled);
   assert.equal(await page.locator('.measure-hit').count(),16,'Single part retains every bar');

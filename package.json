@@ -9,7 +9,7 @@
   "main": "desktop/main.cjs",
   "scripts": {
     "build": "node build.mjs",
-    "test": "npm run build && node tests/voice-separation.mjs && node tests/audio.mjs && node tests/locking.mjs && node tests/publishing.mjs && node tests/web-sync.mjs && node tests/run.mjs && node tests/voices.mjs && node tests/passages.mjs && node tests/mobile.mjs",
+    "test": "npm run build && node tests/voice-separation.mjs && node tests/audio.mjs && node tests/locking.mjs && node tests/publishing.mjs && node tests/web-sync.mjs && node tests/run.mjs && node tests/voices.mjs && node tests/passages.mjs && node tests/mobile.mjs && node tests/score-layout.mjs",
     "start": "electron .",
     "dist:mac": "node scripts/package-mac.mjs",
     "dist:mac:arm64": "electron-builder --mac pkg zip --arm64 --publish never",
