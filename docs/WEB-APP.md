@@ -25,6 +25,12 @@ Before enabling sync, the editor explains that editable scores, including hidden
 
 Local browser storage belongs to the exact site origin. If the editor later moves to a custom domain, users can sign in to load synced rooms there or import a `.concentavo` backup; browser storage does not move automatically.
 
+## Shared-staff singing voices
+
+MusicXML imports keep explicit voice labels. Automatic detection separates repeated stacked notes on a single vocal line, while instrumental chords stay together. In the player, **Edit parts → Separate voices sharing a staff** also works on existing pieces. Each staff can keep its written parts or infer two, three or four singing lines. The inference uses pitch continuity, written labels, opposing stems, sustained notes and ties; it cannot reliably reconstruct missing musical intent in every score. Review crossings and solo passages. **Share single notes as unison** copies a single written note to every inferred line when the staff has only one written voice; turn it off for solos.
+
+Changes are previewed in a draft until **Save parts**. Original MusicXML remains intact, and separation settings are included in room backups and private sync. Singers can focus or display an inferred line individually. Unticking a line removes its audio and notation from the published page, with note onsets and source references preserved. Existing backups without separation settings retain their written parts until edited. MIDI continues to use its original track separation.
+
 ## Beta verification
 
 Use disposable GitHub repositories to verify GitHub App installation, new public Pages publishing, repeat publishing, private sync from two browsers, conflict copies, backup migration and reconnecting an existing URL. Confirm the sign-in Worker never receives score content. Run `npm test` and `npm run test:desktop`; browser automation needs a working Playwright Chromium or Chrome installation.

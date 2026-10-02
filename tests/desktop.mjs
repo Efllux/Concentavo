@@ -1,7 +1,7 @@
 import { _electron as electron } from 'playwright';
 import {resolve} from 'node:path';
 import assert from 'node:assert/strict';
-const app=await electron.launch({args:['.','--user-data-dir='+resolve('test-results/desktop-profile')],env:{...process.env}});
+const app=await electron.launch({executablePath:process.env.PLAYWRIGHT_ELECTRON_EXECUTABLE_PATH,args:['.','--user-data-dir='+resolve('test-results/desktop-profile')],env:{...process.env}});
 try {
 const page=await app.firstWindow();const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.waitForSelector('.track-row');if(await page.locator('#try-example').count())await page.locator('#try-example').click();
 assert.equal(await page.evaluate(()=>typeof window.require),'undefined','Renderer has no Node access');

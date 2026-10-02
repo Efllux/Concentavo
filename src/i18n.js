@@ -1,4 +1,12 @@
 const nl={
+  'Shared-staff voices separated automatically. Adjust them later in Edit parts.':'Stemmen op één notenbalk zijn automatisch gescheiden. Pas ze later aan via Partijen bewerken.',
+  'Separate voices sharing a staff':'Stemmen op één notenbalk scheiden',
+  'Automatic keeps written voices and separates repeated choir chords. Choose a voice count for an unlabelled staff. Review the result below.':'Automatisch behoudt genoteerde stemmen en scheidt herhaalde koorakkoorden. Kies een aantal stemmen voor een onduidelijke notenbalk. Controleer hieronder het resultaat.',
+  'Keep written parts':'Genoteerde partijen behouden',
+  '2 separate voices':'2 afzonderlijke stemmen','3 separate voices':'3 afzonderlijke stemmen','4 separate voices':'4 afzonderlijke stemmen',
+  'Share single notes as unison':'Enkele noten als unisono delen',
+  'Unison sharing applies when a staff uses one written voice. Turn it off for solo passages. Your original score is retained.':'Unisono delen geldt bij één genoteerde stem op een notenbalk. Schakel dit uit voor solopassages. De oorspronkelijke partituur blijft bewaard.',
+
   'Rehearsal room':'Repetitieruimte','Rehearsal rooms':'Repetitieruimtes','New rehearsal room':'Nieuwe repetitieruimte',
   'New room':'Nieuwe ruimte','Dark mode':'Donkere modus','Toggle dark mode':'Donkere modus wisselen','Automatic':'Automatisch',
   'Room settings':'Ruimte-instellingen','Back up room':'Ruimte back-uppen','Publish website':'Website publiceren','Update website':'Website bijwerken',
@@ -52,7 +60,7 @@ export function translate(root,language='en'){
   while(node=walker.nextNode()){
     const raw=node.nodeValue,trim=raw.trim();if(!trim)continue;
     let value=nl[trim];
-    if(!value)value=trim.replace(/\bbars\b/g,'maten').replace(/\bparts\b/g,'partijen').replace(/ selected$/,' geselecteerd');
+    if(!value)value=trim.replace(/· staff (\d+)/g,'· notenbalk $1').replace(/\bbars\b/g,'maten').replace(/\bparts\b/g,'partijen').replace(/ selected$/,' geselecteerd');
     if(value!==trim)node.nodeValue=raw.replace(trim,value);
   }
   root.querySelectorAll('[placeholder]').forEach(el=>{if(nl[el.placeholder])el.placeholder=nl[el.placeholder];});

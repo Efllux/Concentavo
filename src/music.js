@@ -1,5 +1,6 @@
 import { unzipSync, strFromU8 } from 'fflate';
 import { Midi } from '@tonejs/midi';
+import { inferredVoiceCount, separateVoiceNotes } from './voice-separation.js';
 
 const children = (n, tag) => Array.from(n.children).filter(x => x.localName === tag);
 const child = (n, tag) => children(n, tag)[0];
@@ -19,16 +20,16 @@ export function xmlDocument(xml) {
   return doc;
 }
 
-export function parseMusicXML(xml) {
+export function parseMusicXML(xml, {voiceSeparation={}}={}) {
   const doc = xmlDocument(xml), root = doc.documentElement;
   if (root.localName !== 'score-partwise') throw Error('Please use partwise MusicXML. In your notation program, export as MusicXML (.musicxml or .mxl).');
   const warnings = new Set(), parts = children(root, 'part'), list = all(root, 'score-part');
   if (!parts.length) throw Error('The score has no musical parts.');
-  const lanes = [], rawMeasures = [], tempos = [], rawHarmonies=[];
+  const lanes = [], rawMeasures = [], tempos = [], rawHarmonies=[], staffGroups=[];
   const partData = parts.map((part, pi) => {
     const nameNode = list.find(p => p.getAttribute('id') === part.getAttribute('id'));
     const name = nameNode ? value(nameNode, 'part-name', `Part ${pi+1}`) : `Part ${pi+1}`;
-    let divisions = 1, meter = 4, transpose = 0;
+    let divisions = 1, meter = 4, transpose = 0, sourceIndex = 0;
     const laneMap = new Map();
     const measures = children(part, 'measure').map((measure, mi) => {
       let pos = 0, last = 0, length = 0;
@@ -64,6 +65,7 @@ export function parseMusicXML(xml) {
           if (pi===0 && bpm>0) tempos.push({measure:mi, offset:Math.max(0,pos+num(el,'offset')/divisions), bpm:Math.min(600,bpm)});
           if(sound && ['dacapo','dalsegno','tocoda','fine'].some(a=>sound.hasAttribute(a))) warnings.add('D.C., D.S. and coda jumps are not expanded. Use an unfolded score for exact playback.');
         } else if(tag==='note') {
+          const noteIndex=sourceIndex++;
           if(child(el,'grace')) {warnings.add('Grace notes and ornaments are displayed but not played.'); continue;}
           const duration=num(el,'duration')/divisions, chord=!!child(el,'chord'), start=chord?last:pos;
           if (!chord) {last=pos;pos+=duration;}
@@ -71,11 +73,12 @@ export function parseMusicXML(xml) {
           const pitch=child(el,'pitch');
           if(pitch && duration>0) {
             const staff=value(el,'staff','1'), voice=value(el,'voice','1'), key=`${staff}:${voice}`;
+            if(!/^\d{1,3}$/.test(staff)||Number(staff)<1||Number(staff)>128)throw Error('Invalid staff number in the score.');
             if(!laneMap.has(key)) {const lane={id:`p${pi}-s${staff}-v${voice}`,name,part:pi,staff,voice,notes:[]};laneMap.set(key,lane);lanes.push(lane);}
             const midi=12*(num(pitch,'octave',4)+1)+({C:0,D:2,E:4,F:5,G:7,A:9,B:11}[value(pitch,'step')]??0)+num(pitch,'alter')+transpose;
             if(!Number.isFinite(midi) || midi<0 || midi>127) {warnings.add('Some out-of-range pitches were skipped.');continue;}
             const ties=children(el,'tie').map(t=>t.getAttribute('type'));
-            notes.push({lane:laneMap.get(key).id,start,duration,midi,velocity:.72,lyric:all(el,'lyric').map(l=>all(l,'text').map(t=>t.textContent).join(' ')).join(' / '),tieStart:ties.includes('start'),tieStop:ties.includes('stop')});
+            notes.push({lane:laneMap.get(key).id,start,duration,midi,velocity:.72,lyric:all(el,'lyric').map(l=>all(l,'text').map(t=>t.textContent).join(' ')).join(' / '),tieStart:ties.includes('start'),tieStop:ties.includes('stop'),sourceIndex:noteIndex,sourceVoice:voice,stem:value(el,'stem')});
           }
           if(child(el,'unpitched')) warnings.add('Unpitched percussion is not played.');
         } else if(tag==='barline') {
@@ -101,11 +104,6 @@ export function parseMusicXML(xml) {
   for (const measures of partData) for(let mi=0;mi<measures.length;mi++) for(const note of measures[mi].notes) {
     const lane=lanes.find(l=>l.id===note.lane);lane.notes.push({...note,start:note.start+(rawMeasures[mi]?.start||0)});
   }
-  for(const lane of lanes) {
-    lane.notes.sort((a,b)=>a.start-b.start); const held=new Map(), merged=[];
-    for(const n of lane.notes) {const prev=held.get(n.midi);if(n.tieStop && prev && Math.abs(prev.start+prev.duration-n.start)<.001){prev.duration+=n.duration;if(!n.tieStart)held.delete(n.midi);}else{merged.push(n);if(n.tieStart)held.set(n.midi,n);else held.delete(n.midi);}}
-    lane.notes=merged;
-  }
   // OCR exports sometimes change a melody's voice number for one isolated bar.
   // Join only tiny, non-overlapping fragments; genuine divisi voices remain separate.
   for(const part of new Set(lanes.map(l=>l.part)))for(const staff of new Set(lanes.filter(l=>l.part===part).map(l=>l.staff))){
@@ -118,6 +116,32 @@ export function parseMusicXML(xml) {
     main.notes.sort((a,b)=>a.start-b.start);
   }
   for(const part of new Set(lanes.map(l=>l.part))){const remaining=lanes.filter(l=>l.part===part&&!l.generated);if(remaining.length===1)remaining[0].name=remaining[0].name.split(' · staff ')[0];}
+  for(const part of new Set(lanes.map(l=>l.part)))for(const staff of new Set(lanes.filter(l=>l.part===part).map(l=>l.staff))) {
+    const group=lanes.filter(l=>l.part===part&&l.staff===staff),name=group[0].name.split(' · staff ')[0],id=`p${part}-s${staff}`;
+    const setting=voiceSeparation[id],mode=String(typeof setting==='object'?setting?.count:setting||'auto'),unisons=setting?.unisons!==false;
+    const definition=list.find(p=>p.getAttribute('id')===parts[part].getAttribute('id'));
+    const instrument=all(definition||parts[part],'midi-program').some(n=>[53,54,55].includes(Number(n.textContent)));
+    const instrumental=/piano|pianoforte|keyboard|organ|guitar|violin|viola|cello|double bass|contrabass|flute|clarinet|trumpet|trombone|orchestra|continuo/i.test(name);
+    const vocal=!instrumental&&(instrument||/soprano|sopraan|alto|alt\b|tenor|bass|bas\b|choir|chorus|koor|vocal|voice|voices|satb|ssaa|ttbb|cant(us|o)|women|men\b|mannen|vrouwen/i.test(name)||(/^(part|staff|music|melody|untitled)/i.test(name)&&group.some(l=>l.notes.some(n=>n.lyric))));
+    const notes=group.flatMap(l=>l.notes),detected=inferredVoiceCount(notes);
+    const count=['2','3','4'].includes(mode)?Number(mode):mode==='auto'&&vocal&&group.length===1?detected:1;
+    let result=group;
+    if(count>1) {
+      const {voices,crowded}=separateVoiceNotes(notes,count,{unisons});
+      const lower=name.toLowerCase(),names=count===2&&/sopran|sopraan/.test(lower)&&/alto|alt\b/.test(lower)?['Soprano','Alto']:count===2&&/tenor/.test(lower)&&/bass|bas\b/.test(lower)?['Tenor','Bass']:Array.from({length:count},(_,i)=>`${name} · ${count===2?(i===0?'upper voice':'lower voice'):'voice '+(i+1)}`);
+      result=voices.map((voiceNotes,i)=>({id:`${id}-split${i+1}`,name:names[i],part,staff,voice:String(i+1),sourceVoices:[...new Set(voiceNotes.map(n=>n.sourceVoice))],sourceNoteIndices:voiceNotes.map(n=>n.sourceIndex),separated:true,notes:voiceNotes.map(n=>({...n,lane:`${id}-split${i+1}`}))})).filter(l=>l.notes.length);
+      const index=lanes.indexOf(group[0]);for(const lane of group)lanes.splice(lanes.indexOf(lane),1);lanes.splice(index,0,...result);
+      warnings.add('Shared-staff voices were inferred. Review the parts; ambiguous crossings and solo passages may need a different separation setting.');
+      if(crowded)warnings.add('Some notes overlap within an inferred voice. Increase the voice count or keep the written parts to retain instrumental chords.');
+    }
+    staffGroups.push({id,part,staff,name,writtenVoices:group.length,voices:result.length,mode});
+  }
+  // Join ties only after assigning their individual written notes to singing lines.
+  for(const lane of lanes) {
+    lane.notes.sort((a,b)=>a.start-b.start);const held=new Map(),merged=[];
+    for(const n of lane.notes){const prev=held.get(n.midi);if(n.tieStop&&prev&&Math.abs(prev.start+prev.duration-n.start)<.001){prev.duration+=n.duration;prev.tieStart=n.tieStart;if(!n.tieStart)held.delete(n.midi);}else{merged.push(n);if(n.tieStart)held.set(n.midi,n);else held.delete(n.midi);}}
+    lane.notes=merged;
+  }
   const harmonies=[];for(const h of rawHarmonies){const start=(rawMeasures[h.measure]?.start||0)+h.offset,key=`${start.toFixed(4)}:${h.notes.join(',')}`;if(!harmonies.some(x=>x.key===key))harmonies.push({...h,start,key});}
   harmonies.sort((a,b)=>a.start-b.start);if(harmonies.length){const notes=[];for(let i=0;i<harmonies.length;i++){const h=harmonies[i],measureEnd=(rawMeasures[h.measure]?.start||0)+(rawMeasures[h.measure]?.length||4),end=Math.max(h.start+.25,Math.min(harmonies[i+1]?.start??measureEnd,measureEnd));for(const midi of h.notes)notes.push({start:h.start,duration:end-h.start,midi,velocity:.48,lyric:''});}lanes.push({id:'chords',name:'Chord accompaniment',notes,partType:'instrument',sound:'piano',generated:true,published:true});}
   if(all(root,'ornaments').length) warnings.add('Grace notes and ornaments are displayed but not played.');
@@ -125,7 +149,7 @@ export function parseMusicXML(xml) {
   if(all(root,'measure-repeat').length) warnings.add('Measure-repeat symbols require explicitly written notes for playback.');
   const tempoMap=tempos.map(t=>({beat:(rawMeasures[t.measure]?.start||0)+t.offset,bpm:t.bpm})).sort((a,b)=>a.beat-b.beat);
   if(!tempoMap.length || tempoMap[0].beat>0)tempoMap.unshift({beat:0,bpm:100});
-  return {title:all(root,'work-title')[0]?.textContent || value(root,'movement-title','Untitled score'),composer:all(root,'creator').find(c=>c.getAttribute('type')==='composer')?.textContent||'',lanes,measures:rawMeasures,tempos:tempoMap,totalBeats:beat,warnings:[...warnings],format:'MusicXML'};
+  return {title:all(root,'work-title')[0]?.textContent || value(root,'movement-title','Untitled score'),composer:all(root,'creator').find(c=>c.getAttribute('type')==='composer')?.textContent||'',lanes,measures:rawMeasures,tempos:tempoMap,totalBeats:beat,warnings:[...warnings],format:'MusicXML',staffGroups};
 }
 
 export function playbackOrder(measures, repeats=true) {

@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Separate repeated shared-staff choir chords into singing lines, using pitch continuity, stems and ties. Keep existing written voices and piano chords by default.
+- Add per-staff automatic, written and two-to-four-voice settings, with optional shared unisons, to the parts editor. Changes can be cancelled and work on existing pieces.
+- Preserve score timing, individual-part viewing and hidden-part removal when inferred voices are published. Separation settings survive backups.
+
 ## 1.1.0-rc.2
 
 - Correct the desktop update-status smoke test so installer builds can complete.
