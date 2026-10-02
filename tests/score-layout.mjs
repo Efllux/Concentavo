@@ -12,7 +12,9 @@ assert.equal(followPointAt(anchors,6).y,10,'Keep the current system visible befo
 assert.ok(followPointAt(anchors,7.5).y>10,'Bring the next system in before the line ends');
 assert.equal(followPointAt(anchors,0).x,100,'A repeat can return to the first note');
 assert.equal(followPointAt([],0),null);
+assert.equal(gradualScroll(50,800,0),50,'A zero-length tick does not move');
 assert.ok(gradualScroll(0,800,25)<80,'Resuming follow eases into position');
+assert.equal(gradualScroll(0,800,25,false,500),12.5,'Catch-up movement has a bounded speed');
 assert.equal(gradualScroll(0,800,25,true),800,'Respect reduced-motion preference');
 
 const attrs='<attributes><divisions>2</divisions><time><beats>4</beats><beat-type>4</beat-type></time><clef><sign>G</sign><line>2</line></clef></attributes>';
@@ -50,7 +52,9 @@ try{
  const moved=motion.samples.filter((s,i)=>i&&s.x>motion.samples[i-1].x);
  assert.ok(moved.length>100,'Sideways following moves through phrases continuously');
  assert.ok(moved[0].cursor<motion.width*.75,'Following starts before the text reaches the screen edge');
- assert.ok(Math.max(...motion.samples.slice(1).map((s,i)=>s.x-motion.samples[i].x))<motion.width*.12,'Playback does not jump a screen at the edge');
+ const steps=motion.samples.slice(1).map((s,i)=>({distance:s.x-motion.samples[i].x,elapsed:s.t-motion.samples[i].t}));
+ console.log('Follow motion:',JSON.stringify({movingFrames:moved.length,maxStep:Math.max(...steps.map(s=>s.distance)),delayedFrames:steps.filter(s=>s.elapsed>50).length}));
+ assert.ok(steps.every(s=>s.distance<motion.width*.12*Math.max(1,s.elapsed/34)),'Playback does not jump a screen at the edge, allowing for delayed rendering frames');
  const manual=await page.locator('#score-viewport').evaluate(vp=>{vp.dispatchEvent(new WheelEvent('wheel',{deltaX:100}));vp.scrollLeft+=100;return vp.scrollLeft;});
  await page.waitForTimeout(600);assert.equal(await page.locator('#score-viewport').evaluate(e=>e.scrollLeft),manual,'Manual scrolling temporarily pauses following');
  await page.waitForTimeout(3650);await page.waitForFunction(x=>Math.abs(document.querySelector('#score-viewport').scrollLeft-x)>5,manual);

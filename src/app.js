@@ -337,7 +337,7 @@ function updatePosition(seconds){
     if($('#follow')?.checked&&now>=followPausedUntil&&audio.playing){
       $('#follow').closest('label')?.classList.remove('paused');const vp=$('#score-viewport'),point=followPointAt(scoreAnchors,pos.beat),reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
       if(point){
-        const move=(axis,coordinate,extent,max,preview)=>{const target=Math.max(0,Math.min(max,coordinate-extent*preview));vp[axis]=gradualScroll(vp[axis],target,elapsed,reduced);};
+        const move=(axis,coordinate,extent,max,preview)=>{const target=Math.max(0,Math.min(max,coordinate-extent*preview));vp[axis]=gradualScroll(vp[axis],target,elapsed,reduced,extent*2);};
         if(vp.scrollWidth>vp.clientWidth+2)move('scrollLeft',point.x,vp.clientWidth,vp.scrollWidth-vp.clientWidth,.3);
         if(!vp.classList.contains('horizontal-score'))move('scrollTop',point.y,vp.clientHeight,vp.scrollHeight-vp.clientHeight,.18);
       }
