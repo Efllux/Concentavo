@@ -59,7 +59,7 @@ export function selectScorePart(xml, lanes, id) {
 // Remap notation references along with the filtered XML, so single-part viewing
 // still works after hiding a voice or removing an earlier source part on export.
 export function publishedScoreData(xml, lanes) {
-  const doc=new DOMParser().parseFromString(xml,'application/xml'),parts=partsIn(doc),published=structuredClone(lanes.filter(l=>l.published!==false));
+  const doc=new DOMParser().parseFromString(xml,'application/xml'),parts=partsIn(doc),published=structuredClone(lanes.filter(l=>l.published!==false&&!l.removed));
   let newPart=0;
   parts.forEach((part,partIndex)=>{
     const source=lanes.filter(l=>!l.generated&&l.part===partIndex),kept=published.filter(l=>!l.generated&&l.part===partIndex);

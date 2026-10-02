@@ -18,6 +18,7 @@ export function separateVoiceNotes(notes, count, {unisons=true}={}) {
   const groups=onsetGroups(notes),full=groups.filter(g=>g.length>=count);
   const anchors=Array.from({length:count},(_,i)=>median(full.map(g=>g[Math.min(i,g.length-1)].midi))??(72-i*7));
   const sourceVoices=[...new Set(notes.map(n=>n.sourceVoice))];
+  const chordVoices=new Set(groups.flatMap(g=>g.filter(n=>g.filter(o=>o.sourceVoice===n.sourceVoice).length>1).map(n=>n.sourceVoice)));
   const voiceOrder=sourceVoices.map(voice=>({voice,pitch:median(notes.filter(n=>n.sourceVoice===voice).map(n=>n.midi))})).sort((a,b)=>b.pitch-a.pitch);
   const hint=new Map(voiceOrder.map((v,i)=>[v.voice,i]));
   let beam=[{cost:0,states:Array.from({length:count},()=>({end:-Infinity,pitch:null,tie:false})),path:null}];
@@ -28,7 +29,7 @@ export function separateVoiceNotes(notes, count, {unisons=true}={}) {
     const leading=group.slice(0,count),extras=group.slice(count);
     if(extras.length)crowded=true;
     for(const state of beam) {
-      const shared=unisons&&sourceVoices.length===1&&group.length===1&&state.states.every(s=>s.end<=start+EPS);
+      const shared=unisons&&(sourceVoices.length===1||chordVoices.has(group[0].sourceVoice))&&group.length===1&&state.states.every(s=>s.end<=start+EPS);
       const candidates=[];
       if(shared)candidates.push(Array.from({length:count},(_,i)=>[group[0],i]));
       else {
@@ -46,7 +47,7 @@ export function separateVoiceNotes(notes, count, {unisons=true}={}) {
           if(gap<-EPS)cost+=500+(-gap)*20;
           cost+=Math.abs(note.midi-(prev.pitch??anchors[slot]))*(prev.pitch===null?.6:gap>4?.25:1);
           if(note.tieStop&&state.states.some(s=>s.tie&&s.pitch===note.midi&&Math.abs(start-s.end)<EPS))cost+=(prev.tie&&prev.pitch===note.midi&&Math.abs(gap)<EPS)?-40:200;
-          if(sourceVoices.length>1&&sourceVoices.length<=count&&hint.get(note.sourceVoice)!==slot)cost+=18;
+          if(sourceVoices.length>1&&sourceVoices.length<=count&&!chordVoices.has(note.sourceVoice)&&hint.get(note.sourceVoice)!==slot)cost+=18;
           if(mixedStems&&((note.stem==='up'&&slot!==0)||(note.stem==='down'&&slot!==count-1)))cost+=24;
           // A mild register preference resolves ties without prohibiting crossings.
           cost+=Math.abs(note.midi-anchors[slot])*.08;

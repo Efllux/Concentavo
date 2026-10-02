@@ -1,1 +1,10 @@
 export const sharedStaffXML=(name='Soprano and Alto')=>`<score-partwise version="4.0"><work><work-title>Shared voices</work-title></work><part-list><score-part id="P1"><part-name>${name}</part-name></score-part></part-list><part id="P1"><measure number="1"><attributes><divisions>1</divisions><key><fifths>0</fifths></key><time><beats>4</beats><beat-type>4</beat-type></time><clef><sign>G</sign><line>2</line></clef></attributes><note><pitch><step>C</step><octave>4</octave></pitch><duration>2</duration><voice>1</voice><type>half</type><stem>up</stem></note><note><chord/><pitch><step>E</step><octave>4</octave></pitch><duration>2</duration><voice>1</voice><type>half</type><stem>up</stem></note><note><pitch><step>D</step><octave>4</octave></pitch><duration>2</duration><voice>1</voice><type>half</type><stem>up</stem></note><note><chord/><pitch><step>F</step><octave>4</octave></pitch><duration>2</duration><voice>1</voice><type>half</type><stem>up</stem></note></measure><measure number="2"><note><pitch><step>E</step><octave>4</octave></pitch><duration>2</duration><voice>1</voice><type>half</type></note><note><chord/><pitch><step>G</step><octave>4</octave></pitch><duration>2</duration><voice>1</voice><type>half</type></note><note><pitch><step>G</step><octave>4</octave></pitch><duration>2</duration><voice>1</voice><type>half</type></note></measure></part></score-partwise>`;
+
+// Choir exports can use dyads in voice 1 for most bars, then a separate voice 2.
+export function mixedChoirXML(){
+  const xml=sharedStaffXML('Vrouwenstemmen');
+  const extra='<backup><duration>2</duration></backup><note><pitch><step>C</step><octave>4</octave></pitch><duration>2</duration><voice>2</voice><type>half</type><stem>down</stem></note>';
+  const first=xml.match(/<part id="P1">.*<\/part>/s)[0].replace('</measure></part>',extra+'</measure></part>');
+  const second=first.replace('id="P1"','id="P2"').replace(/<octave>4<\/octave>/g,'<octave>3</octave>');
+  return xml.replace('</part-list>','<score-part id="P2"><part-name>Mannenstemmen</part-name></score-part></part-list>').replace(/<part id="P1">.*<\/part>/s,first+second);
+}

@@ -1,11 +1,12 @@
 const nl={
+  'Remove part':'Partij verwijderen','Removed parts':'Verwijderde partijen','Keep at least one part.':'Behoud ten minste één partij.','Part removed. Restore it in Edit parts.':'Partij verwijderd. Herstel deze via Partijen bewerken.','Untick Publish to keep a part only in the app. Removed parts can be restored below.':'Vink Publiceren uit om een partij alleen in de app te bewaren. Verwijderde partijen kun je hieronder herstellen.',
   'Shared-staff voices separated automatically. Adjust them later in Edit parts.':'Stemmen op één notenbalk zijn automatisch gescheiden. Pas ze later aan via Partijen bewerken.',
   'Separate voices sharing a staff':'Stemmen op één notenbalk scheiden',
   'Automatic keeps written voices and separates repeated choir chords. Choose a voice count for an unlabelled staff. Review the result below.':'Automatisch behoudt genoteerde stemmen en scheidt herhaalde koorakkoorden. Kies een aantal stemmen voor een onduidelijke notenbalk. Controleer hieronder het resultaat.',
   'Keep written parts':'Genoteerde partijen behouden',
   '2 separate voices':'2 afzonderlijke stemmen','3 separate voices':'3 afzonderlijke stemmen','4 separate voices':'4 afzonderlijke stemmen',
   'Share single notes as unison':'Enkele noten als unisono delen',
-  'Unison sharing applies when a staff uses one written voice. Turn it off for solo passages. Your original score is retained.':'Unisono delen geldt bij één genoteerde stem op een notenbalk. Schakel dit uit voor solopassages. De oorspronkelijke partituur blijft bewaard.',
+  'Unison sharing applies to single notes in a staff that also contains chords. Turn it off for solo passages. Your original score is retained.':'Unisono delen geldt voor losse noten op een notenbalk die ook akkoorden bevat. Schakel dit uit voor solopassages. De oorspronkelijke partituur blijft bewaard.',
 
   'Rehearsal room':'Repetitieruimte','Rehearsal rooms':'Repetitieruimtes','New rehearsal room':'Nieuwe repetitieruimte',
   'New room':'Nieuwe ruimte','Dark mode':'Donkere modus','Toggle dark mode':'Donkere modus wisselen','Automatic':'Automatisch',

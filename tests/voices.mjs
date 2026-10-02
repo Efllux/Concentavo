@@ -5,7 +5,7 @@ import { existsSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { resolve } from 'node:path';
 import assert from 'node:assert/strict';
-import { sharedStaffXML } from './voice-fixtures.js';
+import { sharedStaffXML, mixedChoirXML } from './voice-fixtures.js';
 const macChrome='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const executablePath=process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH||(!existsSync(chromium.executablePath())&&process.platform==='darwin'&&existsSync(macChrome)?macChrome:undefined);
 const browser=await chromium.launch({executablePath,headless:true});
@@ -39,6 +39,10 @@ try {
     return 'Parsing, unisons, reversible overrides, filtered chord anchors and exported references passed';
   },sharedStaffXML());
   console.log(checks);
+  const mixed=await page.evaluate(xml=>{const m=window.testMusic,s=m.parseMusicXML(xml),t=m.createTimeline(s);s.lanes[0].removed=true;const active=m.createTimeline(s),published=m.publishedScoreData(xml,s.lanes);return {names:s.lanes.map(l=>l.name),overlaps:s.lanes.map(l=>l.notes.some((n,i)=>i>0&&l.notes[i-1].start+l.notes[i-1].duration>n.start+.00001)),removedAudio:active.events.some(e=>e.lane===s.lanes[0].id),eventCount:t.events.length,kept:published.lanes.length};},mixedChoirXML());
+  assert.deepEqual(mixed.names,['Soprano','Alto','Tenor','Bass'],'Mixed chord and written voice encoding yields four choir parts');
+  assert.deepEqual(mixed.overlaps,[false,false,false,false],'Inferred singing lines have no simultaneous dyads');
+  assert.equal(mixed.removedAudio,false);assert.equal(mixed.kept,3);
   // Existing unlabelled pieces can be split without reimporting or changing IDs.
   await page.locator('#file-input').setInputFiles({name:'shared.musicxml',mimeType:'application/xml',buffer:Buffer.from(sharedStaffXML('Part 1'))});
   await page.locator('#confirm-import').click();await page.waitForFunction(()=>document.querySelectorAll('.track-row').length===3);
@@ -54,11 +58,24 @@ try {
   await page.locator('#score-part').selectOption('p0-s1-split1');await page.waitForFunction(()=>!document.querySelector('#score-part').disabled);
   await page.reload();await page.waitForSelector('#score svg');assert.equal(await page.locator('[data-name]').count(),2,'Separation persists');
   assert.equal(await page.locator('[data-name]').first().inputValue(),'Soprano rehearsal');
+  await page.locator('[data-name]').first().fill('Soprano renamed');await page.locator('[data-name]').first().press('Tab');
+  assert.equal(await page.locator('#score-part option[value="p0-s1-split1"]').textContent(),'Soprano renamed','Inline rename updates Show immediately');
+  await page.locator('[data-remove-part="p0-s1-split2"]').click();await page.waitForFunction(()=>document.querySelectorAll('[data-name]').length===1);
+  assert.equal(await page.locator('#score-part option[value="p0-s1-split2"]').count(),0,'Removed part disappears from Show');
+  await page.reload();await page.waitForSelector('#score svg');assert.equal(await page.locator('[data-name]').count(),1,'Part removal persists');
+  const removedDownload=page.waitForEvent('download');await page.locator('#single-export').click();await (await removedDownload).saveAs('test-results/removed-part.html');
+  const removedHTML=await readFile('test-results/removed-part.html','utf8'),removedBoot=JSON.parse(removedHTML.match(/<script id="boot-data" type="application\/json">(.*?)<\/script>/s)[1]);
+  assert.equal(removedBoot.project.tracks[0].score.lanes.length,1,'Removed voice is absent from exported audio');
+  await page.addScriptTag({content:testModule.outputFiles[0].text});
+  assert.equal(await page.evaluate(t=>window.testMusic.parseMusicXML(t.xml,{voiceSeparation:{'p0-s1':'written'}}).lanes[0].notes.length,removedBoot.project.tracks[0]),4,'Removed lower notes are absent from exported notation');
   await page.locator('#back-library').click();
   const backupDownload=page.waitForEvent('download');await page.locator('#project-backup').click();await (await backupDownload).saveAs('test-results/separated-room.concentavo');
   await page.locator('#backup-input').setInputFiles(resolve('test-results/separated-room.concentavo'));await page.waitForFunction(()=>document.querySelectorAll('[data-room]').length===2);
-  await page.locator('.track-title').last().click();await page.waitForSelector('#score svg');assert.equal(await page.locator('[data-name]').count(),2,'Separation survives backup restore');assert.equal(await page.locator('[data-name]').first().inputValue(),'Soprano rehearsal');
-  await page.locator('#edit-piece').click();await page.locator('#staff-editor').click();await page.locator('#lane-published-1').uncheck();
+  await page.locator('.track-title').last().click();await page.waitForSelector('#score svg');assert.equal(await page.locator('[data-name]').count(),1,'Part removal survives backup restore');assert.equal(await page.locator('[data-name]').first().inputValue(),'Soprano renamed');
+  await page.locator('#edit-piece').click();await page.locator('#staff-editor').click();assert.equal(await page.locator('[data-restore-part]').count(),1);await page.locator('[data-restore-part]').click();assert.equal(await page.locator('.staff-row').count(),2);
+  await page.locator('[data-draft-remove="p0-s1-split2"]').click();await page.getByRole('button',{name:'Cancel',exact:true}).click();
+  await page.locator('#rename-voices').click();await page.locator('[data-restore-part]').click();await page.locator('#save-staff').click();await page.waitForFunction(()=>document.querySelectorAll('[data-name]').length===2);
+  await page.locator('#rename-voices').click();await page.locator('#lane-published-1').uncheck();
   await mkdir('test-results',{recursive:true});await page.screenshot({path:'test-results/voice-separation-desktop.png'});
   await page.setViewportSize({width:390,height:844});await page.screenshot({path:'test-results/voice-separation-mobile.png'});
   assert.ok(await page.locator('.dialog-body').evaluate(el=>el.scrollWidth<=el.clientWidth),'Mobile controls fit without horizontal overflow');
@@ -70,6 +87,9 @@ try {
   const singer=await browser.newPage();singer.on('pageerror',error=>errors.push(error.message));await singer.goto(pathToFileURL(resolve('test-results/separated-voice.html')).href);await singer.waitForSelector('#score svg');
   await singer.locator('#score-part').selectOption('p0-s1-split1');await singer.waitForFunction(()=>!document.querySelector('#score-part').disabled);
   assert.equal(await singer.locator('#score .vf-stavenote').count(),4,'Exported single voice renders all four notes at their correct bars');
+  await page.locator('#back-library').click();const hiddenBackup=page.waitForEvent('download');await page.locator('#project-backup').click();await (await hiddenBackup).saveAs('test-results/hidden-part.concentavo');
+  await page.locator('#backup-input').setInputFiles(resolve('test-results/hidden-part.concentavo'));await page.waitForFunction(()=>document.querySelectorAll('[data-room]').length===3);
+  await page.locator('.track-title').last().click();await page.waitForSelector('#score svg');await page.locator('#rename-voices').click();assert.equal(await page.locator('#lane-published-1').isChecked(),false,'Backup restore preserves unpublished parts');
   assert.deepEqual(errors,[],'No runtime errors');
   console.log('Voice editor: cancellation, persistence, mobile layout and published playback/notation passed.');
 } finally {await browser.close();}

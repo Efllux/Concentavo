@@ -124,11 +124,11 @@ export function parseMusicXML(xml, {voiceSeparation={}}={}) {
     const instrumental=/piano|pianoforte|keyboard|organ|guitar|violin|viola|cello|double bass|contrabass|flute|clarinet|trumpet|trombone|orchestra|continuo/i.test(name);
     const vocal=!instrumental&&(instrument||/soprano|sopraan|alto|alt\b|tenor|bass|bas\b|choir|chorus|koor|vocal|voice|voices|satb|ssaa|ttbb|cant(us|o)|women|men\b|mannen|vrouwen/i.test(name)||(/^(part|staff|music|melody|untitled)/i.test(name)&&group.some(l=>l.notes.some(n=>n.lyric))));
     const notes=group.flatMap(l=>l.notes),detected=inferredVoiceCount(notes);
-    const count=['2','3','4'].includes(mode)?Number(mode):mode==='auto'&&vocal&&group.length===1?detected:1;
+    const count=['2','3','4'].includes(mode)?Number(mode):mode==='auto'&&vocal&&group.some(l=>inferredVoiceCount(l.notes)>1)?Math.max(detected,Math.min(4,group.length)):1;
     let result=group;
     if(count>1) {
       const {voices,crowded}=separateVoiceNotes(notes,count,{unisons});
-      const lower=name.toLowerCase(),names=count===2&&/sopran|sopraan/.test(lower)&&/alto|alt\b/.test(lower)?['Soprano','Alto']:count===2&&/tenor/.test(lower)&&/bass|bas\b/.test(lower)?['Tenor','Bass']:Array.from({length:count},(_,i)=>`${name} · ${count===2?(i===0?'upper voice':'lower voice'):'voice '+(i+1)}`);
+      const lower=name.toLowerCase(),names=count===2&&(/sopran|sopraan/.test(lower)&&/alto|alt\b/.test(lower)||/vrouwen|women/.test(lower))?['Soprano','Alto']:count===2&&(/tenor/.test(lower)&&/bass|bas\b/.test(lower)||/mannen|men\b/.test(lower))?['Tenor','Bass']:Array.from({length:count},(_,i)=>`${name} · ${count===2?(i===0?'upper voice':'lower voice'):'voice '+(i+1)}`);
       result=voices.map((voiceNotes,i)=>({id:`${id}-split${i+1}`,name:names[i],part,staff,voice:String(i+1),sourceVoices:[...new Set(voiceNotes.map(n=>n.sourceVoice))],sourceNoteIndices:voiceNotes.map(n=>n.sourceIndex),separated:true,notes:voiceNotes.map(n=>({...n,lane:`${id}-split${i+1}`}))})).filter(l=>l.notes.length);
       const index=lanes.indexOf(group[0]);for(const lane of group)lanes.splice(lanes.indexOf(lane),1);lanes.splice(index,0,...result);
       warnings.add('Shared-staff voices were inferred. Review the parts; ambiguous crossings and solo passages may need a different separation setting.');
@@ -178,7 +178,7 @@ export function createTimeline(score, repeats=true) {
   // Clip tied notes at navigation jumps; carry through adjacent written measures.
   for(let si=0;si<segments.length;si++){
     const seg=segments[si];
-    for(const lane of score.lanes) {const own=lane.notes||[],source=lane.collectiveWith&&score.lanes.find(l=>l.id===lane.collectiveWith),joined=source?(source.notes||[]).filter(n=>!own.some(o=>o.start<n.start+n.duration-.00001&&o.start+o.duration>n.start+.00001)).map(n=>({...n,midi:n.midi+(lane.collectiveTranspose||0)})):[];for(const n of [...own,...joined]) if(n.start>=seg.beat-.00001 && n.start<seg.beat+seg.beats-.00001) {
+    for(const lane of score.lanes.filter(l=>!l.removed)) {const own=lane.notes||[],source=lane.collectiveWith&&score.lanes.find(l=>l.id===lane.collectiveWith&&!l.removed),joined=source?(source.notes||[]).filter(n=>!own.some(o=>o.start<n.start+n.duration-.00001&&o.start+o.duration>n.start+.00001)).map(n=>({...n,midi:n.midi+(lane.collectiveTranspose||0)})):[];for(const n of [...own,...joined]) if(n.start>=seg.beat-.00001 && n.start<seg.beat+seg.beats-.00001) {
       let remain=n.duration, j=si, cursor=n.start, duration=0;
       while(remain>.00001 && j<segments.length){const s=segments[j],take=Math.min(remain,s.beat+s.beats-cursor);if(take<=0)break;duration+=take*60/s.bpm;remain-=take;const next=segments[j+1];if(!next || Math.abs(next.beat-(s.beat+s.beats))>.001)break;cursor=next.beat;j++;}
       events.push({...n,lane:lane.id,time:seg.time+(n.start-seg.beat)*60/seg.bpm,seconds:duration});
