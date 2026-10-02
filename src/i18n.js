@@ -1,4 +1,7 @@
 const nl={
+  'Solo':'Solo','Mute':'Dempen','Mode':'Modus','Simple':'Eenvoudig','Advanced':'Geavanceerd','Interface mode':'Bedieningsmodus','Player settings':'Spelerinstellingen','Score settings':'Partituurinstellingen','Playback settings':'Afspeelinstellingen',
+  'Shared passages':'Gedeelde passages','Lyrics from':'Tekst van','Shared choir lyrics':'Gedeelde koortekst','Own lyrics only':'Alleen eigen tekst','Source part':'Bronpartij','From bar':'Vanaf maat','Through bar':'Tot en met maat','Octave':'Octaaf','Use passage':'Passage gebruiken','Instead of own part':'In plaats van eigen partij','Only in empty bars':'Alleen in lege maten','Two octaves lower':'Twee octaven lager','Two octaves higher':'Twee octaven hoger','Add passage':'Passage toevoegen','Remove passage':'Passage verwijderen','Save passages':'Passages opslaan','Use another part for selected bars. Your original part is retained.':'Gebruik een andere partij voor de gekozen maten. Je oorspronkelijke partij blijft bewaard.',
+
   'Remove part':'Partij verwijderen','Removed parts':'Verwijderde partijen','Keep at least one part.':'Behoud ten minste één partij.','Part removed. Restore it in Edit parts.':'Partij verwijderd. Herstel deze via Partijen bewerken.','Untick Publish to keep a part only in the app. Removed parts can be restored below.':'Vink Publiceren uit om een partij alleen in de app te bewaren. Verwijderde partijen kun je hieronder herstellen.',
   'Shared-staff voices separated automatically. Adjust them later in Edit parts.':'Stemmen op één notenbalk zijn automatisch gescheiden. Pas ze later aan via Partijen bewerken.',
   'Separate voices sharing a staff':'Stemmen op één notenbalk scheiden',
@@ -61,7 +64,7 @@ export function translate(root,language='en'){
   while(node=walker.nextNode()){
     const raw=node.nodeValue,trim=raw.trim();if(!trim)continue;
     let value=nl[trim];
-    if(!value)value=trim.replace(/· staff (\d+)/g,'· notenbalk $1').replace(/\bbars\b/g,'maten').replace(/\bparts\b/g,'partijen').replace(/ selected$/,' geselecteerd');
+    if(!value)value=trim.replace(/^Shared passages · /,'Gedeelde passages · ').replace(/· staff (\d+)/g,'· notenbalk $1').replace(/\bbars\b/g,'maten').replace(/\bparts\b/g,'partijen').replace(/ selected$/,' geselecteerd');
     if(value!==trim)node.nodeValue=raw.replace(trim,value);
   }
   root.querySelectorAll('[placeholder]').forEach(el=>{if(nl[el.placeholder])el.placeholder=nl[el.placeholder];});

@@ -1,5 +1,6 @@
 import { unzipSync, strFromU8 } from 'fflate';
 import { Midi } from '@tonejs/midi';
+import { arrangedScore } from './part-passages.js';
 import { inferredVoiceCount, separateVoiceNotes } from './voice-separation.js';
 
 const children = (n, tag) => Array.from(n.children).filter(x => x.localName === tag);
@@ -169,6 +170,7 @@ export function playbackOrder(measures, repeats=true) {
 }
 
 export function createTimeline(score, repeats=true) {
+  score=arrangedScore(score);
   let seconds=0;const segments=[],events=[];
   const tempoAt=beat=>score.tempos.filter(t=>t.beat<=beat+.00001).at(-1)?.bpm||100;
   for(const mi of playbackOrder(score.measures,repeats)) {

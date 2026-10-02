@@ -36,3 +36,13 @@ Changes are previewed in a draft until **Save parts**. Original MusicXML remains
 Use disposable GitHub repositories to verify GitHub App installation, new public Pages publishing, repeat publishing, private sync from two browsers, conflict copies, backup migration and reconnecting an existing URL. Confirm the sign-in Worker never receives score content. Run `npm test` and `npm run test:desktop`; browser automation needs a working Playwright Chromium or Chrome installation.
 
 Use **Remove** beneath a part in the Parts pane to remove it from playback, score selection and exported HTML. **Edit parts → Removed parts → Restore** brings it back. The original score and removed-part settings stay in local storage, room backups and optional private sync. **Publish** is separate: unticking it keeps the part available in the editor but excludes it from the practice website. Part names edited in the Parts pane immediately update the **Show** list.
+
+## Lyrics, shared passages and display modes
+
+Choir lyrics written once are shared at matching note onsets when viewing an individual voice. Existing lyrics are retained, and all verse/syllabic/extension markup is preserved. In **Parts → Shared passages**, choose **Lyrics from** to select a particular donor or keep only the part's own lyrics. Matching does not invent words between written onsets.
+
+For a chorus sung together, open **Shared passages** under Bass, add a passage, choose Soprano, set the first/last bars and choose the octave. **Instead of own part** replaces that range; **Only in empty bars** retains bars that already have notes. Add further ranges as needed. Sources use their written music rather than recursively copying their own shared passages. Held notes are clipped at passage boundaries and sustain across adjacent copied bars. The original music is retained. Removing a source from the mixer does not invalidate passages already using it.
+
+Shared passages and lyric choices survive local saves, backups and private sync. Published HTML bakes in the borrowed notes and notation; it works without access to the donor part or a login, even if the donor is unpublished. Original source files remain unchanged.
+
+**Simple** is the default interface mode. **Advanced** reveals detailed sound/type/pan/solo controls, staff separation, pitch/zoom and publishing layout choices. Switch modes in the top bar, a settings dialog or the player's gear menu; this device remembers the choice without changing saved musical settings. On small screens, the gear menu contains score and playback settings, and the initial view shows one part. The part picker, Bars/Fit and playback remain visible.

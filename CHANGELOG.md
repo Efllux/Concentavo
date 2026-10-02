@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Share choir lyrics with individual tenor and bass views, preserving written lyrics and all verses.
+- Add bar-scoped shared passages with octave shifts and replace/empty-bar modes; keep playback, notation, backups and published sites in agreement.
+- Default to Simple mode, with a persistent Advanced mode for detailed mixer, playback, import and publishing settings.
+- Compact the phone/tablet player around the score, put secondary settings in a gear menu and start with a single part on phones.
+
 - Detect soprano/alto and tenor/bass in choir scores that mix chord notation with sparse explicit voice numbers.
 - Remove and restore parts after importing, including their playback and notation; preserve removal in backups and private sync.
 - Update the Show selector immediately after an inline part rename, and preserve unpublished parts when restoring backups.

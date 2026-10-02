@@ -12,7 +12,8 @@ const browser=await chromium.launch({executablePath,headless:true});
 try {
   const page=await browser.newPage({viewport:{width:1280,height:900},acceptDownloads:true});
   const errors=[];page.on('pageerror',error=>errors.push(error.message));
-  await page.goto(pathToFileURL(resolve('dist/index.html')).href);await page.waitForSelector('.track-row');
+  await page.addInitScript(()=>localStorage.setItem('concentavo-interface-mode','advanced'));
+await page.goto(pathToFileURL(resolve('dist/index.html')).href);await page.waitForSelector('.track-row');
   const testModule=await build({entryPoints:['tests/music-entry.js'],bundle:true,format:'iife',write:false});
   await page.addScriptTag({content:testModule.outputFiles[0].text});
   const checks=await page.evaluate(xml=>{

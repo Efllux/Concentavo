@@ -25,13 +25,14 @@ try{
   assert.ok(Number(await page.locator('#seek').inputValue())>0,'Phone bar navigation works');
   await page.locator('#score-part').selectOption('');
   await page.waitForFunction(()=>!document.querySelector('#score-part').disabled);
+  await page.reload();await page.waitForSelector('#score svg');assert.equal(await page.locator('#score-part').inputValue(),'','Full-score choice survives refresh on a phone');
   await page.locator('#mobile-parts').click();
   const bounds=await page.evaluate(()=>({mixer:document.querySelector('.mixer').getBoundingClientRect().bottom,transport:document.querySelector('.transport').getBoundingClientRect().top,height:document.documentElement.scrollHeight,viewport:innerHeight}));
   assert.ok(bounds.mixer<=bounds.transport+1,'Phone mixer never covers transport controls');
   assert.equal(bounds.height,bounds.viewport,'Phone player fits viewport');
   await page.locator('#mobile-parts').click();
   await page.setViewportSize({width:844,height:390});
-  await page.locator('#score-flow').selectOption('horizontal');
+  await page.locator('.player-menu > summary').click();await page.locator('#score-settings-button').click();await page.locator('#view-flow').selectOption('horizontal');await page.getByRole('button',{name:'Done',exact:true}).click();
   await page.waitForFunction(()=>!document.querySelector('#score-part').disabled);
   assert.notEqual(await page.locator('#score-part').inputValue(),'','Landscape phone chooses one readable part');
   assert.ok(await page.locator('#score-viewport').evaluate(e=>e.scrollWidth>e.clientWidth),'Landscape phone has a horizontal score strip');
