@@ -15,6 +15,6 @@ export function gradualScroll(current,target,elapsed,reducedMotion=false,maxSpee
   if(reducedMotion)return target;
   if(elapsed<=0)return current;
   const amount=1-Math.exp(-Math.min(80,Math.max(0,elapsed))/260);
-  const distance=(target-current)*amount,limit=maxSpeed*Math.min(80,Math.max(0,elapsed))/1000;
+  const distance=(target-current)*amount,limit=maxSpeed*Math.min(25,Math.max(0,elapsed))/1000;
   return current+Math.max(-limit,Math.min(limit,distance));
 }

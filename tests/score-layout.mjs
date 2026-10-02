@@ -15,6 +15,7 @@ assert.equal(followPointAt([],0),null);
 assert.equal(gradualScroll(50,800,0),50,'A zero-length tick does not move');
 assert.ok(gradualScroll(0,800,25)<80,'Resuming follow eases into position');
 assert.equal(gradualScroll(0,800,25,false,500),12.5,'Catch-up movement has a bounded speed');
+assert.equal(gradualScroll(0,800,250,false,500),12.5,'Delayed ticks cannot make a large catch-up step');
 assert.equal(gradualScroll(0,800,25,true),800,'Respect reduced-motion preference');
 
 const attrs='<attributes><divisions>2</divisions><time><beats>4</beats><beat-type>4</beat-type></time><clef><sign>G</sign><line>2</line></clef></attributes>';
@@ -59,6 +60,8 @@ try{
  await page.waitForTimeout(600);assert.equal(await page.locator('#score-viewport').evaluate(e=>e.scrollLeft),manual,'Manual scrolling temporarily pauses following');
  await page.waitForTimeout(3650);await page.waitForFunction(x=>Math.abs(document.querySelector('#score-viewport').scrollLeft-x)>5,manual);
  await page.locator('#follow').uncheck();const stopped=await page.locator('#score-viewport').evaluate(e=>e.scrollLeft);await page.waitForTimeout(4300);assert.equal(await page.locator('#score-viewport').evaluate(e=>e.scrollLeft),stopped,'Turning Follow off stays off after four seconds');
- await page.locator('#follow').check();await page.waitForFunction(x=>Math.abs(document.querySelector('#score-viewport').scrollLeft-x)>5,stopped);await page.locator('#play').click();
- assert.deepEqual(errors,[]);console.log('PASS: wide player, dense multi-verse lyrics, landscape controls, gradual following, manual pause and explicit off.');
+ await page.locator('#follow').check();await page.waitForFunction(x=>Math.abs(document.querySelector('#score-viewport').scrollLeft-x)>5,stopped);
+ await page.locator('#bar-controls-button').click();await page.locator('#dialog-loop-start').fill('1');await page.locator('#dialog-loop-end').fill('2');await page.locator('#dialog-set-loop').click();await page.waitForFunction(()=>{const vp=document.querySelector('#score-viewport'),cursor=document.querySelector('#score img').getBoundingClientRect(),view=vp.getBoundingClientRect();return Number(document.querySelector('#seek').value)<1&&cursor.left>=view.left&&cursor.left<view.left+view.width*.6;});
+ assert.ok(Number(await page.locator('#seek').inputValue())<4,'Starting a loop returns to the visible opening bars');await page.locator('#play').click();
+ assert.deepEqual(errors,[]);console.log('PASS: wide player, dense multi-verse lyrics, landscape controls, gradual following, manual pause, explicit off and loop rewind.');
 }finally{await browser.close();}

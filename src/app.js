@@ -331,13 +331,13 @@ async function togglePlay(){const button=$('#play');if(audio.playing)audio.pause
 function updatePosition(seconds){
   if(!activeTrack||!$('#seek')||!audio.timeline)return;const pos=positionAt(audio.timeline,seconds);$('#seek').value=seconds;$('#elapsed').textContent=time(seconds/audio.speed);$('#bar-label').textContent=`Bar ${track()?.score.measures[pos.measure]?.number||pos.measure+1}`;
   if(!osmd?.cursor?.Iterator)return;
-  try{const cursor=osmd.cursor,entry=cursorPositions.findLast(p=>p.beat<=pos.beat+.001)||cursorPositions[0];
+  try{const cursor=osmd.cursor,entry=cursorPositions.findLast(p=>p.beat<=pos.beat+.001)||cursorPositions[0],rewinding=entry&&entry.index<cursorStep;
     if(entry&&entry.beat!==cursorBeat){if(entry.index<cursorStep){cursor.reset();cursorStep=0;}while(cursorStep<entry.index&&!cursor.Iterator.EndReached){cursor.next();cursorStep++;}cursor.show();cursor.update();cursorBeat=entry.beat;}
     const now=performance.now(),elapsed=followTick?now-followTick:25;followTick=now;
-    if($('#follow')?.checked&&now>=followPausedUntil&&audio.playing){
+    if($('#follow')?.checked&&now>=followPausedUntil&&(audio.playing||rewinding)){
       $('#follow').closest('label')?.classList.remove('paused');const vp=$('#score-viewport'),point=followPointAt(scoreAnchors,pos.beat),reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
       if(point){
-        const move=(axis,coordinate,extent,max,preview)=>{const target=Math.max(0,Math.min(max,coordinate-extent*preview));vp[axis]=gradualScroll(vp[axis],target,elapsed,reduced,extent*2);};
+        const move=(axis,coordinate,extent,max,preview)=>{const target=Math.max(0,Math.min(max,coordinate-extent*preview));vp[axis]=rewinding?target:gradualScroll(vp[axis],target,elapsed,reduced,extent*2);};
         if(vp.scrollWidth>vp.clientWidth+2)move('scrollLeft',point.x,vp.clientWidth,vp.scrollWidth-vp.clientWidth,.3);
         if(!vp.classList.contains('horizontal-score'))move('scrollTop',point.y,vp.clientHeight,vp.scrollHeight-vp.clientHeight,.18);
       }
