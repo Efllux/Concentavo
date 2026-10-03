@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.1.0-rc.3
 
 - Use the full player width, enlarge notation on large screens and fit sideways staves and verse rows to the available height.
 - Reserve more engraving space for lyrics on narrow screens. Keep Follow and sideways scrolling controls directly accessible in landscape.
