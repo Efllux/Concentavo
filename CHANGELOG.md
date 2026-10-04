@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.0-rc.4
+
+- Keep repeat notation compact while playback follows encoded or written D.C./D.S., segno, coda and Fine directions, nested repeats and alternate endings. Handle MuseScore text/symbol exports and return-section repeat rules.
+- Import timewise scores, namespaced XML, UTF-16 and more MXL paths without changing the source score. Support composite meters, staff-specific transposition, notation ties and broader harmony kinds and degrees.
+- Respect written rests when separating shared choir staves, and accept rootless N.C. harmonies without crashing.
+- Add Re-read original score to Piece settings, retaining part names, sounds, removals and practice settings.
+
 ## 1.1.0-rc.3
 
 - Use the full player width, enlarge notation on large screens and fit sideways staves and verse rows to the available height.

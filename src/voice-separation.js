@@ -13,7 +13,7 @@ export function onsetGroups(notes) {
 
 // Retain a small set of competing phrase assignments rather than greedily sorting
 // every chord: a held note, a tie or the next onset can resolve an ambiguous leap.
-export function separateVoiceNotes(notes, count, {unisons=true}={}) {
+export function separateVoiceNotes(notes, count, {unisons=true,rests=[]}={}) {
   if(!Number.isInteger(count)||count<2||count>4)throw Error('Choose two, three or four voices.');
   const groups=onsetGroups(notes),full=groups.filter(g=>g.length>=count);
   const anchors=Array.from({length:count},(_,i)=>median(full.map(g=>g[Math.min(i,g.length-1)].midi))??(72-i*7));
@@ -25,11 +25,12 @@ export function separateVoiceNotes(notes, count, {unisons=true}={}) {
   let crowded=false;
   for(const group of groups) {
     const start=group[0].start,next=[],mixedStems=group.some(n=>n.stem==='up')&&group.some(n=>n.stem==='down');
+    const otherVoiceRest=note=>rests.some(r=>r.sourceVoice!==note.sourceVoice&&r.start<=start+EPS&&r.start+r.duration>start+EPS);
     // Extra chord tones are retained in the nearest line, never silently dropped.
     const leading=group.slice(0,count),extras=group.slice(count);
     if(extras.length)crowded=true;
     for(const state of beam) {
-      const shared=unisons&&(sourceVoices.length===1||chordVoices.has(group[0].sourceVoice))&&group.length===1&&state.states.every(s=>s.end<=start+EPS);
+      const shared=unisons&&(sourceVoices.length===1||chordVoices.has(group[0].sourceVoice))&&group.length===1&&!otherVoiceRest(group[0])&&state.states.every(s=>s.end<=start+EPS);
       const candidates=[];
       if(shared)candidates.push(Array.from({length:count},(_,i)=>[group[0],i]));
       else {
@@ -48,7 +49,10 @@ export function separateVoiceNotes(notes, count, {unisons=true}={}) {
           cost+=Math.abs(note.midi-(prev.pitch??anchors[slot]))*(prev.pitch===null?.6:gap>4?.25:1);
           if(note.tieStop&&state.states.some(s=>s.tie&&s.pitch===note.midi&&Math.abs(start-s.end)<EPS))cost+=(prev.tie&&prev.pitch===note.midi&&Math.abs(gap)<EPS)?-40:200;
           if(sourceVoices.length>1&&sourceVoices.length<=count&&!chordVoices.has(note.sourceVoice)&&hint.get(note.sourceVoice)!==slot)cost+=18;
-          if(mixedStems&&((note.stem==='up'&&slot!==0)||(note.stem==='down'&&slot!==count-1)))cost+=24;
+          // A rest in the other written voice makes a lone entry divisi,
+          // even when its source voice usually contains shared chords.
+          const restSplit=group.length===1&&otherVoiceRest(note);
+          if((mixedStems||restSplit)&&((note.stem==='up'&&slot!==0)||(note.stem==='down'&&slot!==count-1)))cost+=restSplit?64:24;
           // A mild register preference resolves ties without prohibiting crossings.
           cost+=Math.abs(note.midi-anchors[slot])*.08;
           states[slot]={end:Math.max(prev.end,start+note.duration),pitch:note.midi,tie:!!note.tieStart};
