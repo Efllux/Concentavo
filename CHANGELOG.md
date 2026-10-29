@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+
+- Redesign the phone player: a dark playback deck with a large play button and a "Practise as" row that brings one voice forward and shows its part in one tap.
+- Turn the phone Parts mixer into a sheet with voice colours, 44-pixel controls and a Done button. It still opens above playback.
+- Replace the bar dialog with a loop picker: phrase shortcuts taken from the lyrics (or four-bar sections) plus a grid of bar tiles.
+- Let singers choose "I sing…" on a published room. Pieces then open with that voice brought forward on phones, remembered in this browser only.
+- Show published rooms on phones as a numbered programme list. Keep every screen clear of notches, rounded corners and the home indicator.
+- Move to score-paper neutrals with a single ultramarine accent, in light and dark themes.
+
 ## 1.1.0-rc.4
 
 - Keep repeat notation compact while playback follows encoded or written D.C./D.S., segno, coda and Fine directions, nested repeats and alternate endings. Handle MuseScore text/symbol exports and return-section repeat rules.
