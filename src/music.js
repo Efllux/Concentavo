@@ -1,17 +1,47 @@
-import { unzipSync, strFromU8 } from 'fflate';
+import { unzipSync } from 'fflate';
 import { Midi } from '@tonejs/midi';
 import { arrangedScore } from './part-passages.js';
 import { inferredVoiceCount, separateVoiceNotes } from './voice-separation.js';
+import { playbackRoute, navigationWarnings, notationNavigation, resolveNavigation } from './score-navigation.js';
+import { normalizeDocument } from './musicxml-normalize.js';
 
-const children = (n, tag) => Array.from(n.children).filter(x => x.localName === tag);
+const children = (n, tag) => Array.from(n?.children||[]).filter(x => x.localName === tag);
 const child = (n, tag) => children(n, tag)[0];
 const value = (n, tag, fallback = '') => child(n, tag)?.textContent?.trim() || fallback;
 const num = (n, tag, fallback = 0) => Number(value(n, tag, String(fallback)));
 const all = (n, tag) => Array.from(n.getElementsByTagNameNS('*', tag));
 export const escapeXML = s => String(s).replace(/[<>&"']/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&apos;'}[c]));
 export const uid = () => crypto.randomUUID();
-const chordIntervals=kind=>({minor:[0,3,7],diminished:[0,3,6],augmented:[0,4,8],dominant:[0,4,7,10],'major-seventh':[0,4,7,11],'minor-seventh':[0,3,7,10],'half-diminished':[0,3,6,10],suspended_second:[0,2,7],suspended_fourth:[0,5,7]}[kind]||[0,4,7]);
-function harmonyNotes(el){const root=child(el,'root'),step={C:0,D:2,E:4,F:5,G:7,A:9,B:11}[value(root,'root-step')];if(step===undefined)return [];const pc=(step+num(root,'root-alter')+12)%12,kind=value(el,'kind','major'),intervals=chordIntervals(kind);for(const degree of children(el,'degree')){const n=num(degree,'degree-value'),alter=num(degree,'degree-alter'),type=value(degree,'degree-type');const base={2:2,4:5,6:9,7:kind.includes('major')?11:10,9:14,11:17,13:21}[n];if(base!==undefined&&type==='add')intervals.push(base+alter);}const bass=child(el,'bass'),bassStep=bass&&{C:0,D:2,E:4,F:5,G:7,A:9,B:11}[value(bass,'bass-step')];const notes=[...new Set(intervals)].map(i=>48+pc+i);if(bassStep!==undefined)notes.unshift(36+(bassStep+num(bass,'bass-alter')+12)%12);return notes;}
+const chordIntervals=kind=>({major:[0,4,7],minor:[0,3,7],diminished:[0,3,6],augmented:[0,4,8],dominant:[0,4,7,10],'major-seventh':[0,4,7,11],'minor-seventh':[0,3,7,10],'diminished-seventh':[0,3,6,9],'augmented-seventh':[0,4,8,10],'half-diminished':[0,3,6,10],'major-minor':[0,3,7,11],'major-sixth':[0,4,7,9],'minor-sixth':[0,3,7,9],'dominant-ninth':[0,4,7,10,14],'major-ninth':[0,4,7,11,14],'minor-ninth':[0,3,7,10,14],'dominant-11th':[0,4,7,10,14,17],'major-11th':[0,4,7,11,14,17],'minor-11th':[0,3,7,10,14,17],'dominant-13th':[0,4,7,10,14,17,21],'major-13th':[0,4,7,11,14,17,21],'minor-13th':[0,3,7,10,14,17,21],'suspended-second':[0,2,7],'suspended-fourth':[0,5,7],suspended_second:[0,2,7],suspended_fourth:[0,5,7],power:[0,7],other:[0]}[kind]);
+function harmonyNotes(el){
+  const root=child(el,'root');if(!root||value(el,'kind')==='none')return [];
+  const step={C:0,D:2,E:4,F:5,G:7,A:9,B:11}[value(root,'root-step')];if(step===undefined)return [];
+  const pc=(step+num(root,'root-alter')+12)%12,kind=value(el,'kind','major'),intervals=chordIntervals(kind);if(!intervals)return [];
+  for(const degree of children(el,'degree')){
+    const n=num(degree,'degree-value'),alter=num(degree,'degree-alter'),type=value(degree,'degree-type');
+    if(!Number.isInteger(n)||n<1)continue;
+    const simple=(n-1)%7+1,octave=Math.floor((n-1)/7)*12;
+    let base=[0,2,4,5,7,9,10][simple-1]+octave;
+    // Added degrees use dominant intervals. Altered/subtracted degrees are
+    // relative to the interval supplied by the chord kind (MusicXML rule).
+    if(type!=='add'){
+      if(simple===3&&(kind.startsWith('minor')||kind.includes('diminished')||kind==='major-minor'))base=3+octave;
+      if(simple===5&&kind.includes('diminished'))base=6+octave;
+      if(simple===5&&kind.startsWith('augmented'))base=8+octave;
+      if(simple===7&&(kind.startsWith('major-')||kind==='major-minor'))base=11+octave;
+      if(simple===7&&kind==='diminished-seventh')base=9+octave;
+    }
+    if(type==='subtract'||type==='alter'){
+      const remove=type==='subtract'?base+alter:base;
+      for(let i=intervals.length-1;i>=0;i--)if(intervals[i]===remove)intervals.splice(i,1);
+    }
+    if(type==='add'||type==='alter')intervals.push(base+alter);
+  }
+  const bass=child(el,'bass'),bassStep=bass&&{C:0,D:2,E:4,F:5,G:7,A:9,B:11}[value(bass,'bass-step')];
+  const notes=[...new Set(intervals)].map(i=>48+pc+i);
+  if(bassStep!==undefined)notes.unshift(36+(bassStep+num(bass,'bass-alter')+12)%12);
+  return notes;
+}
 
 export function xmlDocument(xml) {
   if (xml.length > 20_000_000) throw Error('This score is too large (maximum 20 MB).');
@@ -22,20 +52,20 @@ export function xmlDocument(xml) {
 }
 
 export function parseMusicXML(xml, {voiceSeparation={}}={}) {
-  const doc = xmlDocument(xml), root = doc.documentElement;
-  if (root.localName !== 'score-partwise') throw Error('Please use partwise MusicXML. In your notation program, export as MusicXML (.musicxml or .mxl).');
+  const doc = normalizeDocument(xmlDocument(xml)), root = doc.documentElement;
   const warnings = new Set(), parts = children(root, 'part'), list = all(root, 'score-part');
   if (!parts.length) throw Error('The score has no musical parts.');
-  const lanes = [], rawMeasures = [], tempos = [], rawHarmonies=[], staffGroups=[];
+  const lanes = [], rawMeasures = [], tempos = [], rawHarmonies=[], staffGroups=[], writtenRests=[];
   const partData = parts.map((part, pi) => {
     const nameNode = list.find(p => p.getAttribute('id') === part.getAttribute('id'));
     const name = nameNode ? value(nameNode, 'part-name', `Part ${pi+1}`) : `Part ${pi+1}`;
-    let divisions = 1, meter = 4, transpose = 0, sourceIndex = 0;
+    let divisions = 1, meter = 4, sourceIndex = 0;
+    const transposes=new Map();
     const laneMap = new Map();
     const measures = children(part, 'measure').map((measure, mi) => {
       let pos = 0, last = 0, length = 0;
-      const notes = [];
-      const meta = { number: measure.getAttribute('number') || String(mi+1), length: 0, meter, implicit: measure.getAttribute('implicit') === 'yes', forward: false, backward: 0, endings: [], endingStop: false };
+      const notes = [], rests=[];
+      const meta = { number: measure.getAttribute('number') || String(mi+1), length: 0, meter, implicit: measure.getAttribute('implicit') === 'yes', forward: false, backward: 0, endings: [], endingStop: false, navigation: [] };
       for (const el of measure.children) {
         const tag = el.localName;
         if (tag === 'attributes') {
@@ -43,18 +73,22 @@ export function parseMusicXML(xml, {voiceSeparation={}}={}) {
           if (!(divisions > 0)) throw Error('Invalid rhythmic divisions in the score.');
           const time = child(el, 'time');
           if (time) {
-            const beats = children(time, 'beats').reduce((sum,b) => sum + b.textContent.split('+').reduce((s,n)=>s+Number(n),0),0);
-            const denominator = num(time,'beat-type',4);
-            if (beats > 0 && denominator > 0) meter = beats*4/denominator;
+            let pending=0,total=0;
+            for(const unit of time.children){
+              if(unit.localName==='beats')pending=unit.textContent.split('+').reduce((s,n)=>s+Number(n),0);
+              if(unit.localName==='beat-type'){const denominator=Number(unit.textContent);if(denominator>0)total+=pending*4/denominator;pending=0;}
+            }
+            if(total>0)meter=total;
           }
-          const trans = child(el,'transpose');
-          if(trans) transpose = num(trans,'chromatic') + 12*num(trans,'octave-change');
+          for(const trans of children(el,'transpose'))transposes.set(trans.getAttribute('number')||'*',num(trans,'chromatic')+12*num(trans,'octave-change'));
           meta.meter = meter;
         } else if (tag === 'backup') pos = Math.max(0, pos-num(el,'duration')/divisions);
         else if (tag === 'forward') {pos += num(el,'duration')/divisions; length=Math.max(length,pos);}
-        else if(tag==='harmony') {const notes=harmonyNotes(el);if(notes.length)rawHarmonies.push({measure:mi,offset:Math.max(0,pos+num(el,'offset')/divisions),notes});}
+        else if(tag==='harmony') {const notes=harmonyNotes(el);if(notes.length||value(el,'kind')==='none')rawHarmonies.push({measure:mi,offset:Math.max(0,pos+num(el,'offset')/divisions),notes});else warnings.add('Some chord symbols are displayed without generated accompaniment.');}
         else if (tag === 'direction' || tag === 'sound') {
           const sound = tag === 'sound' ? el : all(el,'sound')[0];
+          const offset=Math.max(0,pos+(sound&&child(sound,'offset')?num(sound,'offset'):num(el,'offset'))/divisions);
+          if(tag==='direction'&&all(el,'words').some(w=>/^N\.?\s*C\.?$/i.test(w.textContent.trim())))rawHarmonies.push({measure:mi,offset,notes:[]});
           let bpm = Number(sound?.getAttribute('tempo'));
           if(!bpm) {
             const metro = all(el,'metronome')[0];
@@ -63,8 +97,13 @@ export function parseMusicXML(xml, {voiceSeparation={}}={}) {
               bpm=num(metro,'per-minute')*(units[value(metro,'beat-unit')]||1)*(child(metro,'beat-unit-dot')?1.5:1);
             }
           }
-          if (pi===0 && bpm>0) tempos.push({measure:mi, offset:Math.max(0,pos+num(el,'offset')/divisions), bpm:Math.min(600,bpm)});
-          if(sound && ['dacapo','dalsegno','tocoda','fine'].some(a=>sound.hasAttribute(a))) warnings.add('D.C., D.S. and coda jumps are not expanded. Use an unfolded score for exact playback.');
+          if(bpm>0&&!tempos.some(t=>t.measure===mi&&Math.abs(t.offset-offset)<.00001))tempos.push({measure:mi, offset, bpm:Math.min(600,bpm)});
+          for(const mark of tag==='sound'?[el]:all(el,'sound')) {
+            const at=Math.max(0,pos+(child(mark,'offset')?num(mark,'offset'):num(el,'offset'))/divisions);
+            for(const type of ['segno','coda','dacapo','dalsegno','tocoda','fine'])if(mark.hasAttribute(type))meta.navigation.push({type,value:mark.getAttribute(type),offset:at,timeOnly:mark.getAttribute('time-only')||'',source:'sound'});
+            if(mark.getAttribute('forward-repeat')==='yes')meta.forward=true;
+          }
+          if(tag==='direction')meta.navigation.push(...notationNavigation(el,offset));
         } else if(tag==='note') {
           const noteIndex=sourceIndex++;
           if(child(el,'grace')) {warnings.add('Grace notes and ornaments are displayed but not played.'); continue;}
@@ -76,32 +115,43 @@ export function parseMusicXML(xml, {voiceSeparation={}}={}) {
             const staff=value(el,'staff','1'), voice=value(el,'voice','1'), key=`${staff}:${voice}`;
             if(!/^\d{1,3}$/.test(staff)||Number(staff)<1||Number(staff)>128)throw Error('Invalid staff number in the score.');
             if(!laneMap.has(key)) {const lane={id:`p${pi}-s${staff}-v${voice}`,name,part:pi,staff,voice,notes:[]};laneMap.set(key,lane);lanes.push(lane);}
+            const transpose=transposes.get(staff)??transposes.get('*')??0;
             const midi=12*(num(pitch,'octave',4)+1)+({C:0,D:2,E:4,F:5,G:7,A:9,B:11}[value(pitch,'step')]??0)+num(pitch,'alter')+transpose;
             if(!Number.isFinite(midi) || midi<0 || midi>127) {warnings.add('Some out-of-range pitches were skipped.');continue;}
-            const ties=children(el,'tie').map(t=>t.getAttribute('type'));
-            notes.push({lane:laneMap.get(key).id,start,duration,midi,velocity:.72,lyric:all(el,'lyric').map(l=>all(l,'text').map(t=>t.textContent).join(' ')).join(' / '),tieStart:ties.includes('start'),tieStop:ties.includes('stop'),sourceIndex:noteIndex,sourceVoice:voice,stem:value(el,'stem')});
+            const ties=[...children(el,'tie'),...all(el,'tied')].filter(t=>t.getAttribute('type')!=='let-ring').map(t=>t.getAttribute('type'));
+            notes.push({lane:laneMap.get(key).id,start,duration,midi,velocity:.72,lyric:all(el,'lyric').map(l=>all(l,'text').map(t=>t.textContent).join(' ')).join(' / '),tieStart:ties.includes('start')||ties.includes('continue'),tieStop:ties.includes('stop')||ties.includes('continue'),sourceIndex:noteIndex,sourceVoice:voice,stem:value(el,'stem')});
           }
+          if(child(el,'rest')&&duration>0)rests.push({start,duration,part:pi,staff:value(el,'staff','1'),sourceVoice:value(el,'voice','1')});
           if(child(el,'unpitched')) warnings.add('Unpitched percussion is not played.');
         } else if(tag==='barline') {
           const repeat=child(el,'repeat');
           if(repeat?.getAttribute('direction')==='forward') meta.forward=true;
-          if(repeat?.getAttribute('direction')==='backward') meta.backward=Math.min(8,Math.max(2,Number(repeat.getAttribute('times'))||2));
+          if(repeat?.getAttribute('direction')==='backward') {const times=Number(repeat.getAttribute('times'))||2;meta.backward=Math.min(32,Math.max(2,times));meta.repeatAfterJump=repeat.getAttribute('after-jump')==='yes';if(times>32)warnings.add('A repeat exceeds the playback limit of 32 passes.');}
+          meta.navigation.push(...notationNavigation(el,el.getAttribute('location')==='left'?0:pos));
           const ending=child(el,'ending');
-          if(ending?.getAttribute('type')==='start') meta.endings=(ending.getAttribute('number')||'').split(/[, ]+/).flatMap(n=>n.includes('-')?Array.from({length:Math.min(8,Number(n.split('-')[1])-Number(n.split('-')[0])+1)},(_,i)=>Number(n.split('-')[0])+i):[Number(n)]).filter(n=>n>0);
+          if(ending?.getAttribute('type')==='start') meta.endings=(ending.getAttribute('number')||'').split(/[, ]+/).flatMap(n=>n.includes('-')?Array.from({length:Math.min(32,Number(n.split('-')[1])-Number(n.split('-')[0])+1)},(_,i)=>Number(n.split('-')[0])+i):[Number(n)]).filter(n=>n>0);
           if(ending && ['stop','discontinue'].includes(ending.getAttribute('type'))) meta.endingStop=true;
         }
       }
       meta.length=length || meter;
       if(pi===0) rawMeasures.push(meta);
-      else if(rawMeasures[mi]) rawMeasures[mi].length=Math.max(rawMeasures[mi].length,meta.length);
-      return {notes,meta};
+      else if(rawMeasures[mi]) {
+        const raw=rawMeasures[mi];raw.length=Math.max(raw.length,meta.length);
+        for(const n of meta.navigation)if(!raw.navigation.some(o=>o.type===n.type&&o.value===n.value&&Math.abs(o.offset-n.offset)<.00001&&o.timeOnly===n.timeOnly&&o.source===n.source))raw.navigation.push(n);
+        raw.forward||=meta.forward;raw.backward=Math.max(raw.backward,meta.backward);raw.repeatAfterJump||=meta.repeatAfterJump;
+        if(meta.endings.length)raw.endings=[...new Set([...raw.endings,...meta.endings])];raw.endingStop||=meta.endingStop;
+      }
+      return {notes,rests,meta};
     });
     if(laneMap.size>1) for(const lane of laneMap.values()) lane.name=`${name} · staff ${lane.staff}, voice ${lane.voice}`;
     return measures;
   });
   if(!lanes.length) throw Error('No pitched notes were found in this score.');
+  for(const warning of resolveNavigation(rawMeasures))warnings.add(warning);
   let beat=0, activeEnding=[];
   for(const m of rawMeasures) {m.start=beat;beat+=m.length;if(m.endings.length)activeEnding=m.endings;m.allowed=activeEnding;if(m.endingStop)activeEnding=[];}
+  for(const measures of partData)for(let mi=0;mi<measures.length;mi++)for(const rest of measures[mi].rests)writtenRests.push({...rest,start:rest.start+(rawMeasures[mi]?.start||0)});
+  for(const warning of navigationWarnings(rawMeasures))warnings.add(warning);
   for (const measures of partData) for(let mi=0;mi<measures.length;mi++) for(const note of measures[mi].notes) {
     const lane=lanes.find(l=>l.id===note.lane);lane.notes.push({...note,start:note.start+(rawMeasures[mi]?.start||0)});
   }
@@ -128,7 +178,7 @@ export function parseMusicXML(xml, {voiceSeparation={}}={}) {
     const count=['2','3','4'].includes(mode)?Number(mode):mode==='auto'&&vocal&&group.some(l=>inferredVoiceCount(l.notes)>1)?Math.max(detected,Math.min(4,group.length)):1;
     let result=group;
     if(count>1) {
-      const {voices,crowded}=separateVoiceNotes(notes,count,{unisons});
+      const {voices,crowded}=separateVoiceNotes(notes,count,{unisons,rests:writtenRests.filter(r=>r.part===part&&r.staff===staff)});
       const lower=name.toLowerCase(),names=count===2&&(/sopran|sopraan/.test(lower)&&/alto|alt\b/.test(lower)||/vrouwen|women/.test(lower))?['Soprano','Alto']:count===2&&(/tenor/.test(lower)&&/bass|bas\b/.test(lower)||/mannen|men\b/.test(lower))?['Tenor','Bass']:Array.from({length:count},(_,i)=>`${name} · ${count===2?(i===0?'upper voice':'lower voice'):'voice '+(i+1)}`);
       result=voices.map((voiceNotes,i)=>({id:`${id}-split${i+1}`,name:names[i],part,staff,voice:String(i+1),sourceVoices:[...new Set(voiceNotes.map(n=>n.sourceVoice))],sourceNoteIndices:voiceNotes.map(n=>n.sourceIndex),separated:true,notes:voiceNotes.map(n=>({...n,lane:`${id}-split${i+1}`}))})).filter(l=>l.notes.length);
       const index=lanes.indexOf(group[0]);for(const lane of group)lanes.splice(lanes.indexOf(lane),1);lanes.splice(index,0,...result);
@@ -144,46 +194,50 @@ export function parseMusicXML(xml, {voiceSeparation={}}={}) {
     lane.notes=merged;
   }
   const harmonies=[];for(const h of rawHarmonies){const start=(rawMeasures[h.measure]?.start||0)+h.offset,key=`${start.toFixed(4)}:${h.notes.join(',')}`;if(!harmonies.some(x=>x.key===key))harmonies.push({...h,start,key});}
-  harmonies.sort((a,b)=>a.start-b.start);if(harmonies.length){const notes=[];for(let i=0;i<harmonies.length;i++){const h=harmonies[i],measureEnd=(rawMeasures[h.measure]?.start||0)+(rawMeasures[h.measure]?.length||4),end=Math.max(h.start+.25,Math.min(harmonies[i+1]?.start??measureEnd,measureEnd));for(const midi of h.notes)notes.push({start:h.start,duration:end-h.start,midi,velocity:.48,lyric:''});}lanes.push({id:'chords',name:'Chord accompaniment',notes,partType:'instrument',sound:'piano',generated:true,published:true});}
+  harmonies.sort((a,b)=>a.start-b.start);if(harmonies.length){const notes=[];for(let i=0;i<harmonies.length;i++){const h=harmonies[i],measureEnd=(rawMeasures[h.measure]?.start||0)+(rawMeasures[h.measure]?.length||4),end=Math.max(h.start,Math.min(harmonies[i+1]?.start??measureEnd,measureEnd));for(const midi of h.notes)notes.push({start:h.start,duration:end-h.start,midi,velocity:.48,lyric:''});}lanes.push({id:'chords',name:'Chord accompaniment',notes,partType:'instrument',sound:'piano',generated:true,published:true});}
   if(all(root,'ornaments').length) warnings.add('Grace notes and ornaments are displayed but not played.');
   if(all(root,'fermata').length) warnings.add('Fermatas use their written duration.');
   if(all(root,'measure-repeat').length) warnings.add('Measure-repeat symbols require explicitly written notes for playback.');
   const tempoMap=tempos.map(t=>({beat:(rawMeasures[t.measure]?.start||0)+t.offset,bpm:t.bpm})).sort((a,b)=>a.beat-b.beat);
   if(!tempoMap.length || tempoMap[0].beat>0)tempoMap.unshift({beat:0,bpm:100});
-  return {title:all(root,'work-title')[0]?.textContent || value(root,'movement-title','Untitled score'),composer:all(root,'creator').find(c=>c.getAttribute('type')==='composer')?.textContent||'',lanes,measures:rawMeasures,tempos:tempoMap,totalBeats:beat,warnings:[...warnings],format:'MusicXML',staffGroups};
+  return {title:all(root,'work-title')[0]?.textContent || value(root,'movement-title','Untitled score'),composer:all(root,'creator').find(c=>c.getAttribute('type')==='composer')?.textContent||'',lanes,measures:rawMeasures,tempos:tempoMap,totalBeats:beat,warnings:[...warnings],format:'MusicXML',staffGroups,importerVersion:2};
+}
+
+export function normalizeMusicXML(xml) {
+  const source=xmlDocument(xml),normalized=normalizeDocument(source);
+  return normalized===source?xml:'<?xml version="1.0" encoding="UTF-8"?>'+new XMLSerializer().serializeToString(normalized);
+}
+
+function decodeXML(bytes) {
+  let encoding='utf-8';
+  if(bytes[0]===255&&bytes[1]===254||bytes[0]===60&&bytes[1]===0)encoding='utf-16le';
+  else if(bytes[0]===254&&bytes[1]===255||bytes[0]===0&&bytes[1]===60)encoding='utf-16be';
+  else encoding=new TextDecoder().decode(bytes.slice(0,250)).match(/<\?xml[^>]*encoding\s*=\s*["']([^"']+)["']/i)?.[1]||encoding;
+  try{return new TextDecoder(encoding).decode(bytes);}catch{throw Error(`The score uses an unsupported text encoding: ${encoding}.`);}
 }
 
 export function playbackOrder(measures, repeats=true) {
-  const order=[]; let i=0,start=0,pass=1,steps=0; const counts=new Map();
-  while(i<measures.length && steps++<measures.length*32) {
-    const m=measures[i];
-    if(m.forward){start=i; if(!counts.has(i))pass=1;}
-    if(!repeats || !m.allowed?.length || m.allowed.includes(pass))order.push(i);
-    if(repeats && m.backward) {
-      const count=counts.get(i)||1;
-      if(count<m.backward){counts.set(i,count+1);counts.set(start,count+1);pass=count+1;i=start;continue;}
-      counts.delete(i);start=i+1;
-    }
-    i++;
-  }
-  return order;
+  return playbackRoute(measures,repeats).map(s=>s.measure);
 }
 
 export function createTimeline(score, repeats=true) {
   score=arrangedScore(score);
   let seconds=0;const segments=[],events=[];
   const tempoAt=beat=>score.tempos.filter(t=>t.beat<=beat+.00001).at(-1)?.bpm||100;
-  for(const mi of playbackOrder(score.measures,repeats)) {
-    const measure=score.measures[mi], cuts=[measure.start,...score.tempos.filter(t=>t.beat>measure.start && t.beat<measure.start+measure.length).map(t=>t.beat),measure.start+measure.length];
+  for(const route of playbackRoute(score.measures,repeats)) {
+    const mi=route.measure,measure=score.measures[mi],first=measure.start+route.from,last=measure.start+route.to;
+    const cuts=[first,...score.tempos.filter(t=>t.beat>first&&t.beat<last).map(t=>t.beat),last];
     for(let c=0;c<cuts.length-1;c++) {const bpm=tempoAt(cuts[c]),duration=(cuts[c+1]-cuts[c])*60/bpm;segments.push({time:seconds,duration,beat:cuts[c],beats:cuts[c+1]-cuts[c],bpm,measure:mi});seconds+=duration;}
   }
   // Clip tied notes at navigation jumps; carry through adjacent written measures.
   for(let si=0;si<segments.length;si++){
     const seg=segments[si];
-    for(const lane of score.lanes.filter(l=>!l.removed)) {const own=lane.notes||[],source=lane.collectiveWith&&score.lanes.find(l=>l.id===lane.collectiveWith&&!l.removed),joined=source?(source.notes||[]).filter(n=>!own.some(o=>o.start<n.start+n.duration-.00001&&o.start+o.duration>n.start+.00001)).map(n=>({...n,midi:n.midi+(lane.collectiveTranspose||0)})):[];for(const n of [...own,...joined]) if(n.start>=seg.beat-.00001 && n.start<seg.beat+seg.beats-.00001) {
-      let remain=n.duration, j=si, cursor=n.start, duration=0;
+    for(const lane of score.lanes.filter(l=>!l.removed)) {const own=lane.notes||[],source=lane.collectiveWith&&score.lanes.find(l=>l.id===lane.collectiveWith&&!l.removed),joined=source?(source.notes||[]).filter(n=>!own.some(o=>o.start<n.start+n.duration-.00001&&o.start+o.duration>n.start+.00001)).map(n=>({...n,midi:n.midi+(lane.collectiveTranspose||0)})):[];for(const n of [...own,...joined]) {
+      const onset=Math.max(n.start,seg.beat),previous=segments[si-1],enter=n.start<seg.beat-.00001&&n.start+n.duration>seg.beat+.00001&&(!previous||Math.abs(previous.beat+previous.beats-seg.beat)>.001);
+      if(!(n.start>=seg.beat-.00001||enter)||onset>=seg.beat+seg.beats-.00001)continue;
+      let remain=n.duration-(onset-n.start), j=si, cursor=onset, duration=0;
       while(remain>.00001 && j<segments.length){const s=segments[j],take=Math.min(remain,s.beat+s.beats-cursor);if(take<=0)break;duration+=take*60/s.bpm;remain-=take;const next=segments[j+1];if(!next || Math.abs(next.beat-(s.beat+s.beats))>.001)break;cursor=next.beat;j++;}
-      events.push({...n,lane:lane.id,time:seg.time+(n.start-seg.beat)*60/seg.bpm,seconds:duration});
+      events.push({...n,lane:lane.id,time:seg.time+(onset-seg.beat)*60/seg.bpm,seconds:duration});
     }}
   }
   events.sort((a,b)=>a.time-b.time);
@@ -243,11 +297,14 @@ export async function readScoreFile(file) {
     const entries=unzipSync(bytes,{filter:entry=>{total+=entry.originalSize;if(entry.originalSize>20_000_000 || total>50_000_000)throw Error('The compressed score expands beyond the size limit.');return true;}});
     const container=entries['META-INF/container.xml'];
     let path;
-    if(container){const doc=xmlDocument(strFromU8(container));path=all(doc,'rootfile').find(n=>n.getAttribute('media-type')==='application/vnd.recordare.musicxml+xml')?.getAttribute('full-path')||all(doc,'rootfile')[0]?.getAttribute('full-path');}
+    if(container){const doc=xmlDocument(decodeXML(container));path=all(doc,'rootfile').find(n=>n.getAttribute('media-type')==='application/vnd.recordare.musicxml+xml')?.getAttribute('full-path')||all(doc,'rootfile')[0]?.getAttribute('full-path');}
     path=path||Object.keys(entries).find(n=>/\.(musicxml|xml)$/i.test(n)&&!n.startsWith('META-INF/'));
-    if(!entries[path])throw Error('The compressed file does not contain a MusicXML score.');xml=strFromU8(entries[path]);
-  } else xml=new TextDecoder().decode(bytes);
-  return {score:parseMusicXML(xml),xml,source:xml,kind:'musicxml'};
+    if(path)path=path.replace(/^\.\//,'').replaceAll('\\','/');
+    if(!entries[path]){try{path=decodeURIComponent(path);}catch{}}
+    if(!entries[path])throw Error('The compressed file does not contain a MusicXML score.');xml=decodeXML(entries[path]);
+  } else xml=decodeXML(bytes);
+  const source=xml;xml=normalizeMusicXML(xml);
+  return {score:parseMusicXML(xml),xml,source,kind:'musicxml'};
 }
 
 export function demoXML(title='Evening round', variant=0) {

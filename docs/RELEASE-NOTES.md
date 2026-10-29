@@ -1,14 +1,12 @@
-# Concentavo 1.1.0-rc.3
+# Concentavo 1.1.0-rc.4
 
-This desktop release candidate brings the latest web editor improvements to Mac and Windows.
+Import more MusicXML exports directly, preserving their compact written score.
 
-- Separate soprano/alto and tenor/bass on shared staves, including scores that mix stacked notes with sparse voice numbers. Choose automatic, written or two-to-four-part separation per staff.
-- Remove or restore parts after import. Renaming a part immediately updates the Show selector.
-- Share passages between parts with bar ranges and octave shifts, and show shared choir lyrics in tenor and bass views.
-- Start in Simple mode; switch to Advanced for detailed settings.
-- Use more of the screen for notation, enlarge scores on large displays, and reserve lyric spacing on narrow displays.
-- Keep Follow and scrolling direction accessible in landscape. Follow playback gradually, resume four seconds after manual scrolling, and stay off when disabled.
+- Follow encoded or written D.C./D.S., segno, coda and Fine directions in playback. Support nested repeats and alternate endings, with the cursor returning to the original bars.
+- Read partwise/timewise scores, namespaced XML, UTF-16 and additional MXL paths. Interpret composite meters, staff-specific transposition, notation ties and more chord kinds and alterations.
+- Respect written rests when separating shared choir staves. Accept rootless N.C. harmonies and stop generated accompaniment at N.C.
+- Apply the improved importer to saved pieces using Piece settings → Re-read original score, keeping part names, sounds and practice settings.
 
-Existing desktop rooms and settings keep their storage location. This release includes both Apple Silicon and Intel Mac downloads, a Windows x64 installer, matching source and SHA-256 checksums. Installers bundle the runtime and GitHub sign-in helper.
+Existing desktop rooms retain their storage location. Downloads include Apple Silicon and Intel Mac packages, a Windows x64 installer, matching source and SHA-256 checksums.
 
-These are technical beta builds. They are not publisher-signed or notarized; macOS and Windows may show security warnings. Browser and desktop smoke tests run on the supported operating systems, but fresh installation, end-to-end updater installation and real GitHub publishing require native release verification. See docs/RELEASE.md for the remaining checks.
+This release candidate is unsigned and not notarized. The release remains a draft until the native installation, updater and real publishing checks in docs/RELEASE.md are complete.
