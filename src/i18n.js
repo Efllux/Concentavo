@@ -55,7 +55,7 @@ const nl={
   'One repository for all public rooms':'Eén repository voor alle openbare ruimtes','Fewer repositories; each room gets its own URL path. Rooms share access, site settings, history and deployments.':'Minder repositories; elke ruimte krijgt een eigen URL-pad. Ruimtes delen toegang, website-instellingen, geschiedenis en publicaties.',
   'This room keeps its existing publishing layout so shared links continue working.':'Deze ruimte behoudt de huidige publicatievorm, zodat gedeelde links blijven werken.',
   'Shared repository name':'Naam van gedeelde repository','Website repository name':'Naam van website-repository',
-  'Practise as':'Oefenen als','I sing':'Ik zing','Full choir':'Heel koor','Repeat a passage':'Een passage herhalen','Phrases':'Frasen','Sections':'Delen','Or tap the first and last bar':'Of tik op de eerste en de laatste maat','Choose a phrase, or tap two bars.':'Kies een frase, of tik op twee maten.','Now tap the last bar.':'Tik nu op de laatste maat.','No loop':'Geen herhaling','Loop':'Herhalen','Show volume for each part':'Volume per partij tonen','Hide volume for each part':'Volume per partij verbergen','Volume per part':'Volume per partij','Dark score':'Donkere partituur',
+  'Practise as':'Oefenen als','I sing':'Ik zing','Full choir':'Heel koor','Repeat a passage':'Een passage herhalen','Phrases':'Frasen','Sections':'Delen','Or tap the first and last bar':'Of tik op de eerste en de laatste maat','Choose a phrase, or tap two bars.':'Kies een frase, of tik op twee maten.','Now tap the last bar.':'Tik nu op de laatste maat.','No loop':'Geen herhaling','Loop':'Herhalen','Show volume for each part':'Volume per partij tonen','Hide volume for each part':'Volume per partij verbergen','Volume per part':'Volume per partij','Dark score':'Donkere partituur','Score shows':'Partituur toont','Choir parts':'Partijen in het koor','Singers (optional)':'Zangers (optioneel)','Singers':'Zangers','Choir part':'Koorpartij','Automatic':'Automatisch','Not a choir part':'Geen koorpartij','One part per line, the way your choir is divided. Singers pick one on the website, and every piece opens on its matching part.':'Eén partij per regel, zoals je koor is ingedeeld. Zangers kiezen er een op de website en elk stuk opent op de bijbehorende partij.','One singer per line as Name: Part. Names appear on the published website, so use first names or a room password.':'Eén zanger per regel als Naam: Partij. Namen staan op de gepubliceerde website, dus gebruik voornamen of een wachtwoord voor de ruimte.','The part you practise':'De partij die je oefent',
   'Room password':'Wachtwoord voor de ruimte','Protected rehearsal room':'Beveiligde repetitieruimte','Open room':'Ruimte openen'
 };
 export function translate(root,language='en'){
@@ -65,10 +65,11 @@ export function translate(root,language='en'){
   while(node=walker.nextNode()){
     const raw=node.nodeValue,trim=raw.trim();if(!trim)continue;
     let value=nl[trim];
-    if(!value)value=trim.replace(/^Shared passages · /,'Gedeelde passages · ').replace(/· staff (\d+)/g,'· notenbalk $1').replace(/^Bars (\d+)–(\d+) will repeat until you stop\.$/,'Maten $1–$2 worden herhaald tot je stopt.').replace(/^Loop bars (\d+)–(\d+)$/,'Maten $1–$2 herhalen').replace(/\bbars\b/g,'maten').replace(/\bparts\b/g,'partijen').replace(/ selected$/,' geselecteerd');
+    if(!value)value=trim.replace(/^Shared passages · /,'Gedeelde passages · ').replace(/· staff (\d+)/g,'· notenbalk $1').replace(/^Bars (\d+)–(\d+) will repeat until you stop\.$/,'Maten $1–$2 worden herhaald tot je stopt.').replace(/^Loop bars (\d+)–(\d+)$/,'Maten $1–$2 herhalen').replace(/^Automatic · /,'Automatisch · ').replace(/\bbars\b/g,'maten').replace(/\bparts\b/g,'partijen').replace(/ selected$/,' geselecteerd');
     if(value!==trim)node.nodeValue=raw.replace(trim,value);
   }
   root.querySelectorAll('[placeholder]').forEach(el=>{if(nl[el.placeholder])el.placeholder=nl[el.placeholder];});
   root.querySelectorAll('[aria-label]').forEach(el=>{if(nl[el.getAttribute('aria-label')])el.setAttribute('aria-label',nl[el.getAttribute('aria-label')]);});
+  root.querySelectorAll('optgroup[label]').forEach(el=>{if(nl[el.label])el.label=nl[el.label];});
   root.querySelectorAll('[title]').forEach(el=>{if(nl[el.title])el.title=nl[el.title];});
 }

@@ -23,7 +23,7 @@
 
 @media(max-width:850px){.topbar{padding:0 14px}.room-context{display:none}.content{padding:24px 16px}.library-controls{grid-template-columns:1fr 1fr}.search-wrap{grid-column:1/-1}.track-row{gap:10px;padding:15px 13px}.track-status{display:none}.room-switch select{max-width:170px}}
 @media(max-width:700px){.topbar{display:flex!important;height:56px}.is-player .topbar{display:none!important}.brand{font-size:17px}.topbar-actions{gap:5px}.topbar-actions .primary span:last-child{display:none}.topbar-actions .primary{width:34px;padding:0;height:34px}.room-switch select{max-width:132px}.language-switch select{width:58px}.content{padding:20px 10px}.project-heading{margin-bottom:20px}.project-heading .actions{width:100%}.folder-tabs{margin-bottom:16px}.library-controls{grid-template-columns:1fr 1fr;gap:7px}.library-controls select{font-size:11px;padding:6px}.track-row{grid-template-columns:minmax(0,1fr) auto;min-height:102px}.track-title{font-size:15px}.row-actions{display:grid;grid-template-columns:auto auto auto}.row-actions [data-open]{grid-column:1/-1}.score-selectors{width:100%;display:grid;grid-template-columns:minmax(0,1fr) 106px;gap:5px}.score-choice{width:auto}.score-choice select{max-width:none}.player-heading .actions{overflow-x:auto;flex-wrap:nowrap}.score-panel .panel-head{padding:6px}.score-viewport{min-height:0}.transport{padding:8px 9px}.transport-bottom{flex-wrap:nowrap;overflow-x:auto}.transport-bottom label{flex:0 0 auto}}
-@media(max-height:500px) and (orientation:landscape){.is-player .topbar{display:none!important}.is-player .content{padding:max(4px,env(safe-area-inset-top)) max(6px,env(safe-area-inset-right)) max(4px,env(safe-area-inset-bottom)) max(6px,env(safe-area-inset-left));gap:4px}.player-heading{display:flex;min-height:30px}.player-heading h1{font-size:14px;margin:0;max-width:42vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.player-heading .eyebrow,.player-heading .muted{display:none}.player-heading .actions{margin:0;flex-wrap:nowrap}.player-heading .actions button{font-size:10px;padding:3px 7px;min-height:25px}.player-layout{grid-template-columns:minmax(0,1fr);position:relative}.panel-head{padding:4px 7px;flex-wrap:nowrap}.score-selectors{display:flex;width:auto}.score-choice{font-size:10px}.score-choice select{height:26px;padding:2px 5px;max-width:145px}.panel-head .actions{flex-wrap:nowrap}.panel-head #print,.panel-head #zoom-label{display:none}.panel-head button{padding:4px;font-size:10px}.transport{padding:5px 8px}.transport-top{gap:6px}.play{width:30px;height:30px}.transport-bottom{margin-top:2px;gap:6px;flex-wrap:nowrap;overflow-x:auto}.transport #wav{display:none}.loop-bar{display:none}#mobile-parts{display:block}.mixer{display:none}.show-parts .mixer{display:block;position:absolute;inset:0 0 0 auto;width:min(320px,48vw);z-index:8;padding:8px;overflow:auto;background:#fbfaf9;box-shadow:-10px 0 24px #24222d1c}.mixer .voice{padding:8px 0}.mixer .part-options,.mixer .voice-footer{display:none}}
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px){.is-player .topbar{display:none!important}.is-player .content{padding:max(4px,env(safe-area-inset-top)) max(6px,env(safe-area-inset-right)) max(4px,env(safe-area-inset-bottom)) max(6px,env(safe-area-inset-left));gap:4px}.player-heading{display:flex;min-height:30px}.player-heading h1{font-size:14px;margin:0;max-width:42vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.player-heading .eyebrow,.player-heading .muted{display:none}.player-heading .actions{margin:0;flex-wrap:nowrap}.player-heading .actions button{font-size:10px;padding:3px 7px;min-height:25px}.player-layout{grid-template-columns:minmax(0,1fr);position:relative}.panel-head{padding:4px 7px;flex-wrap:nowrap}.score-selectors{display:flex;width:auto}.score-choice{font-size:10px}.score-choice select{height:26px;padding:2px 5px;max-width:145px}.panel-head .actions{flex-wrap:nowrap}.panel-head #print,.panel-head #zoom-label{display:none}.panel-head button{padding:4px;font-size:10px}.transport{padding:5px 8px}.transport-top{gap:6px}.play{width:30px;height:30px}.transport-bottom{margin-top:2px;gap:6px;flex-wrap:nowrap;overflow-x:auto}.transport #wav{display:none}.loop-bar{display:none}#mobile-parts{display:block}.mixer{display:none}.show-parts .mixer{display:block;position:absolute;inset:0 0 0 auto;width:min(320px,48vw);z-index:8;padding:8px;overflow:auto;background:#fbfaf9;box-shadow:-10px 0 24px #24222d1c}.mixer .voice{padding:8px 0}.mixer .part-options,.mixer .voice-footer{display:none}}
 
 /* Concentavo application shell and colour system. */
 :root{--canvas:#f6f4f0;--surface:#fff;--surface-soft:#faf9f7;--text:#252532;--muted:#6d6a75;--line:#dedbd7;--sidebar:#201f29;--sidebar-text:#f8f6f2;color:var(--text);background:var(--canvas);color-scheme:light}
@@ -60,7 +60,7 @@ body,.content,.topbar{background:var(--canvas);color:var(--text)}button,input,se
  :root:not([data-interface-mode=advanced]) .transport-top{padding-right:72px}:root:not([data-interface-mode=advanced]) .transport-bottom{position:absolute;right:8px;top:6px;margin:0}:root:not([data-interface-mode=advanced]) .transport-bottom label:has(#speed){font-size:0}:root:not([data-interface-mode=advanced]) #speed{height:34px;font-size:12px;padding:3px 5px}.play{width:34px;height:34px}
 }
 @media(max-width:700px){.topbar .mode-control{display:none}.dialog-head .mode-control>span{display:none}.dialog-head .mode-control select{max-width:85px}.dialog-head h2{font-size:16px}.passage-row .field-row{grid-template-columns:1fr 1fr}.passage-row select{font-size:12px}.dialog-body{padding:16px}}
-@media(max-height:500px) and (orientation:landscape){.is-player .content{padding:3px 5px;gap:3px}.player-heading{min-height:32px}.score-panel .panel-head{padding:3px 6px}.transport{padding:3px 6px}.progress-labels{font-size:9px}.show-parts .score-panel{visibility:visible}.show-parts .mixer{position:absolute;inset:0 0 0 auto;width:min(320px,48vw);z-index:8;box-shadow:-6px 0 15px #0002}.player-layout{position:relative}.player-heading h1{max-width:65vw}:root:not([data-interface-mode=advanced]) .transport-bottom{top:3px}}
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px){.is-player .content{padding:3px 5px;gap:3px}.player-heading{min-height:32px}.score-panel .panel-head{padding:3px 6px}.transport{padding:3px 6px}.progress-labels{font-size:9px}.show-parts .score-panel{visibility:visible}.show-parts .mixer{position:absolute;inset:0 0 0 auto;width:min(320px,48vw);z-index:8;box-shadow:-6px 0 15px #0002}.player-layout{position:relative}.player-heading h1{max-width:65vw}:root:not([data-interface-mode=advanced]) .transport-bottom{top:3px}}
 
 :root:not([data-interface-mode=advanced]) .import-part select[id^="import-type-"],:root:not([data-interface-mode=advanced]) .field:has(#track-tags),:root:not([data-interface-mode=advanced]) .field:has(#tag-color){display:none}
 
@@ -72,7 +72,7 @@ body,.content,.topbar{background:var(--canvas);color:var(--text)}button,input,se
  .score-panel .checkbox-line.paused{color:var(--muted);text-decoration:underline dotted;text-underline-offset:3px}
  .score-panel .panel-head .actions{gap:5px}.score-panel .score-selectors{overflow:hidden}
 }
-@media(max-height:500px) and (orientation:landscape) and (min-width:600px){
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px) and (min-width:600px){
  .score-choice:has(#score-flow){display:flex;flex:0 0 105px}.score-selectors{gap:6px}
 }
 
@@ -149,7 +149,7 @@ h1{letter-spacing:-.02em}
  .dialog-actions button{min-height:48px;border-radius:12px}
  dialog.sheet .dialog-actions .primary{flex:1;width:auto;height:auto}
 }
-@media(max-height:500px) and (orientation:landscape){
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px){
  .practise-as{display:none!important}
  .is-player .content{padding-left:max(6px,var(--safe-left));padding-right:max(6px,var(--safe-right))}
  .transport{margin:0 calc(-1 * max(6px,var(--safe-right))) 0 calc(-1 * max(6px,var(--safe-left)));border-radius:14px 14px 0 0;padding-top:6px;padding-bottom:max(6px,var(--safe-bottom))}
@@ -342,9 +342,9 @@ dialog:has(.import-piece){width:880px}
  .topbar #export-project{width:38px;padding:0;font-size:0}
  .topbar #export-project svg{width:18px;height:18px}
  .project-heading h1{font-size:30px}
- .track-row{grid-template-columns:minmax(0,1fr) auto;column-gap:10px;row-gap:6px}
- .track-row .track-status{grid-column:1;grid-row:2;justify-self:start}
- .track-row .row-actions{grid-column:2;grid-row:1/span 2;display:grid;grid-template-columns:repeat(2,auto)}
+ .app:not(.viewer) .track-row{grid-template-columns:minmax(0,1fr) auto;column-gap:10px;row-gap:6px}
+ .app:not(.viewer) .track-row .track-status{grid-column:1;grid-row:2;justify-self:start}
+ .app:not(.viewer) .track-row .row-actions{grid-column:2;grid-row:1/span 2;display:grid;grid-template-columns:repeat(2,auto)}
 }
 
 @media(max-width:950px){
@@ -376,7 +376,7 @@ dialog:has(.import-piece){width:880px}
  :root .transport .practise-as button[aria-pressed=true] .part-dot{background:#fff}
 }
 @media(min-width:951px){.deck-parts{display:none}}
-@media(max-height:500px) and (orientation:landscape){
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px){
  /* Sideways: parts sit beside the play controls so the score keeps its height; volume opens over the score. */
  .transport{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;column-gap:12px;padding-top:6px;padding-bottom:max(6px,var(--safe-bottom))}
  .transport>.deck-parts{grid-column:1;grid-row:1;display:flex;align-items:center;gap:6px;margin:0}
@@ -399,4 +399,43 @@ dialog:has(.import-piece){width:880px}
 :root .transport .deck-handle{background:transparent;border-color:transparent;color:var(--deck-muted)}
 :root .transport .deck-handle:hover{background:var(--deck-raised)}
 @media(max-width:950px){.project-heading{flex-direction:column;align-items:stretch}}
-@media(max-height:500px) and (orientation:landscape){:root .transport .deck-handle{border-color:var(--deck-line)}}
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px){:root .transport .deck-handle{border-color:var(--deck-line)}}
+
+/* Wide but low windows (a laptop with the window dragged short): the desktop layout, compacted. */
+@media(min-width:951px) and (max-height:620px){
+ .app:not(.viewer) .topbar{height:46px}
+ .is-player .content{gap:6px;padding-top:2px}
+ .player-heading{padding-top:0}
+ .player-heading h1{font-size:20px}
+ .player-heading .muted{display:none}
+ .score-panel .panel-head{padding:4px 10px}
+ .loop-bar{margin-top:6px;padding:2px 10px}
+ .transport{margin-top:6px;padding:6px 14px}
+ .transport .play,.play{width:40px;height:40px}
+ .mixer{padding:10px;overflow:auto}
+ .mixer .voice{margin-top:6px;padding:8px 10px}
+}
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px){
+ /* The speed control gets its own column instead of floating over the progress bar. */
+ :root:not([data-interface-mode=advanced]) .transport{grid-template-columns:auto minmax(0,1fr) auto}
+ :root:not([data-interface-mode=advanced]) .transport>.transport-top{padding-right:0}
+ :root:not([data-interface-mode=advanced]) .transport>.transport-bottom{position:static;grid-column:3;grid-row:1;margin:0}
+}
+.score-view-choice{display:none}
+@media(max-width:950px){.score-view-choice{display:flex;margin:8px 0 4px}.score-view-choice select{min-height:44px;border-radius:12px;font-size:15px}}
+/* Any number of parts: one row up to five, then two even rows; short labels when sideways and crowded. */
+.part-short{display:none}
+@media(max-width:950px){
+ .transport .practise-as{grid-auto-flow:row;grid-template-columns:repeat(var(--cols,4),minmax(0,1fr))}
+ .practise-as button .part-full{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ .practise-as.many button{height:42px;min-height:42px}
+}
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px){
+ .practise-as.many .part-full{display:none}
+ .practise-as.many .part-short{display:inline}
+ .practise-as.many button{min-width:44px;padding:0 8px;max-width:none}
+}
+@media(max-width:950px){
+ .practise-as.many .part-full{display:none}
+ .practise-as.many .part-short{display:inline;font-size:14px}
+}

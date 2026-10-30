@@ -15,6 +15,12 @@
 - Re-engrave the score once per settled size, so rotating a phone or scrolling the address bar no longer re-renders repeatedly. Changing your part or rotating keeps your place in the score.
 - Smaller notation on phones in portrait. The room page keeps one design at every width.
 
+- Add choir parts and singers to room settings. On the website singers pick their part or their name, and every piece opens on the linked part, matched by name (Soprano/Sopraan/S, S1/Soprano I) or set per part in Edit parts.
+- Choose what the score shows from the Parts sheet on phones: the part you practise, the full score, or any single part.
+- Show every part button, in two rows and with short labels when a piece has many parts. Hide the volume arrow for single-part pieces.
+- Smaller phone notation with a readable floor for dense bars, and less space after the last line. Give the sideways speed control its own column, and keep the desktop layout in wide but low windows.
+- Test tiny, duet, SATB and 8-voice 240-bar pieces on phone, sideways and desktop.
+
 ## 1.1.0-rc.4
 
 - Keep repeat notation compact while playback follows encoded or written D.C./D.S., segno, coda and Fine directions, nested repeats and alternate endings. Handle MuseScore text/symbol exports and return-section repeat rules.
