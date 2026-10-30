@@ -8,6 +8,7 @@
 - Let singers choose "I sing…" on a published room. Pieces then open with that voice brought forward on phones, remembered in this browser only.
 - Show published rooms on phones as a numbered programme list. Keep every screen clear of notches, rounded corners and the home indicator.
 - Move to score-paper neutrals with a single ultramarine accent, in light and dark themes.
+- Redesign the desktop app: a light room sidebar, the library as a white work surface with pill folder tabs, piece rows with folder bars and visibility pills, the player as score and parts cards above a dark playback deck, and roomier dialogs with card choices for import and publishing.
 
 ## 1.1.0-rc.4
 
