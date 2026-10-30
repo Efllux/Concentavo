@@ -10,6 +10,11 @@
 - Move to score-paper neutrals with a single ultramarine accent, in light and dark themes.
 - Redesign the desktop app: a light room sidebar, the library as a white work surface with pill folder tabs, piece rows with folder bars and visibility pills, the player as score and parts cards above a dark playback deck, and roomier dialogs with card choices for import and publishing.
 
+- On phones, the part buttons are the single part control: they choose what you see and what you hear. An arrow above them opens volume and mute for each part. Sideways mode has the same buttons beside Play.
+- The playback deck follows the light or dark theme and reaches the screen edges on phones. Optional dark score in dark mode.
+- Re-engrave the score once per settled size, so rotating a phone or scrolling the address bar no longer re-renders repeatedly. Changing your part or rotating keeps your place in the score.
+- Smaller notation on phones in portrait. The room page keeps one design at every width.
+
 ## 1.1.0-rc.4
 
 - Keep repeat notation compact while playback follows encoded or written D.C./D.S., segno, coda and Fine directions, nested repeats and alternate endings. Handle MuseScore text/symbol exports and return-section repeat rules.

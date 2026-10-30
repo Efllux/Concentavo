@@ -39,7 +39,7 @@ try{
  });
  const desktop=await inspect();assert.ok(desktop.width>1700,'Large player fills the work surface');assert.ok(desktop.lyricHeight>18,'Dense lyrics remain readable on a large screen');assert.deepEqual(desktop.collisions,[],'Desktop lyrics do not overlap');
  await mkdir('test-results',{recursive:true});await page.mouse.move(0,0);await page.screenshot({path:'test-results/score-large.png'});
- await page.setViewportSize({width:390,height:844});await page.waitForFunction(()=>document.querySelector('#score-viewport').clientWidth>370);await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));
+ await page.setViewportSize({width:390,height:844});await page.waitForFunction(()=>document.querySelector('#score-viewport').clientWidth>370);await page.waitForFunction(()=>{const vp=document.querySelector('#score-viewport');return !vp.dataset.pending&&vp.dataset.renderedSize===String(vp.clientWidth);});await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));
  const phone=await inspect();assert.deepEqual(phone.collisions,[],'Dense multi-verse lyrics do not overlap on a phone');assert.equal(phone.outerWidth,390);assert.equal(phone.outerHeight,844);assert.ok(phone.lyricHeight>10,'Dense bars retain readable text');
  await page.screenshot({path:'test-results/score-narrow.png'});
  await page.setViewportSize({width:844,height:390});await page.locator('#score-flow').selectOption('horizontal');await page.waitForFunction(()=>!document.querySelector('#score-part').disabled);await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));

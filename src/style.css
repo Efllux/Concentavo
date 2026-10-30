@@ -232,6 +232,40 @@ dialog:has(.import-piece){width:880px}
 .publication-option:has(input:checked){border-color:var(--blue);background:var(--accent-soft)}
 .publication-option input{accent-color:var(--blue);margin-top:3px}
 
+/* Room page: the same components at every width; only the arrangement changes. */
+.project-heading{align-items:flex-end;margin-bottom:22px}
+.project-heading .eyebrow{display:none}
+.project-heading h1{font-size:34px;font-weight:700;letter-spacing:-.025em;line-height:1.05}
+.project-heading .actions button{min-height:40px;border-radius:10px}
+.folder-tabs{border-bottom:0;gap:6px;align-items:center;margin:0 0 14px;padding:0}
+.folder-tab{height:36px;padding:0 14px;border:1px solid transparent;border-radius:999px;background:var(--surface-soft);color:var(--text);display:inline-flex;align-items:center;gap:7px;font-weight:500}
+.folder-tab::after{display:none}
+.folder-tab .folder-colour{width:8px;height:8px;margin:0;border-radius:50%}
+.folder-tab span{font-size:12px;margin:0;color:inherit;opacity:.65;font-variant-numeric:tabular-nums}
+:root .folder-tab.active,:root[data-theme=dark] .folder-tab.active{background:var(--text);color:var(--surface);font-weight:600}
+.folder-tab.add-folder{margin-left:0;background:transparent;border:1px dashed var(--line);color:var(--muted)}
+.library-controls{gap:8px;margin-bottom:12px}
+.library-controls input,.library-controls select{height:40px;border-radius:10px}
+.frequent-tags{margin-bottom:14px}
+.tag{border:0;border-radius:6px;background:var(--surface-soft);color:var(--text);padding:3px 8px}
+.select-row{padding:0 8px 8px}
+.track-list{display:block;border-top:1px solid var(--line)}
+.track-row{position:relative;grid-template-columns:minmax(0,1fr) auto auto;gap:18px;min-height:72px;margin:0;padding:12px 10px 12px 24px;border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent}
+.app:not(.viewer) .track-row::before{content:"";position:absolute;left:8px;top:16px;bottom:16px;width:4px;border-radius:2px;background:var(--folder,#9da1ab)}
+.track-row:hover{background:var(--surface-soft);border-color:var(--line)}
+:root .track-row.selected,:root[data-theme=dark] .track-row.selected{background:var(--accent-soft)}
+.track-title{font-size:16px;font-weight:600}
+.track-meta{margin-top:3px;font-size:13px}
+.track-tags{margin-top:6px}
+.track-tags .folder-chip,:root[data-theme=dark] .track-tags .folder-chip{background:transparent;border:0;padding:0 6px 0 0;color:var(--muted);display:inline-flex;align-items:center;gap:6px}
+.track-tags .folder-chip::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--folder,#9da1ab)}
+.track-status{display:inline-flex}
+.row-actions{gap:6px}
+.row-actions button{min-height:36px;border-radius:9px}
+.bulk,:root[data-theme=dark] .bulk{background:var(--accent-soft);color:var(--accent-ink);border:0;border-radius:12px;padding:8px 8px 8px 14px;margin-bottom:10px}
+.bulk button{min-height:34px;border-radius:9px;border:0;background:var(--surface);color:var(--text)}
+.bulk .danger{color:#b42318}
+
 @media(min-width:951px){
  .app:not(.viewer){background:var(--sidebar)}
  .app:not(.viewer) .main{height:calc(100dvh - 20px);margin:10px 10px 10px 0;background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
@@ -241,40 +275,6 @@ dialog:has(.import-piece){width:880px}
  .app:not(.viewer) .topbar .room-context{font-weight:600;color:var(--text)}
  .topbar .icon-button,.topbar .icon-select{height:38px;min-width:38px;border-radius:10px}
  #export-project{height:38px;padding:0 16px}
-
- /* Library */
- .project-heading{align-items:flex-end;margin-bottom:22px}
- .project-heading .eyebrow{display:none}
- .project-heading h1{font-size:34px;font-weight:700;letter-spacing:-.025em;line-height:1.05}
- .project-heading .actions button{min-height:40px;border-radius:10px}
- .folder-tabs{border-bottom:0;gap:6px;align-items:center;margin:0 0 14px;padding:0}
- .folder-tab{height:36px;padding:0 14px;border:1px solid transparent;border-radius:999px;background:var(--surface-soft);color:var(--text);display:inline-flex;align-items:center;gap:7px;font-weight:500}
- .folder-tab::after{display:none}
- .folder-tab .folder-colour{width:8px;height:8px;margin:0;border-radius:50%}
- .folder-tab span{font-size:12px;margin:0;color:inherit;opacity:.65;font-variant-numeric:tabular-nums}
- :root .folder-tab.active,:root[data-theme=dark] .folder-tab.active{background:var(--text);color:var(--surface);font-weight:600}
- .folder-tab.add-folder{margin-left:0;background:transparent;border:1px dashed var(--line);color:var(--muted)}
- .library-controls{gap:8px;margin-bottom:12px}
- .library-controls input,.library-controls select{height:40px;border-radius:10px}
- .frequent-tags{margin-bottom:14px}
- .tag{border:0;border-radius:6px;background:var(--surface-soft);color:var(--text);padding:3px 8px}
- .select-row{padding:0 8px 8px}
- .track-list{display:block;border-top:1px solid var(--line)}
- .track-row{position:relative;grid-template-columns:minmax(0,1fr) auto auto;gap:18px;min-height:72px;margin:0;padding:12px 10px 12px 24px;border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent}
- .track-row::before{content:"";position:absolute;left:8px;top:16px;bottom:16px;width:4px;border-radius:2px;background:var(--folder,#9da1ab)}
- .track-row:hover{background:var(--surface-soft);border-color:var(--line)}
- :root .track-row.selected,:root[data-theme=dark] .track-row.selected{background:var(--accent-soft)}
- .track-title{font-size:16px;font-weight:600}
- .track-meta{margin-top:3px;font-size:13px}
- .track-tags{margin-top:6px}
- .track-tags .folder-chip,:root[data-theme=dark] .track-tags .folder-chip{background:transparent;border:0;padding:0 6px 0 0;color:var(--muted);display:inline-flex;align-items:center;gap:6px}
- .track-tags .folder-chip::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--folder,#9da1ab)}
- .track-status{display:inline-flex}
- .row-actions{gap:6px}
- .row-actions button{min-height:36px;border-radius:9px}
- .bulk,:root[data-theme=dark] .bulk{background:var(--accent-soft);color:var(--accent-ink);border:0;border-radius:12px;padding:8px 8px 8px 14px;margin-bottom:10px}
- .bulk button{min-height:34px;border-radius:9px;border:0;background:var(--surface);color:var(--text)}
- .bulk .danger{color:#b42318}
 
  /* Player and piece editor: score and parts as cards on the workspace, playback as a dark deck. */
  .app:not(.viewer).is-player .main{background:transparent;border:0;border-radius:0;margin:0;height:100dvh}
@@ -308,3 +308,95 @@ dialog:has(.import-piece){width:880px}
  .mixer .voice button,.mixer .voice select{border-radius:8px}
  .voice-name input{font-weight:600;font-size:15px;border-radius:8px}
 }
+
+/* Revision 2026-10-30: the deck follows the theme, phones go edge to edge, and the room page keeps one design at every width. */
+:root{--deck:#fff;--deck-raised:#f3f3ef;--deck-line:#e2e3de;--deck-text:#16181d;--deck-muted:#5b6070}
+:root[data-theme=dark]{--deck:#000;--deck-raised:#1e2026;--deck-line:#2a2d35;--deck-text:#ecedea;--deck-muted:#a0a5b0}
+.transport input[type=range]{accent-color:var(--blue)}
+.transport #restart{color:var(--deck-text)}
+@media(min-width:951px){.transport{border:1px solid var(--deck-line)}}
+/* The rounded card is drawn by the panel itself, so no white page shows through its corners. */
+.score-panel{background:var(--surface);background-clip:padding-box}
+.score-panel .panel-head{background:var(--surface)}
+/* Dark score: the notation itself turns dark instead of a bright sheet in a dark room. */
+:root[data-theme=dark][data-dark-score=on] .score-viewport{background:var(--surface)}
+:root[data-theme=dark][data-dark-score=on] #score svg{filter:invert(1) hue-rotate(180deg)}
+@media print{#score svg{filter:none!important}.score-viewport{background:#fff!important}}
+
+/* Room page arrangement and steady control sizes at every width. */
+.topbar .topbar-actions{gap:6px}
+.topbar .topbar-actions .icon-button,.topbar .topbar-actions .icon-select,.topbar .topbar-actions select{height:38px;min-height:38px;min-width:38px;padding:0 8px;border-radius:10px;font-size:13px}
+.topbar #export-project{height:38px;min-height:38px;padding:0 14px;border-radius:10px;font-size:14px}
+.project-heading{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 20px}
+.project-heading .actions{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.project-heading .actions button{min-height:40px;padding:0 14px;font-size:14px}
+.row-actions{display:flex;flex-direction:row;flex-wrap:nowrap;align-items:center;gap:6px}
+.row-actions button{min-height:36px;min-width:36px}
+.library-controls{display:grid;grid-template-columns:minmax(200px,1fr) repeat(3,minmax(120px,180px))}
+@media(max-width:950px){
+ .content{padding:20px 16px max(24px,var(--safe-bottom))}
+ .library-controls{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .library-controls .search-wrap{grid-column:1/-1}
+}
+@media(max-width:700px){
+ .topbar #export-project{width:38px;padding:0;font-size:0}
+ .topbar #export-project svg{width:18px;height:18px}
+ .project-heading h1{font-size:30px}
+ .track-row{grid-template-columns:minmax(0,1fr) auto;column-gap:10px;row-gap:6px}
+ .track-row .track-status{grid-column:1;grid-row:2;justify-self:start}
+ .track-row .row-actions{grid-column:2;grid-row:1/span 2;display:grid;grid-template-columns:repeat(2,auto)}
+}
+
+@media(max-width:950px){
+ /* Edge to edge: the score and the deck meet the screen sides with no frame or clipped corners. */
+ .is-player .content{padding:var(--safe-top) 0 0;gap:0}
+ .player-heading{padding:4px max(8px,var(--safe-right)) 6px max(8px,var(--safe-left))}
+ .score-panel{border-width:1px 0 0;border-radius:0}
+ .score-panel .panel-head{padding-left:max(8px,var(--safe-left));padding-right:max(8px,var(--safe-right))}
+ .transport{margin:0;border:0;border-top:1px solid var(--deck-line);border-radius:0;box-shadow:none;padding:6px max(14px,var(--safe-right)) max(10px,var(--safe-bottom)) max(14px,var(--safe-left))}
+ .show-parts .mixer{border-radius:0;border-top:1px solid var(--line)}
+ /* Parts on the deck at every phone and tablet width, with volume one tap away. */
+ .deck-parts{display:block;margin-bottom:8px}
+ .deck-handle{display:flex;align-items:center;justify-content:center;width:100%;height:32px;min-height:32px;padding:0;margin:0 0 4px;border:0;border-radius:10px;background:transparent;color:var(--deck-muted)}
+ .deck-handle:hover{background:var(--deck-raised)}
+ .deck-handle svg{transition:transform .18s ease}
+ .deck-handle[aria-expanded=true] svg{transform:rotate(180deg)}
+ .deck-mix{display:grid;gap:2px;margin-bottom:8px}
+ .deck-mix[hidden]{display:none}
+ .deck-mix-row{display:grid;grid-template-columns:10px minmax(56px,max-content) minmax(0,1fr) 44px;align-items:center;gap:10px;min-height:44px}
+ .deck-mix-row .part-dot{width:10px;height:10px;border-radius:3px;background:var(--part)}
+ .deck-mix-name{max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px;font-weight:600;color:var(--deck-text)}
+ .deck-mix-row input[type=range]{width:100%;height:28px;margin:0}
+ .deck-mix-row button{width:44px;height:40px;min-height:40px;padding:0;border-radius:10px;font-weight:700}
+ .transport .practise-as{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:6px;margin:0}
+ .practise-as button{height:48px;min-height:48px;padding:0 4px;border-radius:12px;border:1.5px solid var(--deck-line);background:var(--deck-raised);color:var(--deck-text);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:12px;font-weight:600;min-width:0}
+ .practise-as button span:last-child{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ .practise-as .part-dot{width:8px;height:8px;border-radius:3px;background:var(--part)}
+ :root .transport .practise-as button[aria-pressed=true]{background:var(--part);border-color:var(--part);color:#fff}
+ :root .transport .practise-as button[aria-pressed=true] .part-dot{background:#fff}
+}
+@media(min-width:951px){.deck-parts{display:none}}
+@media(max-height:500px) and (orientation:landscape){
+ /* Sideways: parts sit beside the play controls so the score keeps its height; volume opens over the score. */
+ .transport{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;column-gap:12px;padding-top:6px;padding-bottom:max(6px,var(--safe-bottom))}
+ .transport>.deck-parts{grid-column:1;grid-row:1;display:flex;align-items:center;gap:6px;margin:0}
+ .transport>.transport-top{grid-column:2;grid-row:1}
+ .transport>.transport-bottom{grid-column:1/-1}
+ .deck-handle{width:40px;height:40px;min-height:40px;margin:0;flex:none;border:1px solid var(--deck-line)}
+ .deck-mix{position:absolute;left:0;right:0;bottom:100%;z-index:9;margin:0;padding:8px max(14px,var(--safe-right)) 8px max(14px,var(--safe-left));background:var(--deck);border-top:1px solid var(--deck-line);max-height:min(60vh,260px);overflow:auto;box-shadow:0 -8px 24px #16181d1f}
+ .transport .practise-as{display:flex!important;gap:6px}
+ .practise-as button{height:40px;min-height:40px;flex-direction:row;gap:6px;padding:0 10px;max-width:96px}
+}
+@media(max-width:950px){
+ /* One part control on phones: the deck buttons. The Show list stays on larger screens. */
+ .score-panel .score-choice:has(#score-part){display:none}
+ .score-panel .panel-head{justify-content:flex-end;padding-top:4px;padding-bottom:4px}
+ .player-heading{min-height:44px;padding-top:2px;padding-bottom:2px}
+ .deck-handle{height:24px;min-height:24px;margin:0 0 4px}
+ .transport{padding-top:4px}
+ .transport .play,.play{width:48px;height:48px}
+}
+:root .transport .deck-handle{background:transparent;border-color:transparent;color:var(--deck-muted)}
+:root .transport .deck-handle:hover{background:var(--deck-raised)}
+@media(max-width:950px){.project-heading{flex-direction:column;align-items:stretch}}
+@media(max-height:500px) and (orientation:landscape){:root .transport .deck-handle{border-color:var(--deck-line)}}

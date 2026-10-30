@@ -16,15 +16,18 @@ try{
   await page.locator('[data-open]').first().click();
   await page.waitForSelector('#score svg');
   assert.ok(parseInt(await page.locator('#zoom-label').textContent())<=80,'Phone score fits at a compact scale');
-  await page.locator('#score-part').selectOption({index:1});
-  await page.waitForFunction(()=>!document.querySelector('#score-part').disabled);
+  // On phones the part buttons choose what is shown and heard; the Show list is desktop-only.
+  assert.equal(await page.locator('#score-part').isVisible(),false,'Phone has one part control, not two');
+  await page.locator('[data-practise]').nth(1).click();
+  await page.waitForFunction(()=>{const s=document.querySelector('#score-part');return !s.disabled&&s.value===document.querySelectorAll('[data-practise]')[1].dataset.practise;});
+  assert.equal(await page.locator('[data-practise]').nth(1).getAttribute('aria-pressed'),'true','Shown part is the part you practise');
   assert.equal(await page.locator('.measure-hit').count(),16,'Single part retains every bar');
   await page.locator('#bar-controls-button').click();
   await page.locator('#dialog-jump').fill('4');
   await page.locator('#dialog-go').click();
   assert.ok(Number(await page.locator('#seek').inputValue())>0,'Phone bar navigation works');
-  await page.locator('#score-part').selectOption('');
-  await page.waitForFunction(()=>!document.querySelector('#score-part').disabled);
+  await page.locator('[data-practise][aria-pressed="true"]').click();
+  await page.waitForFunction(()=>{const s=document.querySelector('#score-part');return !s.disabled&&s.value==='';});
   await page.reload();await page.waitForSelector('#score svg');assert.equal(await page.locator('#score-part').inputValue(),'','Full-score choice survives refresh on a phone');
   await page.locator('#mobile-parts').click();
   const bounds=await page.evaluate(()=>({mixer:document.querySelector('.mixer').getBoundingClientRect().bottom,transport:document.querySelector('.transport').getBoundingClientRect().top,height:document.documentElement.scrollHeight,viewport:innerHeight}));
