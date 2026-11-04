@@ -71,7 +71,7 @@ try{
   assert.ok(rotate.renders<=2,`A burst of sizes engraves at most once or twice (${rotate.renders})`);
   // Choir setting: the room's parts and singers reach the website, and a singer's choice opens each piece on the linked part.
   await page.setViewportSize({width:1280,height:900});await page.goto(pathToFileURL(resolve('dist/index.html')).href);await page.waitForSelector('.track-row');
-  await page.locator('#edit-project').click();
+  await page.locator('.room-menu > summary').click();await page.locator('#edit-project').click();
   await page.locator('#choir-parts').fill('Soprano 1\nSoprano 2\nAlto 1\nAlto 2\nTenor 1\nTenor 2\nBass 1\nBass 2');
   await page.locator('#choir-singers').fill('Anna: Alto 2\nBram: Tenor 1');
   await page.locator('#save-project').click();await page.waitForSelector('dialog[open]',{state:'detached'}).catch(()=>{});

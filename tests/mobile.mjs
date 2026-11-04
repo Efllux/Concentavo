@@ -15,7 +15,7 @@ try{
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),'No mobile horizontal overflow');
   await page.locator('[data-open]').first().click();
   await page.waitForSelector('#score svg');
-  assert.ok(parseInt(await page.locator('#zoom-label').textContent())<=80,'Phone score fits at a compact scale');
+  assert.ok(parseInt(await page.locator('#zoom-label').textContent())>=78&&parseInt(await page.locator('#zoom-label').textContent())<=100,'Phone score opens at a readable staff scale');
   // On phones the part buttons choose what is shown and heard; the Show list is desktop-only.
   assert.equal(await page.locator('#score-part').isVisible(),false,'Phone has one part control, not two');
   await page.locator('[data-practise]').nth(1).click();
@@ -25,7 +25,7 @@ try{
   await page.locator('#bar-controls-button').click();
   await page.locator('#dialog-jump').fill('4');
   await page.locator('#dialog-go').click();
-  assert.ok(Number(await page.locator('#seek').inputValue())>0,'Phone bar navigation works');
+  assert.ok(Number(await page.locator('#seek').inputValue())>0,'Phone bar navigation works');const reading=await page.locator('#score-part').inputValue(),position=await page.locator('#seek').inputValue();await page.locator('#notation-size').click();assert.equal(await page.locator('#score-part').inputValue(),reading,'Notation size keeps the chosen voice');assert.equal(await page.locator('#seek').inputValue(),position,'Notation size keeps playback position');await page.locator('#zoom-fit').click();
   await page.locator('[data-practise][aria-pressed="true"]').click();
   await page.waitForFunction(()=>{const s=document.querySelector('#score-part');return !s.disabled&&s.value==='';});
   await page.reload();await page.waitForSelector('#score svg');assert.equal(await page.locator('#score-part').inputValue(),'','Full-score choice survives refresh on a phone');
