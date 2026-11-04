@@ -1037,7 +1037,6 @@ dialog:focus{outline:none}
  .viewer .library-controls{max-width:900px}
  .viewer .project-heading .voice-pref{width:max-content}
 }
-.score-viewport #score>img{width:3px!important}
 .import-parts>summary{list-style:none;display:flex;align-items:center;gap:8px}
 .import-parts>summary::-webkit-details-marker{display:none}
 .import-parts>summary::before{content:'›';font-size:18px;transform:rotate(0deg)}
@@ -1059,4 +1058,241 @@ dialog:focus{outline:none}
  .track-list .select-row label{min-height:44px}
  .library-controls .frequent-tags button{min-height:44px}
 }
-#score img{width:3px!important}
+
+/* Round 3 (2026-11-04): one View control and notation scale on every screen; a visible beat cursor. */
+:root{--cursor-band:color-mix(in srgb,#4f46c8 15%,transparent);--cursor-cap:#4f46c8}
+:root[data-theme=dark]{--cursor-band:color-mix(in srgb,#a79dff 24%,transparent);--cursor-cap:#b1a8ff}
+/* The beat cursor: a soft column over the current notes with a solid cap above the staff. Distinct from the loop's thin brackets. */
+.score-viewport #score img{object-fit:none;object-position:-9999px 0;box-sizing:content-box;padding-top:7px;border-top:4px solid var(--cursor-cap);border-radius:3px 3px 2px 2px;background:var(--cursor-band);background-clip:content-box;translate:0 -11px;pointer-events:none}
+:root[data-theme=dark] .score-viewport #score img{box-shadow:0 0 14px color-mix(in srgb,#a79dff 18%,transparent)}
+
+/* View: one labelled popover for score size, layout and the dark score. */
+.view-menu{position:relative;flex:none}
+.view-menu>summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:7px;height:36px;padding:0 10px 0 9px;border-radius:10px;color:var(--text);font-size:13px;font-weight:500;white-space:nowrap;user-select:none}
+.view-menu>summary::-webkit-details-marker{display:none}
+.view-menu>summary:hover,.view-menu[open]>summary{background:var(--surface-soft)}
+.view-menu>summary:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.view-menu>summary .glyph{width:16px;height:16px}
+.view-menu>summary .glyph:last-child{width:14px;height:14px;color:var(--muted);transition:transform .15s}
+.view-menu[open]>summary .glyph:last-child{transform:rotate(180deg)}
+.view-state{color:var(--muted);font-weight:500}
+.view-state::before{content:"·";margin-right:7px;color:var(--line-strong)}
+.view-menu-body{position:absolute;z-index:30;right:0;bottom:calc(100% + 12px);width:324px;padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--surface);box-shadow:0 18px 48px #16181d2e,0 2px 6px #16181d14;display:grid;gap:8px}
+.view-heading{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:2px}
+.view-heading+.view-presets,.view-heading+.view-layout{margin-top:-2px}
+.view-presets{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.view-presets button{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-height:58px;height:auto;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text);text-align:left}
+.view-presets button strong{font-size:13.5px;font-weight:650}
+.view-presets button small{font-size:11.5px;line-height:1.3;color:var(--muted);font-weight:450}
+.view-presets button:hover{border-color:var(--line-strong)}
+:root .view-presets button[aria-pressed=true]{border-color:var(--blue);background:var(--accent-soft);box-shadow:inset 0 0 0 1px var(--blue)}
+:root .view-presets button[aria-pressed=true] strong{color:var(--accent-ink)}
+.view-steps{display:flex;align-items:center;justify-content:space-between;gap:6px;height:38px;padding:3px;border-radius:10px;background:var(--surface-soft)}
+.view-steps button{width:40px;height:32px;min-height:32px;padding:0;border:0;border-radius:8px;background:transparent;color:var(--text);font-size:20px;font-weight:500;line-height:1}
+.view-steps button:hover{background:var(--surface)}
+#zoom-label{flex:1;text-align:center;font-size:13px;font-weight:600;color:var(--text);font-variant-numeric:tabular-nums}
+#zoom-label::before{content:"Size ";font-weight:500;color:var(--muted)}
+:root[lang=nl] #zoom-label::before{content:"Grootte "}
+.view-layout{display:grid;grid-template-columns:1fr 1fr;gap:2px;padding:3px;border-radius:10px;background:var(--surface-soft)}
+.view-layout button{height:32px;min-height:32px;border:0;border-radius:8px;background:transparent;color:var(--muted);font-size:13px;font-weight:550}
+:root .view-layout button[aria-pressed=true]{background:var(--surface);color:var(--text);box-shadow:0 1px 2px #16181d24,0 0 0 1px var(--line)}
+.view-check{display:flex;align-items:center;gap:9px;min-height:36px;margin-top:2px;padding-top:8px;border-top:1px solid var(--line);font-size:13px;color:var(--text);cursor:pointer}
+.view-check input{width:16px;height:16px;margin:0;accent-color:var(--blue)}
+:root:not([data-theme=dark]) .view-menu .dark-only{display:none}
+.view-print{justify-self:start;min-height:32px;height:32px;padding:0 10px;border:0;background:transparent;color:var(--muted);font-size:13px}
+:root:not([data-interface-mode=advanced]) .view-print{display:none}
+
+@media(min-width:951px){
+ /* Desktop deck: playback and position | loop | speed, then Show, Follow, View and Parts. */
+ .transport #speed{max-width:none;width:92px}
+ .view-tools .actions{gap:2px}
+ .mixer-hide{display:inline-grid!important;place-items:center;width:28px;height:28px;min-height:28px;padding:0;margin-left:2px;border:0;border-radius:7px;background:transparent;color:var(--muted)}
+ .mixer-hide:hover{background:var(--surface-soft);color:var(--text)}
+ .mixer-hide .glyph{width:16px;height:16px;transform:rotate(-90deg)}
+ .mixer-head{padding-right:2px}
+}
+@media(min-width:951px) and (max-width:1300px){
+ .view-state{display:none}
+ .follow-switch .follow-label{display:none}
+ .follow-switch .follow-short{display:inline}
+ .follow-switch.paused .follow-short{display:none}
+}
+
+/* Phones and tablets, upright: no second toolbar. View sits in the header; the deck holds parts, tools and playback. */
+@media(max-width:950px){
+ .player-layout{grid-template-rows:minmax(0,1fr) auto}
+ .player-layout>.score-stage>.score-panel{grid-area:1/1;border-top:1px solid var(--line)}
+ .player-layout .transport{grid-area:2/1;display:flex;flex-direction:column;gap:8px;padding-top:10px}
+ .view-tools{display:none}
+ .show-parts .mixer{grid-area:1/1}
+ .transport>.deck-parts{order:1;display:flex;align-items:center;gap:8px;margin:0}
+ .transport>.transport-bottom{order:2}
+ .transport>.transport-top{order:3}
+ :root .transport>.transport-bottom{position:static;display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:0;padding:0;top:auto;bottom:auto;right:auto}
+ :root:not([data-interface-mode=advanced]) .transport-top{padding-right:0}
+ .transport-top{min-height:52px}
+
+ /* Header: back, title, View, settings. */
+ .player-heading .view-menu>summary{height:44px;min-height:44px;padding:0 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface);font-size:15px;font-weight:600}
+ .player-heading .view-menu .view-state,.player-heading .view-menu>summary .glyph:last-child{display:none}
+ .player-heading .view-menu .glyph{width:18px;height:18px}
+ .player-heading .view-menu-body{position:fixed;top:calc(var(--safe-top) + 56px);left:max(8px,var(--safe-left));right:max(8px,var(--safe-right));bottom:auto;width:auto;max-width:420px;margin-left:auto;padding:16px;gap:10px;border-radius:16px}
+ .view-presets button{min-height:64px}
+ .view-steps,.view-layout{height:48px}
+ .view-steps button,.view-layout button{height:42px;min-height:42px}
+ .view-steps button{width:52px}
+ .view-check{min-height:44px}
+
+ /* Parts: one segmented control, the selected part filled in its colour. */
+ .deck-parts .deck-handle,.deck-parts .deck-mix{display:none!important}
+ :root .transport .practise-as{flex:1;min-width:0;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;grid-template-columns:none;gap:2px;margin:0;padding:3px;border:1px solid var(--deck-line);border-radius:13px;background:var(--deck-raised)}
+ :root .transport .practise-as button{height:42px;min-height:42px;flex-direction:row;gap:4px;padding:0 2px;letter-spacing:-.005em;border:0;border-radius:10px;background:transparent;box-shadow:none;color:var(--deck-text);font-size:14px;font-weight:600}
+ :root .transport .practise-as button:hover{background:color-mix(in srgb,var(--deck-text) 6%,transparent)}
+ :root .transport .practise-as button .part-dot{width:8px;height:8px;border-radius:50%;background:var(--part);position:static}
+ :root .transport .practise-as button[aria-pressed=true]{background:var(--part);border:0;color:#fff;box-shadow:0 1px 2px #16181d33}
+ :root .transport .practise-as button[aria-pressed=true] .part-dot{display:none}
+ :root .transport .practise-as button[aria-pressed=true] .part-dot::after{content:none}
+ :root .transport .practise-as button[aria-pressed=true]::before{content:"✓";font-size:12px;font-weight:800;line-height:1}
+ :root .transport .practise-as:not(.many) .part-full{overflow:visible;text-overflow:clip;max-width:none}
+ :root .transport .practise-as.many{grid-auto-flow:row;grid-template-columns:repeat(var(--cols,4),minmax(0,1fr))}
+ :root .transport .practise-as.many button{height:40px;min-height:40px}
+ :root .transport #mobile-parts{flex:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;width:auto;height:50px;min-height:50px;padding:0 12px;border:1px solid var(--deck-line);border-radius:13px;background:var(--deck-raised);color:var(--deck-text);font-size:14px;font-weight:600}
+ :root .transport #mobile-parts .glyph{width:18px;height:18px}
+ :root .transport-bottom #mobile-parts{height:44px;min-height:44px;margin-left:6px}
+ .deck-parts #mobile-parts span:not(.glyph){position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+ .deck-parts #mobile-parts{width:46px!important;padding:0!important}
+ :root .transport #mobile-parts[aria-pressed=true]{border-color:var(--blue);background:var(--accent-soft);color:var(--accent-ink)}
+
+ /* Tools row: Follow and Loop on the left, speed on the right. */
+ .transport-bottom .follow-switch{display:inline-flex;align-items:center;gap:8px;height:44px;min-height:44px;padding:0 12px 0 10px;border:1px solid var(--deck-line);border-radius:12px;font-size:14px;font-weight:600;color:var(--deck-text)}
+ .transport-bottom .follow-switch .follow-label{display:none}
+ .transport-bottom .follow-switch .follow-short{display:inline}
+ .transport-bottom .follow-switch.paused .follow-short{display:none}
+ .transport-bottom .follow-switch.paused .follow-paused{display:inline;color:var(--deck-muted)}
+ :root .transport-bottom #bar-controls-button{display:inline-flex;align-items:center;gap:7px;height:44px;min-height:44px;padding:0 13px 0 11px;border:1px solid var(--deck-line);border-radius:12px;background:transparent;color:var(--deck-text);font-size:14px;font-weight:600;font-variant-numeric:tabular-nums}
+ .transport-bottom #bar-controls-button .glyph{width:17px;height:17px}
+ :root .transport-bottom #bar-controls-button.loop-active{border-color:var(--loop);background:color-mix(in srgb,var(--loop) 12%,var(--deck));color:var(--deck-text)}
+ :root .transport-bottom #bar-controls-button.loop-active .glyph{color:var(--loop)}
+ :root .transport-bottom .speed-control{flex-direction:row!important;align-items:center!important;gap:7px!important;margin-left:auto;font-size:13px!important}
+ :root .transport-bottom .speed-label{font-size:13px!important;line-height:1;color:var(--deck-muted);font-weight:500}
+ :root .transport-bottom #speed{height:44px!important;min-height:44px;width:100px;max-width:none;border-radius:12px;font-size:14px;font-weight:600;padding:0 26px 0 12px}
+
+ /* Playback row. */
+ .transport .progress-labels{font-size:12px}
+ .transport #bar-label{font-weight:600;color:var(--deck-text)}
+
+ /* Parts sheet: rises over the lower score; the deck keeps only playback while it is open. */
+ :root .show-parts .mixer{grid-area:1/1;align-self:end;z-index:8;max-height:calc(100% - 88px);overflow:auto;margin:0;padding:6px 12px 10px;border:0;border-top:1px solid var(--line);border-radius:18px 18px 0 0;background:var(--surface);box-shadow:0 -14px 40px #16181d29}
+ :root .show-parts .score-panel{visibility:visible}
+ .show-parts .transport>.deck-parts{display:none}
+ .show-parts .mixer .mixer-head{position:sticky;top:-6px;z-index:2;background:var(--surface);padding-top:6px}
+}
+/* Sideways phones: the strip keeps its height; the view tools sit in the header row. */
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px){
+ .view-tools{display:flex}
+ .player-layout{grid-template-rows:minmax(0,1fr) auto}
+ .player-layout .transport{display:grid;flex-direction:row;padding-top:6px}
+ .transport>.deck-parts{display:flex}
+ .deck-parts .deck-handle{display:flex!important}
+ .deck-parts .deck-mix:not([hidden]){display:grid!important}
+ :root .transport .practise-as{flex:none;display:flex!important;padding:2px;gap:2px}
+ :root .transport .practise-as button{height:38px;min-height:38px;padding:0 10px;max-width:none}
+ .view-tools .view-menu-body{top:calc(100% + 8px);bottom:auto}
+ .view-tools .view-menu>summary{height:38px;border:1px solid var(--line);background:var(--surface)}
+ .view-tools .view-state{display:none}
+ :root .transport>.transport-bottom{display:flex;position:static;grid-column:3;grid-row:1;flex-wrap:nowrap}
+ :root .show-parts .mixer{grid-area:auto;align-self:auto;border-radius:0;max-height:none;box-shadow:-6px 0 15px #0002}
+ .show-parts .transport>.deck-parts{display:flex}
+ :root .show-parts .score-panel{visibility:visible}
+}
+/* Layout lives in View; the separate direction list is only for the Score settings dialog. */
+.view-tools .score-choice:has(#score-flow){display:none!important}
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px){
+ .view-tools .actions{display:flex;align-items:center;gap:6px}
+ :root .view-tools #bar-controls-button,:root .player-heading #mobile-parts{display:inline-flex;align-items:center;gap:6px;height:38px;min-height:38px;padding:0 12px 0 10px;font-size:14px;font-weight:600}
+ :root .view-tools #bar-controls-button .glyph,:root .player-heading #mobile-parts .glyph{width:16px;height:16px}
+ :root .view-tools #bar-controls-button.loop-active{border-color:var(--loop);background:color-mix(in srgb,var(--loop) 12%,var(--surface))}
+ .view-tools .follow-switch{height:38px;padding:0 8px}
+}
+
+/* Round 3: the room's name is the page title; its switcher sits beside it. */
+.room-name-row{display:flex;align-items:center;gap:8px;min-width:0}
+.room-name-row h1{min-width:0;overflow-wrap:anywhere}
+.room-name-row .room-chooser{flex:none}
+:root .room-name-row .room-chooser>summary.room-switch{display:grid;place-items:center;width:34px;height:34px;min-height:34px;max-width:none;padding:0;gap:0;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--muted)}
+:root .room-name-row .room-chooser>summary.room-switch:hover,:root .room-name-row .room-chooser[open]>summary.room-switch{color:var(--text);border-color:var(--line-strong);background:var(--surface-soft)}
+.room-switch .glyph{width:18px;height:18px}
+.room-name-row .room-picker-body{left:0;right:auto}
+.room-title:has(.room-notes){display:block}
+:root .room-title .room-notes{margin-top:8px}
+@media(min-width:701px){
+ .room-title:has(.room-notes){display:grid;grid-template-columns:auto auto;justify-content:start;align-items:center;column-gap:18px}
+ .room-title:has(.room-notes) .eyebrow{grid-column:1/-1}
+ :root .room-title .room-notes{margin-top:0}
+}
+.project-heading .eyebrow{display:block!important}
+/* One header icon set everywhere: language, appearance, help, settings. */
+.topbar .topbar-actions{gap:8px}
+.app:not(.is-player) .topbar .brand{display:flex!important}
+@media(max-width:700px){
+ .project-heading .room-name-row h1{font-size:26px;line-height:1.15}
+ .topbar .topbar-actions{gap:6px}
+ :root .topbar .topbar-actions .icon-button{border-radius:12px}
+}
+/* An empty room has one action: the empty state's Import. */
+:root .publish-action:disabled{opacity:.45;cursor:not-allowed}
+
+/* Singer room: one readable column; short rows that say they open. */
+@media(min-width:701px){
+ .viewer:not(.is-player) .content{max-width:948px;margin-inline:auto}
+ .viewer .library-controls{max-width:none!important}
+ .viewer .project-heading{display:block}
+ .viewer .room-message{max-width:62ch;margin:10px 0 0;font-size:15px;line-height:1.5;color:var(--muted)}
+}
+:root .viewer .track-list{gap:8px}
+:root .viewer .track-list .track-row{grid-template-columns:minmax(0,1fr) 28px;align-items:center;min-height:0;gap:2px 12px;padding:12px 14px 12px 16px;cursor:pointer}
+:root .viewer .track-list .track-row:hover{border-color:var(--line-strong)}
+:root .viewer .track-row .row-actions{display:flex;grid-column:2;grid-row:1;align-self:center;justify-content:flex-end}
+.viewer .track-row .track-status-none{display:none}
+:root .viewer .track-list .track-main{grid-column:1;grid-row:1;padding:0}
+.row-open{display:grid;place-items:center;width:28px;height:28px;color:var(--muted)}
+.row-open .glyph{width:18px;height:18px;transform:rotate(-90deg)}
+:root .viewer .track-list .track-title{min-height:0;font-size:16px;line-height:1.3}
+:root .viewer .track-list .track-meta{margin-top:1px}
+:root .viewer .track-list .track-tags{margin-top:5px;flex-wrap:nowrap;overflow:hidden}
+@media(max-width:700px){
+ .viewer .project-heading{gap:8px;margin-bottom:12px}
+ .viewer .project-heading h1{font-size:26px;line-height:1.15;margin:0}
+ .viewer .room-message{margin:6px 0 0;font-size:14px;line-height:1.45;color:var(--muted)}
+ :root .viewer .project-heading .voice-pref{width:100%;margin-top:12px;padding:0 4px 0 14px}
+ :root .viewer .project-heading .voice-pref select{flex:1;width:100%;font-size:15px}
+ :root .viewer .track-list .track-row{padding:11px 10px 11px 14px}
+ :root .viewer .track-list .track-title{font-size:16px}
+ :root .viewer .track-list .track-meta{font-size:13px}
+ :root .viewer .track-list .track-tags{margin-top:4px}
+ .viewer .folder-tabs{margin-bottom:10px}
+}
+
+/* Import review: detected part names read as editable fields before anyone touches them. */
+:root .import-part input:not([type=checkbox]){border:1px solid var(--line);background:var(--surface);box-shadow:inset 0 1px 1px #16181d08}
+:root .import-part input:not([type=checkbox]):hover{border-color:var(--line-strong)}
+:root .import-part input:not([type=checkbox]):focus{border-color:var(--blue);box-shadow:0 0 0 3px var(--accent-soft)}
+/* Leader's room on phones: shorter piece rows, so more of the repertoire shows at once. */
+@media(max-width:700px){
+ :root .app:not(.viewer) .track-list .track-row{min-height:0;padding:12px 6px 12px 14px;gap:2px 8px}
+ :root .app:not(.viewer) .track-list .track-tags{margin-top:5px;flex-wrap:nowrap;overflow:hidden}
+ :root .app:not(.viewer) .track-list{gap:8px}
+ .app:not(.viewer) .track-list .select-row{margin:-4px 0 0}
+}
+.drop-zone .primary{display:inline-flex;align-items:center;gap:8px}
+.drop-zone .primary .glyph{display:inline-flex;width:16px;height:16px}
+/* One disclosure style everywhere: a drawn chevron that turns when open (import, piece settings, export, help, notes). */
+:root #dialog details>summary,:root .room-notes>summary{list-style:none;display:flex;align-items:center;gap:9px;cursor:pointer}
+#dialog details>summary::-webkit-details-marker,.room-notes>summary::-webkit-details-marker{display:none}
+:root #dialog details>summary::before,:root .room-notes>summary::before{content:"";flex:none;width:6px;height:6px;margin:0 2px 0 1px;border-right:1.7px solid currentColor;border-bottom:1.7px solid currentColor;font-size:0;transform:rotate(-45deg);transition:transform .15s}
+:root #dialog details[open]>summary::before,:root .room-notes[open]>summary::before{content:"";transform:rotate(45deg) translate(-1px,-1px)}
+/* Piece settings: Edit parts is its own row with room around it, not part of the notes field. */
+#staff-editor.wide-action{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:44px;margin:6px 0 20px;padding:0 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text);font-weight:600;text-align:left}
+#staff-editor.wide-action::after{content:"";width:7px;height:7px;border-right:1.7px solid var(--muted);border-top:1.7px solid var(--muted);transform:rotate(45deg)}
+#staff-editor.wide-action:hover{border-color:var(--line-strong);background:var(--surface-soft)}
+@media(prefers-reduced-motion:reduce){.view-menu>summary .glyph,#dialog details>summary::before,.room-notes>summary::before{transition:none!important}}
