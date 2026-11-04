@@ -66,7 +66,7 @@ await page.goto(pathToFileURL(resolve('dist/index.html')).href);await page.waitF
   assert.equal(await page.locator('[data-name="p0-s1-split1"]').inputValue(),'Soprano renamed','Re-reading keeps custom singing part names');
   assert.equal(await page.locator('[data-volume="p0-s1-split1"]').inputValue(),'37','Re-reading preserves practice mix');
   assert.equal(await page.locator('[data-name]').count(),2,'Re-reading keeps compact shared-staff parts');
-  await page.locator('[data-remove-part="p0-s1-split2"]').click();await page.waitForFunction(()=>document.querySelectorAll('[data-name]').length===1);
+  await page.locator('[data-voice="p0-s1-split2"] .part-menu > summary').click();await page.locator('[data-remove-part="p0-s1-split2"]').click();await page.waitForFunction(()=>document.querySelectorAll('[data-name]').length===1);
   assert.equal(await page.locator('#score-part option[value="p0-s1-split2"]').count(),0,'Removed part disappears from Show');
   await page.reload();await page.waitForSelector('#score svg');assert.equal(await page.locator('[data-name]').count(),1,'Part removal persists');
   const removedDownload=page.waitForEvent('download');await page.locator('#single-export').click();await (await removedDownload).saveAs('test-results/removed-part.html');
