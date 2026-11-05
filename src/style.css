@@ -1718,3 +1718,301 @@ dialog:focus{outline:none}
  :root .viewer .topbar .singer-utilities>summary{width:44px;height:44px;min-height:44px}
 }
 .part-availability{display:inline-block;white-space:nowrap}
+
+/* Round 6: a full-width timeline strip on every player, then one compact control row.
+   Row: play/restart and position · My part (full name) and Mixer · Practice popover (loop, speed, follow) and View. */
+:root .player-layout .dock{flex-direction:column;align-items:stretch;flex-wrap:nowrap;gap:0;height:auto;min-height:0}
+.dk-timeline{display:flex;align-items:center;gap:10px;min-width:0}
+:root .dock .dk-scrub{position:relative;flex:1;min-width:0;height:24px;display:flex;align-items:center}
+.dk-rail{position:absolute;top:0;bottom:0;left:7px;right:7px;pointer-events:none}
+.dk-ticks i{position:absolute;top:50%;width:1px;height:8px;margin:-4px 0 0 -.5px;background:color-mix(in srgb,var(--deck-text) 20%,transparent)}
+.dk-ticks i.major{height:12px;margin-top:-6px;background:color-mix(in srgb,var(--deck-text) 34%,transparent)}
+:root .dock .dk-loop-band{top:50%;height:16px;margin-top:-8px;border-radius:3px;background:color-mix(in srgb,var(--loop) 20%,transparent);box-shadow:inset 2px 0 0 var(--loop),inset -2px 0 0 var(--loop)}
+:root .dock .dk-scrub input{position:relative;z-index:1;width:100%;margin:0;background:transparent}
+:root .dock #seek::-webkit-slider-runnable-track{height:5px;border-radius:3px;background:linear-gradient(to right,var(--blue) var(--progress,0%),color-mix(in srgb,var(--deck-text) 16%,transparent) var(--progress,0%))}
+:root .dock #seek::-webkit-slider-thumb{width:15px;height:15px;margin-top:-5px}
+.dk-scrub-tip{position:absolute;z-index:3;bottom:calc(100% + 2px);transform:translateX(-50%);padding:3px 8px;border-radius:6px;background:var(--text);color:var(--surface);font-size:11.5px;font-weight:650;font-variant-numeric:tabular-nums;white-space:nowrap;box-shadow:0 2px 8px #16181d33}
+.dk-scrub-tip[hidden]{display:none}
+.dk-row{display:flex;align-items:center;gap:8px;min-width:0}
+:root .dock .dk-main{order:0;flex:1 1 auto;display:flex;align-items:center;gap:6px;min-width:0;margin:0}
+:root .dock .dk-parts{order:0;flex:none;display:flex;align-items:center;gap:6px;height:auto;margin:0;padding:0;border:0}
+.dk-practice{position:relative;flex:none;display:flex;align-items:center;gap:6px}
+/* Two-line triggers: a quiet label over the current value. */
+.dk-two{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;min-width:0;line-height:1.15;text-align:left}
+.dock .dk-two>:first-child{font-size:11px;font-weight:500;color:var(--deck-muted)}
+.dock .dk-two>:last-child{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;font-weight:650;color:var(--deck-text)}
+:root .dock .part-picker-button,:root .dock .dk-tools-toggle,:root .dock .dk-mix{display:inline-flex;align-items:center;gap:8px;height:42px;min-height:0;width:auto;padding:0 10px 0 11px;border:1px solid var(--deck-line);border-radius:11px;background:var(--deck);color:var(--deck-text);font-size:13px;font-weight:600;cursor:pointer;list-style:none}
+:root .dock .part-picker-button::-webkit-details-marker{display:none}
+:root .dock .part-picker-button:hover,:root .dock .dk-tools-toggle:hover,:root .dock .dk-mix:hover{background:var(--surface-soft)}
+:root .dock .part-picker[open]>.part-picker-button,:root .dock .dk-tools-toggle[aria-expanded=true],:root .dock .dk-mix[aria-pressed=true]{border-color:var(--blue);background:var(--accent-soft)}
+:root .dock .part-picker-button:focus-visible,:root .dock .dk-tools-toggle:focus-visible,:root .dock .dk-mix:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+:root .dock .part-picker-button>.glyph,:root .dock .dk-tools-toggle>.glyph:last-child{flex:none;width:14px;height:14px;color:var(--deck-muted)}
+:root .dock .dk-tools-toggle>.glyph:first-child{flex:none;width:17px;height:17px;color:var(--deck-muted)}
+:root .dock .dk-tools-toggle.changed>.glyph:first-child,:root .dock .dk-tools-toggle.picking>.glyph:first-child{color:var(--loop)}
+:root .dock .dk-tools-toggle.picking{border-color:var(--loop);background:color-mix(in srgb,var(--loop) 10%,var(--deck))}
+:root .dock .dk-mix .glyph{width:17px;height:17px}
+:root .dock .dk-mix{padding:0 12px}
+.dk-tools-toggle .dk-dot{display:none!important}
+/* My part */
+.part-picker{position:relative;min-width:0}
+.pp-value{display:inline-flex;align-items:center;gap:6px;min-width:0}
+.pp-value .part-dot{flex:none;width:9px;height:9px;border-radius:50%;background:var(--part)}
+.pp-value.pp-empty .part-dot{background:transparent;box-shadow:inset 0 0 0 1.5px var(--deck-muted)}
+.pp-value.pp-empty .pp-name{color:var(--deck-muted);font-weight:550}
+.pp-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.part-picker-body{position:absolute;z-index:40;left:0;bottom:calc(100% + 10px);min-width:232px;max-height:min(60vh,420px);overflow:auto;padding:6px;border:1px solid var(--line);border-radius:14px;background:var(--surface);box-shadow:0 18px 48px #16181d2e,0 2px 6px #16181d14}
+:root[data-theme=dark] .part-picker-body,:root[data-theme=dark] .dock .dk-tools{box-shadow:0 18px 48px #0009,0 0 0 1px #ffffff0d}
+.part-picker-body .menu-label{padding:6px 10px 4px}
+.part-picker-body .part-choice{display:block}
+.part-picker-body .part-choice-label{display:none}
+:root .part-picker-body .part-chips{display:flex!important;flex-direction:column;align-items:stretch;gap:2px;max-width:none!important;overflow:visible;padding:0;border:0;background:transparent}
+:root .part-picker-body .part-chips button{display:flex;justify-content:flex-start;gap:10px;width:100%;height:40px!important;min-height:0;padding:0 10px!important;border:0;border-radius:9px;background:transparent;color:var(--text);font-size:14px;font-weight:550;box-shadow:none;flex:none}
+:root .part-picker-body .part-chips button:hover{background:var(--surface-soft)}
+:root .part-picker-body .part-chips .part-full{display:inline!important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+:root .part-picker-body .part-chips .part-short{display:none!important}
+:root .part-picker-body .part-chips button[aria-pressed] .part-dot{display:inline-block!important;width:9px;height:9px;background:var(--part);opacity:1}
+:root .part-picker-body .part-chips button[aria-pressed=true]{background:color-mix(in srgb,var(--part) 13%,var(--surface));color:var(--text);font-weight:650}
+:root .part-picker-body .part-chips .part-check{order:3;margin-left:auto;color:var(--part);font-size:14px}
+:root .part-picker-body .pp-none{display:flex;align-items:center;width:100%;height:40px;min-height:0;margin-top:4px;padding:0 10px;border:0;border-top:1px solid var(--line);border-radius:0 0 9px 9px;background:transparent;color:var(--muted);font-size:13px;font-weight:500;text-align:left}
+:root .part-picker-body .pp-none:hover{color:var(--text);background:var(--surface-soft)}
+:root .part-picker-body .pp-none[hidden]{display:none}
+/* Practice popover: loop, speed and follow together, with their state on the trigger. */
+#practice-summary{display:inline-flex;gap:0;align-items:baseline}
+#practice-summary>span+span::before{content:"·";margin:0 5px;color:var(--deck-muted);font-weight:500}
+#practice-summary .ps-follow.quiet{font-weight:500;color:var(--deck-muted)}
+#practice-summary .ps-loop{color:var(--loop)}
+#practice-summary .ps-pick{color:var(--loop)}
+:root .dock .dk-tools{position:absolute;z-index:40;right:0;bottom:calc(100% + 10px);display:none!important;flex-direction:column;align-items:stretch;flex-wrap:nowrap;gap:2px;width:320px;height:auto;margin:0;padding:6px 8px 8px;border:1px solid var(--line);border-radius:14px;background:var(--surface);color:var(--text);box-shadow:0 18px 48px #16181d2e,0 2px 6px #16181d14}
+:root .dock.tools-open .dk-tools{display:flex!important}
+.dk-tools-title{order:0;padding:6px 4px 4px}
+:root .dock .dk-tools>*{flex:none;margin:0}
+:root .dock .dk-tools .dk-loop{order:1;display:flex;align-items:center;justify-content:flex-start;gap:4px;height:44px;padding:0 4px;border-radius:10px;background:transparent}
+:root .dock .dk-tools .dk-loop.active{background:color-mix(in srgb,var(--loop) 8%,var(--surface))}
+:root .dock .dk-tools .dk-loop .loop-range{display:inline-flex;margin-left:auto}
+:root .dock .dk-tools .dk-loop .pick-loop{position:static;display:inline-flex;align-items:center;min-width:0;height:32px;padding:0 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--text);box-shadow:none;font-size:12.5px}
+:root .dock .dk-tools .dk-loop .pick-loop[aria-pressed=true]{border-color:var(--loop);background:var(--accent-soft);color:var(--accent-ink)}
+:root .dock .dk-tools .dk-loop-button{order:1}
+:root .dock .dk-tools .dk-speed{order:2;justify-content:space-between;width:100%;height:44px;padding:0 4px 0 8px;border:0;border-radius:10px;background:transparent;color:var(--text);font-size:13px}
+:root .dock .dk-tools .dk-speed .dk-pill-label{display:inline;color:var(--text);font-weight:550}
+:root .dock .dk-tools .dk-speed select{height:32px;padding:0 26px 0 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--text);font-weight:650}
+:root .dock .dk-tools .dk-speed>.glyph{right:13px}
+:root .dock .dk-tools .dk-speed:hover,:root .dock .dk-tools .dk-follow:hover{background:var(--surface-soft)}
+:root .dock .dk-tools .dk-follow{order:3;justify-content:space-between;width:100%;height:44px;padding:0 8px;border:0;border-radius:10px;color:var(--text);font-size:13px;font-weight:550}
+:root .dock .dk-tools .dk-follow::before{display:none}
+:root .dock .dk-tools .dk-follow .dk-switch{order:2}
+:root .dock .dk-tools .dk-extra{order:4;flex-wrap:wrap;gap:4px;padding:6px 4px 0;border-top:1px solid var(--line)}
+:root .dock .dk-tools .dk-loop .loop-toggle{height:32px}
+/* Follow paused: one pill above the dock, centred over the score. */
+:root .dock #follow-resume{position:absolute;z-index:30;left:50%;bottom:calc(100% + 12px);transform:translateX(-50%);display:inline-flex;align-items:center;gap:10px;height:38px;min-height:0;margin:0;padding:0 6px 0 14px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--text);font-size:13px;box-shadow:0 8px 24px #16181d24;white-space:nowrap}
+:root .dock #follow-resume[hidden]{display:none}
+#follow-resume .resume-state{color:var(--muted);font-weight:500}
+#follow-resume strong{display:inline-flex;align-items:center;height:28px;padding:0 12px;border-radius:999px;background:var(--blue);color:#fff;font-weight:650}
+/* Mixer: an explicit My part state on each row. */
+:root .mixer .focus-toggle{flex:none;display:inline-flex;align-items:center;gap:5px;height:30px;min-height:0;padding:0 10px;border:1px solid var(--line);border-radius:8px;background:transparent;color:var(--muted);font-size:12.5px;font-weight:600;white-space:nowrap}
+:root .mixer .focus-toggle:hover{border-color:var(--line-strong);color:var(--text)}
+.focus-check{display:none;font-weight:800}
+:root .mixer .focus-toggle[aria-pressed=true]{border-color:var(--part);background:color-mix(in srgb,var(--part) 14%,var(--surface));color:var(--text)}
+:root .mixer .focus-toggle[aria-pressed=true] .focus-check{display:inline;color:var(--part)}
+:root .mixer .voice-name input,:root .mixer .voice-name strong{min-width:0;flex:1}
+
+@media(min-width:951px){
+ :root .player-layout .dock{padding:2px 16px 8px}
+ .dk-timeline{height:26px}
+ .dk-row{height:48px;gap:6px}
+ :root .dock .dk-readout{order:0;margin-left:6px;min-width:0;flex-direction:row;align-items:center;gap:12px}
+ :root .dock .dk-bar{font-size:13px}
+ :root .dock .dk-time{font-size:12.5px}
+ :root .dock .dk-parts{margin-left:auto}
+ .dk-practice{padding-left:12px;margin-left:6px;border-left:1px solid var(--deck-line);height:32px}
+ :root .dock .dk-mix.dk-narrow{display:none}
+ :root .dock .dk-mix.dk-wide{display:inline-flex}
+ :root .dock .dk-mix>span:not(.glyph){display:inline}
+ :root .dock .dk-tools-toggle{display:inline-flex}
+ :root .dock .dk-tools .dk-loop-button{display:none}
+ :root .dock .part-picker-button{min-width:148px}
+ :root .dock .dk-row>.view-menu{order:0;margin:0}
+ :root .dock .dk-row>.view-menu>summary{height:42px;border:1px solid var(--deck-line);border-radius:11px}
+ :root .dock .view-state{font-size:12.5px}
+ :root .dock .view-menu-body{bottom:calc(100% + 10px)}
+}
+@media(min-width:951px) and (max-width:1300px){
+ :root .dock .dk-mix>span:not(.glyph){display:none}
+ :root .dock .dk-mix{width:42px;padding:0;justify-content:center}
+ :root .dock .part-picker-button{min-width:132px}
+ :root .dock .dk-row>.view-menu .view-state{display:none}
+}
+@media(max-width:950px){
+ :root .player-layout .dock{gap:2px;padding:4px max(12px,var(--safe-right)) max(8px,var(--safe-bottom)) max(12px,var(--safe-left))}
+ .dk-timeline{height:30px;gap:10px}
+ :root .dock .dk-timeline .dk-readout{display:contents}
+ :root .dock .dk-timeline #bar-label{display:inline;order:0;flex:none;min-width:42px;font-size:12.5px;font-weight:650;color:var(--deck-text);font-variant-numeric:tabular-nums}
+ :root .dock .dk-timeline .dk-scrub{order:1;height:30px}
+ :root .dock .dk-timeline .dk-time{order:2;flex:none;font-size:12px;color:var(--deck-muted);font-variant-numeric:tabular-nums}
+ :root .dock .dk-timeline .dk-bar{display:none}
+ .dk-row{gap:6px}
+ :root .dock .dk-main{flex:none;gap:2px}
+ :root .dock .dk-play{width:48px;height:48px}
+ :root .dock .dk-restart{width:38px;height:44px}
+ :root .dock .dk-parts{flex:1 1 auto;min-width:0;gap:6px}
+ .part-picker{flex:1 1 auto}
+ :root .dock .part-picker-button{width:100%;height:46px;padding:0 9px 0 11px;justify-content:space-between}
+ :root .dock .dk-mix.dk-wide{display:none}
+ :root .dock .dk-mix.dk-narrow{display:inline-flex!important;align-items:center;flex:none;flex-direction:column;justify-content:center;gap:1px;width:52px;min-width:0;height:46px;padding:0;font-size:11px;font-weight:600}
+ :root .dock .dk-mix.dk-narrow>span{display:inline;font-size:11px;line-height:1}
+ :root .dock .dk-tools-toggle{order:0;display:inline-flex!important;flex:none;width:auto;height:46px;min-height:0;padding:0 8px 0 9px;gap:6px;flex-wrap:nowrap;border-radius:11px;font-size:13px}
+ :root .dock .dk-tools-toggle>.glyph:last-child{display:none}
+ :root .dock .dk-tools-toggle>.glyph:first-child{width:16px;height:16px}
+ :root .dock .dk-tools-toggle .dk-two>strong{font-size:11px;font-weight:500;color:var(--deck-muted)}
+ :root .dock #practice-summary{width:auto;font-size:13px;font-weight:650;color:var(--deck-text)}
+ :root .dock #practice-summary .ps-follow.quiet{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+ :root .dock #practice-summary .ps-loop>span{display:none}
+ .dk-practice{position:static}
+ .part-picker{position:static}
+ .part-picker-body{left:max(12px,var(--safe-left));right:max(12px,var(--safe-right));bottom:calc(100% + 8px);min-width:0}
+ :root .part-picker-body .part-chips button{height:46px!important;font-size:15px}
+ :root .part-picker-body .pp-none{height:46px;font-size:14px}
+ :root .dock .dk-tools{left:max(12px,var(--safe-left));right:max(12px,var(--safe-right));bottom:calc(100% + 8px);width:auto;max-width:440px;margin-left:auto!important;padding:6px 8px 8px;border-top:1px solid var(--line)}
+ :root .dock .dk-tools .dk-loop{display:none}
+ :root .dock .dk-tools .dk-loop-button{display:flex;align-items:center;justify-content:flex-start;gap:8px;width:100%;height:48px;padding:0 8px;border:0;border-radius:10px;background:transparent;color:var(--text);font-size:14px;font-weight:550}
+ :root .dock .dk-tools .dk-loop-button.loop-active{background:color-mix(in srgb,var(--loop) 9%,var(--surface));color:var(--accent-ink)}
+ :root .dock .dk-tools .dk-speed,:root .dock .dk-tools .dk-follow{height:48px;margin:0;font-size:14px}
+ :root .dock .dk-tools .dk-speed select{height:38px;font-size:14px}
+ :root .dock .dk-tools .dk-follow{border:0;padding:0 8px}
+ :root .dock .dk-tools .dk-speed{border:0;padding:0 4px 0 8px}
+ :root .dock #follow-resume{height:44px;font-size:14px;padding:0 6px 0 16px}
+ #follow-resume strong{height:34px}
+ .show-parts .dk-practice,.show-parts .dk-parts{display:none!important}
+ :root .mixer .focus-toggle{height:40px;padding:0 12px;font-size:13px}
+}
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px){
+ :root .player-layout .dock{flex-direction:column;align-items:stretch;gap:0;padding-top:0;padding-bottom:max(4px,var(--safe-bottom))}
+ .dk-timeline{height:24px}
+ :root .dock .dk-timeline .dk-scrub{height:24px}
+ :root .dock .dk-main{order:0}
+ :root .dock .dk-parts{order:0;flex:0 1 auto}
+ .part-picker{flex:0 1 220px}
+ :root .dock .dk-play{width:42px;height:42px}
+ :root .dock .part-picker-button,:root .dock .dk-tools-toggle,:root .dock .dk-mix.dk-narrow{height:42px}
+ :root .dock .dk-mix.dk-narrow{flex-direction:row;width:auto;padding:0 12px;gap:6px;font-size:13px}
+ :root .dock .dk-mix.dk-narrow>span{font-size:13px}
+ .dk-practice{margin-left:auto}
+ :root .dock #practice-summary .ps-follow.quiet{position:static;width:auto;height:auto;clip-path:none}
+ :root .dock .dk-tools{left:auto;width:340px}
+ .part-picker-body{right:auto;width:280px}
+}
+
+:root .dock .part-picker-button{justify-content:space-between}
+:root .dock .view-menu .dk-two .view-word{font-size:11px;font-weight:500;color:var(--deck-muted)}
+:root .dock .view-menu .view-state::before{display:none}
+:root .dock .view-menu .view-state{display:inline;font-size:13px;font-weight:650;color:var(--deck-text)}
+:root .player-heading .view-menu .dk-two{display:contents}
+@media(max-width:950px){
+ :root .dock .dk-row{gap:5px}
+ :root .dock .dk-play{width:46px;height:46px}
+ :root .dock .dk-restart{width:34px}
+ :root .dock .dk-mix.dk-narrow{gap:3px;width:50px;line-height:1}
+ :root .dock .dk-mix.dk-narrow .glyph{width:18px;height:18px}
+ :root .dock .dk-mix.dk-narrow>span{line-height:12px}
+ :root .dock .dk-tools-toggle>.glyph:first-child{display:none}
+ :root .dock .dk-tools-toggle{padding:0 11px}
+ :root .dock .part-picker-button{min-width:0;padding:0 8px 0 10px;gap:4px}
+ :root .dock .pp-label{white-space:nowrap}
+}
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px){
+ :root .dock .dk-mix.dk-narrow{flex-direction:row;width:auto;padding:0 12px;gap:6px}
+ :root .dock .dk-mix.dk-narrow>span{font-size:13px}
+ :root .dock .dk-tools-toggle>.glyph:first-child{display:inline-block}
+ :root .deck-sideways .score-viewport.horizontal-score{display:flex;flex-direction:column;justify-content:center}
+}
+:root .view-show button:disabled{opacity:1;color:var(--muted);cursor:default;flex-wrap:wrap;height:auto;min-height:44px;padding-top:6px;padding-bottom:6px;align-content:center}
+.view-hint{display:block;width:100%;font-size:11.5px;font-weight:500;color:var(--muted)}
+
+:root .mixer .focus-toggle[aria-pressed=true]{border-color:var(--part);background:var(--part);color:#fff}
+:root .mixer .focus-toggle[aria-pressed=true] .focus-check{color:#fff}
+:root .view-show [data-show=full]{order:-1}
+:root .view-show button:disabled{justify-content:flex-start;text-align:left}
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px){
+ :root .deck-sideways .horizontal-score #score{flex:none;height:auto;min-height:0}
+}
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px){
+ :root .deck-sideways .score-viewport.horizontal-score{-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 36px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 36px),transparent)}
+}
+
+/* Round 6: library rows. Tags are compact labels that never break inside; whole tags wrap. Select all joins the search row. */
+:root .track-list .track-tags{flex-wrap:wrap!important;overflow:visible!important;row-gap:4px;column-gap:6px}
+:root .track-tags .tag,:root .track-tags .folder-chip,:root .track-tags .part-availability{flex:none;white-space:nowrap;font-size:12px;line-height:18px;padding-top:1px;padding-bottom:1px}
+:root .track-tags .tag{padding-left:7px;padding-right:7px;border-radius:5px}
+:root .library-controls>.select-row{display:flex;align-items:center;justify-content:center;margin:0;padding:0;min-height:0;border:0}
+:root .library-controls>.select-row label{display:inline-flex;align-items:center;gap:9px;height:42px;min-height:0;margin:0;padding:0 12px 0 14px;border:1px solid var(--line);border-radius:8px;background:var(--surface);font-size:13px;font-weight:500;color:var(--text);white-space:nowrap;cursor:pointer}
+:root .library-controls>.select-row label:hover{border-color:var(--line-strong)}
+:root .library-controls>.select-row input{margin:0}
+@media(min-width:701px){
+ :root .library-controls:has(>.select-row){grid-template-columns:minmax(240px,1fr) auto auto auto}
+ :root .app:not(.viewer) .track-list .track-row{min-height:0;padding-top:9px;padding-bottom:9px}
+ :root .app:not(.viewer) .track-list .track-tags{margin-top:5px}
+}
+@media(max-width:700px){
+ :root .library-controls:has(>.select-row){grid-template-columns:minmax(0,1fr) auto 46px}
+ :root .library-controls>.select-row label{display:grid;place-items:center;width:46px;height:44px;min-height:44px;padding:0;gap:0;font-size:0;line-height:0;color:transparent;border-radius:12px}
+ :root .library-controls>.select-row input{display:block;width:20px;height:20px}
+ :root .app:not(.viewer) .track-list .track-row{padding-top:11px;padding-bottom:11px}
+ :root .track-list .track-tags{margin-top:6px}
+}
+/* Singer room: the leader's note in full, under the room name. */
+.singer-note{max-width:68ch;margin-top:10px;padding:9px 14px 10px;border-left:3px solid var(--blue);border-radius:0 10px 10px 0;background:var(--surface)}
+.singer-note-label{display:block;font-size:11.5px;font-weight:650;letter-spacing:.02em;color:var(--accent-ink)}
+:root .singer-note-text{margin:3px 0 0;font-size:14px;line-height:1.5;color:var(--text)}
+.singer-note-text.clamp{display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
+.singer-note-more{margin-top:4px;font-size:13px}
+:root .room-part-choice{margin-top:14px}
+.room-part-choice .part-chips{flex-wrap:wrap}
+:root .room-part-choice .part-chips button{white-space:nowrap}
+@media(max-width:950px){
+ :root .room-part-choice .part-choice{align-items:flex-start}
+ :root .room-part-choice .part-choice-label{padding-top:13px}
+ :root .room-part-choice .part-chips,:root .room-part-choice .part-chips.many{display:flex!important;flex-wrap:wrap;overflow:visible}
+ :root .room-part-choice .part-chips button,:root .room-part-choice .part-chips.many button{flex:0 0 auto;min-width:0;padding:0 12px!important}
+ :root .room-part-choice .part-full{display:inline!important}
+ :root .room-part-choice .part-short{display:none!important}
+ :root .room-part-choice .part-chips button[aria-pressed=false] .part-dot{display:inline-block}
+}
+/* Part availability: a pill at the start of the tag row; pieces without your part step back. */
+:root .track-tags .part-availability{display:inline-flex;align-items:center;gap:5px;padding-left:8px;padding-right:8px;border-radius:999px;font-weight:600}
+.part-availability.available{background:color-mix(in srgb,var(--part) 13%,var(--surface));color:var(--text)}
+.part-availability.available .part-dot{width:7px;height:7px;border-radius:50%;background:var(--part)}
+.part-availability.unavailable,.part-availability.unknown{background:var(--surface-soft);color:var(--muted);font-weight:500}
+:root .viewer .track-row.part-missing .track-title,:root .viewer .track-row.part-missing .track-meta,:root .viewer .track-row.part-missing .folder-chip,:root .viewer .track-row.part-missing .tag{opacity:.6}
+:root .library-controls>.select-row input{margin:0!important;vertical-align:middle}
+@media(max-width:950px){
+ :root .room-part-choice .part-choice{flex-direction:column;align-items:stretch;gap:6px}
+ :root .room-part-choice .part-choice-label{padding:0}
+ :root .room-part-choice .part-chips,:root .room-part-choice .part-chips.many{display:flex!important;flex-wrap:wrap;gap:6px;padding:0;border:0;background:transparent;height:auto}
+ :root .room-part-choice .part-chips button,:root .room-part-choice .part-chips.many button{height:40px!important;min-height:40px;padding:0 13px!important;border:1px solid var(--line);border-radius:999px;background:var(--surface);font-size:14px}
+ :root .room-part-choice .part-chips button[aria-pressed=true]{border-color:var(--part);background:var(--part)}
+}
+@media(min-width:951px) and (max-width:1300px){
+ :root .dock .dk-mix.dk-wide>span:not(.glyph){display:inline}
+ :root .dock .dk-mix.dk-wide{width:auto;padding:0 12px}
+ :root .dock .dk-row>.view-menu .view-state{display:inline}
+ :root .dock .view-state>span:not(:first-child){display:inline}
+}
+/* Piece settings: visibility is a three-way choice. */
+.visibility-choice{display:flex;gap:2px;height:40px;padding:3px;border:1px solid var(--line);border-radius:9px;background:var(--surface-soft)}
+:root .visibility-choice button{flex:1 1 0;min-width:0;height:100%;min-height:0;padding:0 8px;border:0;border-radius:7px;background:transparent;color:var(--muted);font-size:13px;font-weight:550;white-space:nowrap}
+:root .visibility-choice button:hover{color:var(--text)}
+:root .visibility-choice button[aria-pressed=true]{background:var(--surface);color:var(--text);font-weight:650;box-shadow:0 1px 2px #16181d26,0 0 0 1px var(--line)}
+:root .visibility-choice button:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+.visibility-select{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+/* Import: the tag field's text sits on the same baseline as the folder field. */
+:root .import-organise .tag-entry{align-items:center;padding:0 8px 0 9px}
+:root .import-organise .tag-entry input{height:38px;min-height:0;padding:0 3px;line-height:38px}
+/* Loop edges sit just outside the bars they bound, so a bar number at a system start stays readable. */
+:root .measure-hit.loop-first{border-left:0;box-shadow:-3px 0 0 var(--loop)}
+:root .measure-hit.loop-last{border-right:0;box-shadow:3px 0 0 var(--loop)}
+:root .measure-hit.loop-first.loop-last{box-shadow:-3px 0 0 var(--loop),3px 0 0 var(--loop)}
+@media(max-width:700px){
+ :root .dock .dk-row{gap:4px}
+ :root .dock .dk-tools-toggle{padding:0 8px}
+ :root .dock #practice-summary>span+span::before{margin:0 3px}
+ :root .dock .part-picker-button{padding:0 6px 0 9px}
+}

@@ -18,7 +18,7 @@ try{
   assert.ok(parseInt(await page.locator('#zoom-label').textContent())>=78&&parseInt(await page.locator('#zoom-label').textContent())<=100,'Phone score opens at a readable staff scale');
   // On phones the part buttons choose what is shown and heard; the Show list is desktop-only.
   assert.equal(await page.locator('#score-part').isVisible(),false,'Phone has one part control, not two');
-  await page.locator('[data-practise]').nth(1).click();
+  await page.locator('.part-picker > summary').click();await page.locator('[data-practise]').nth(1).click();
   await page.waitForFunction(()=>{const s=document.querySelector('#score-part');return !s.disabled&&s.value===document.querySelectorAll('[data-practise]')[1].dataset.practise;});
   assert.equal(await page.locator('[data-practise]').nth(1).getAttribute('aria-pressed'),'true','Shown part is the part you practise');
   await page.evaluate(()=>{for(const key of Object.keys(localStorage))if(key.startsWith('concentavo-my-voice-'))localStorage.removeItem(key);});await page.reload();
@@ -31,7 +31,8 @@ try{
   await page.locator('[data-show="mine"]').click();await page.waitForFunction(()=>!document.querySelector('#score-part').disabled&&document.querySelector('#score-part').value===document.querySelectorAll('[data-practise]')[1].dataset.practise);await page.keyboard.press('Escape');
   assert.match(await page.locator('#tools-toggle').innerText(),/Practice.*100%.*Follow on/s,'Closed Practice drawer names its current settings');
   assert.equal(await page.locator('#mobile-parts span:not(.glyph)').innerText(),'Mixer','Mixer has an explicit visible label');
-  assert.equal(await page.locator('[data-practise][aria-pressed="true"] .part-check').isVisible(),true,'Part selection has a non-colour checkmark');
+  assert.match(await page.locator('.part-picker > summary').innerText(),new RegExp(await page.locator('[data-practise]').nth(1).getAttribute('aria-label')),'The dock names the chosen part in full');
+  await page.locator('.part-picker > summary').click();assert.equal(await page.locator('[data-practise][aria-pressed="true"] .part-check').isVisible(),true,'Part selection has a non-colour checkmark');await page.keyboard.press('Escape');
   assert.equal(await page.locator('#score-view').count(),0,'Mixer does not duplicate the score selector');
   // Loop and speed sit in the practice tools, one tap away on an upright phone.
   await page.locator('#tools-toggle').click();
@@ -39,7 +40,7 @@ try{
   await page.locator('#dialog-jump').fill('4');
   await page.locator('#dialog-go').click();
   assert.ok(Number(await page.locator('#seek').inputValue())>0,'Phone bar navigation works');const reading=await page.locator('#score-part').inputValue(),position=await page.locator('#seek').inputValue();await page.locator('#view-menu > summary').click();await page.locator('#notation-size').click();assert.equal(await page.locator('#score-part').inputValue(),reading,'Notation size keeps the chosen voice');assert.equal(await page.locator('#seek').inputValue(),position,'Notation size keeps playback position');await page.locator('#zoom-fit').click();
-  await page.locator('[data-practise][aria-pressed="true"]').click();
+  await page.locator('.part-picker > summary').click();await page.locator('[data-practise][aria-pressed="true"]').click();
   await page.waitForFunction(()=>{const s=document.querySelector('#score-part');return !s.disabled&&s.value==='';});
   await page.reload();await page.waitForSelector('#score svg');assert.equal(await page.locator('#score-part').inputValue(),'','Full-score choice survives refresh on a phone');
   await page.locator('#mobile-parts').click();

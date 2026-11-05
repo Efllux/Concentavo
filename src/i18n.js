@@ -1,4 +1,5 @@
 const nl={
+  'Highlight':'Markeren','Choose a part first':'Kies eerst een partij','Choose part':'Kies partij','Full mix · no part':'Volledige mix · geen partij','Choose the part you practise':'Kies de partij die je oefent',
   'No {part} part':'Geen partij voor {part}',
 
   'My part brings your voice forward. Select it again to restore your mix.':'Mijn partij brengt je stem naar voren. Kies opnieuw om je mix te herstellen.',
@@ -13,7 +14,7 @@ const nl={
   'Import scores, check the detected parts, then save.':'Importeer partituren, controleer de gevonden partijen en sla op.',
   'Use Piece settings for part names, tags and visibility.':'Gebruik Stukinstellingen voor partijnamen, labels en zichtbaarheid.',
   'Focus brings one part forward. Select it again to restore your mix.':'Focus brengt één partij naar voren. Kies opnieuw om je mix te herstellen.',
-  'Click a bar to seek. Select loop, then choose its first and last bars.':'Klik op een maat om erheen te gaan. Kies Herhaling kiezen en daarna de eerste en laatste maat.',
+  'Click a bar to seek. In Practice, choose Select bars, then the first and last bars of your loop.':'Klik op een maat om erheen te gaan. Kies in Oefenen Maten kiezen en daarna de eerste en laatste maat van je herhaling.',
   'Manual scrolling pauses Follow score. Select Resume to follow playback again.':'Handmatig scrollen pauzeert Volg partituur. Kies Hervatten om het afspelen weer te volgen.',
   'Use Sideways for a continuous score in landscape.':'Gebruik Zijwaarts voor een doorlopende partituur in liggende stand.',
   'Follow paused':'Volgen gepauzeerd','Keyboard':'Toetsenbord','Back or forward five seconds':'Vijf seconden terug of vooruit','Move between controls and activate':'Naar volgende bediening gaan en activeren',
