@@ -19,7 +19,7 @@ try{
  });
  assert.deepEqual(result.root,{title:'Afspeelinstellingen',label:'Alto dempen',text:'Wijzigingen opslaan'});
  assert.deepEqual(result.input,{placeholder:'Een bericht voor je koor…',label:'Soprano publiceren'});
- assert.deepEqual(result.dynamic,['Label A cappella verwijderen','Alto solo','Mijn partij: geen','Maat 12','Herhaal 9–12','1 stuk geïmporteerd.','3 stukken geïmporteerd.','5 partijen · kies wat online verschijnt']);
+ assert.deepEqual(result.dynamic,['Label A cappella verwijderen','Alto solo','Mijn partij: geen','Maat 12','Herhaling 9–12','1 stuk geïmporteerd.','3 stukken geïmporteerd.','5 partijen · kies wat online verschijnt']);
  assert.deepEqual(result.repeated,result.dynamic,'Repeated dynamic translation is stable');
  assert.equal(result.title,'Concentavo · Repetitieruimtes');assert.equal(result.en,'Loop 9–12');
  console.log('PASS: Dutch dynamic text, root attributes, template specificity, repeated updates and English source labels.');

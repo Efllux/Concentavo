@@ -2637,3 +2637,122 @@ dialog:focus{outline:none}
 :root dialog .dialog-body{background:linear-gradient(transparent,var(--surface) 70%) bottom/100% 28px no-repeat local,radial-gradient(farthest-side at 50% 100%,#16181d26,transparent) bottom/100% 12px no-repeat scroll,var(--surface)}
 :root .shortcut-table td:first-child{white-space:nowrap}@media(min-width:701px){:root .shortcut-table td:first-child{width:92px}}
 @media(max-width:700px){:root:root .viewer #folder-tabs{padding-bottom:6px;margin-bottom:6px}:root:root .viewer .project-heading{margin-bottom:10px}}
+
+/* Round 10: the phone singer room starts with music. The choir name is the header; one sticky bar holds My part, search and the folders. */
+.topbar-room{display:none}
+.search-open,.search-close{display:none}
+@media(min-width:701px){#singer-bar{display:contents}}
+@media(max-width:700px){
+ :root:root .viewer:not(.is-player) .topbar{height:48px;min-height:48px;padding:2px 10px 2px 16px;gap:10px;border-bottom:1px solid var(--line)}
+ :root:root .viewer:not(.is-player) .main:has(.singer-note) .topbar{border-bottom-color:transparent}
+ :root:root .viewer:not(.is-player) .topbar .brand-button{display:none}
+ :root:root .viewer:not(.is-player) .topbar .room-header{flex:1;min-width:0}
+ :root:root .viewer .topbar-room{display:block;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size:18px;line-height:24px;font-weight:650;letter-spacing:-.01em;color:var(--text)}
+ :root:root .viewer:not(.is-player) .content{padding-top:0}
+ :root:root .viewer .project-heading{margin:0;padding:0;gap:0}
+ :root:root .viewer .project-heading .room-name-row{display:block;min-height:0;margin:0}
+ :root:root .viewer .project-heading h1{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+ :root:root .viewer .room-part-choice:empty{display:none}
+ /* Rehearsal notes: one 44px line that reads as the second line of the header; the full text opens in place. */
+ :root:root .viewer .singer-note{width:auto;max-width:none;margin:0 -16px;padding:0 16px;border:0;border-bottom:1px solid var(--line);border-radius:0;background:var(--surface)}
+ :root:root .viewer .singer-note>summary{min-height:44px;gap:8px}
+ :root:root .viewer .singer-note-label{font-size:12.5px;font-weight:650;color:var(--accent-ink)}
+ :root:root .viewer .singer-note-preview{font-size:14px;color:var(--text)}
+ :root:root .viewer .singer-note-text{margin:0 0 12px;padding:0;border:0;max-width:65ch}
+ /* The sticky bar. */
+ :root:root .viewer .singer-bar{position:sticky;top:0;z-index:25;display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 -16px 6px;padding:6px 16px;background:var(--canvas);border-bottom:1px solid var(--line)}
+ :root:root .viewer .singer-bar>.room-part-picker{flex:none;width:auto;max-width:150px;margin:0}
+ :root:root .viewer .singer-bar>.room-part-picker>.part-picker-button{width:auto;min-width:0;max-width:150px;height:44px;min-height:44px;gap:8px;padding:0 8px 0 10px;border-radius:10px}
+ :root:root .viewer .singer-bar .pp-label{font-size:11px;line-height:13px}
+ :root:root .viewer .singer-bar .pp-value{display:flex;align-items:center;gap:5px;min-width:0;font-size:14px;line-height:18px}
+ :root:root .viewer .singer-bar .pp-name{min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+ :root:root .viewer .singer-bar .dk-two{min-width:0}
+ :root:root .viewer .singer-bar>.room-part-picker>.part-picker-button>.glyph{flex:none;width:14px;height:14px}
+ :root:root .viewer .singer-bar .search-open,:root:root .viewer .singer-bar .search-close{display:inline-flex;align-items:center;justify-content:center;flex:none;width:44px;height:44px;min-height:44px;padding:0;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text)}
+ :root:root .viewer .singer-bar .search-open .glyph,:root:root .viewer .singer-bar .search-close .glyph{width:19px;height:19px}
+ :root:root .viewer .singer-bar .search-close{border-color:transparent;background:transparent}
+ :root:root .viewer #singer-bar>#folder-tabs{flex:1 1 0;min-width:0;display:flex;gap:6px;margin:0;padding:0 24px 0 0;border:0;overflow-x:auto;scroll-padding-inline:0 24px;scrollbar-width:none;-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 24px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 24px),transparent)}
+ :root:root .viewer .singer-bar>.folder-tabs::-webkit-scrollbar{display:none}
+ :root:root .viewer .singer-bar .folder-tab{flex:none;min-height:44px;height:44px;padding:0 12px;gap:7px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text);font-size:14px;font-weight:600;box-shadow:none}
+ :root:root .viewer .singer-bar .folder-tab.active{border-color:color-mix(in srgb,var(--blue) 45%,transparent);background:var(--accent-soft);color:var(--accent-ink)}
+ :root:root .viewer .singer-bar>.library-controls{display:contents}
+ :root:root .viewer .singer-bar .search-wrap{display:none}
+ :root:root .viewer .singer-bar.searching .search-wrap{display:flex;align-items:center;gap:4px;flex:1 1 0;min-width:0;max-width:none;width:auto}
+ :root:root .viewer .singer-bar.searching .search-wrap input{flex:1;min-width:0;width:auto;height:44px}
+ :root:root .viewer #singer-bar.searching>#search-open,:root:root .viewer #singer-bar.searching>#folder-tabs{display:none}
+ :root:root .viewer .singer-bar .library-filters.expanded{display:flex;flex:1 0 100%;flex-wrap:wrap;gap:8px;margin:2px 0 0}
+ :root:root .viewer .compact-library .track-list,:root:root .viewer .track-list{margin-top:0}
+}
+@media(max-width:700px){:root:root .viewer #singer-bar #search::-webkit-search-cancel-button{display:none;-webkit-appearance:none}}
+
+/* Round 10: the dock trigger group never moves. Each trigger has a fixed width per breakpoint; summaries change inside it. */
+@media(min-width:951px){
+ :root:root .dock .dk-group .part-picker-button{width:150px}
+ :root:root .dock .dk-tools-toggle{width:236px}
+ :root:root .dock .dk-group .view-menu>summary{width:272px}
+ :root:root .dock .dk-group .part-picker-button>.dk-two,:root:root .dock .dk-tools-toggle>.dk-two,:root:root .dock .dk-group .view-menu>summary>.dk-two{flex:1;min-width:0}
+ :root:root .dock .dk-group .part-picker-button>.glyph:last-child,:root:root .dock .dk-tools-toggle>.glyph:last-child,:root:root .dock .dk-group .view-menu>summary>.glyph:last-child{margin-left:auto}
+ :root .dock #practice-summary,:root .dock .view-state{display:block;min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ :root:root .dock .dk-group .dk-two{overflow:hidden}
+ :root .dock .dk-group .pp-value{min-width:0}
+ :root .dock .dk-group .pp-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ :root .dock #practice-summary>span{display:inline}
+ :root .dock #practice-summary .ps-loop{display:inline}
+ :root .dock #practice-summary .ps-loop .glyph{display:inline-block;vertical-align:-2px;margin-right:3px}
+}
+@media(min-width:951px) and (max-width:1300px){
+ :root:root .dock .dk-tools-toggle{width:212px}
+ :root:root .dock .dk-group .view-menu>summary{width:268px}
+}
+@media(min-width:951px) and (max-width:1150px){
+ :root:root .dock .dk-group .part-picker-button{width:124px}
+ :root:root .dock .dk-tools-toggle{width:190px}
+ :root:root .dock .dk-group .view-menu>summary{width:176px}
+}
+/* Phones: the closed Practice trigger names an active loop; Follow returns to the summary when the loop is off. */
+@media(max-width:950px){
+ :root .dock #practice-summary .ps-loop{display:inline-flex}
+ :root .dock #practice-summary .ps-loop~.ps-follow{display:none}
+ :root .dock #practice-summary .ps-loop+span::before{display:inline}
+}
+/* Timeline labels: readable numerals; the rail start needs no "1", and a label never sits under a loop handle (paintTickPointer). */
+:root .dk-ticks i>span{font-size:11px;line-height:13px;font-weight:600}
+:root .dk-ticks i.major:first-child>span{visibility:hidden!important}
+@media(min-width:951px){:root:root .dock .dk-play{width:44px;height:44px}}
+/* Highlight my part: the other staves step back to about 45% ink in light mode too, matching dark. */
+:root:root .staff-dim{opacity:.56}
+/* Mixer: enabled secondary buttons use primary ink; grey is kept for disabled controls. */
+:root:root .mixer .voice .focus-toggle[aria-pressed=false],:root:root .mixer .voice .part-toggle[aria-pressed=false]{color:var(--text);border-color:var(--line-strong,var(--line))}
+:root:root .mixer .voice .focus-toggle:disabled,:root:root .mixer .voice .part-toggle:disabled{color:var(--muted)}
+/* Phone portrait: View is an icon button like settings beside it, so long (and Dutch) titles keep their width. */
+@media(max-width:700px){
+ :root:root .player-heading .view-menu>summary{width:44px;min-width:44px;height:44px;padding:0;justify-content:center;gap:0}
+ :root:root .player-heading .view-menu>summary .view-word,:root:root .player-heading .view-menu>summary .view-state{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+ :root:root .player-heading .view-menu>summary>.glyph:first-child{width:20px;height:20px}
+}
+/* Dark theme: the pale violet loop fill takes dark ink (about 6:1), never white. */
+:root[data-theme=dark]{--on-loop:#16142f}
+:root[data-theme=dark] .measure-hit.loop-first::before,:root:root[data-theme=dark] .dock .dk-loop .loop-toggle[aria-pressed=true],:root:root:root[data-theme=dark] .dock .dk-tools .dk-loop .loop-toggle[aria-pressed=true],:root[data-theme=dark] .transport .loop-toggle[aria-pressed=true]{color:var(--on-loop)}
+/* Dark theme: selection checkboxes are outlines like light mode, filled violet only when checked. */
+:root[data-theme=dark] input[type=checkbox][data-select],:root[data-theme=dark] #select-all{-webkit-appearance:none;appearance:none;flex:none;width:18px;height:18px;margin:0;border:1.5px solid #ffffff5c;border-radius:5px;background:transparent;cursor:pointer;display:inline-grid;place-content:center}
+:root[data-theme=dark] input[type=checkbox][data-select]:hover,:root[data-theme=dark] #select-all:hover{border-color:#ffffff8c}
+:root[data-theme=dark] input[type=checkbox][data-select]:checked,:root[data-theme=dark] #select-all:checked{border-color:var(--blue);background:var(--blue) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12.5 4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/14px no-repeat}
+:root[data-theme=dark] input[type=checkbox][data-select]:focus-visible,:root[data-theme=dark] #select-all:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+:root[data-theme=dark] #select-all:indeterminate{border-color:var(--blue);background:var(--blue) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M6 12h12'/%3E%3C/svg%3E") center/14px no-repeat}
+/* Singer room, wide screens: the Tags column gets the width an author column does not need, so accompaniment tags stay visible. */
+:root .viewer .piece-list{--piece-columns:minmax(180px,1.6fr) minmax(100px,.9fr) minmax(120px,1.35fr) 64px 88px var(--piece-actions)}
+/* Singer room, wide screens: the leader's notes get a two-line preview and the same accent label as on phones. */
+@media(min-width:701px){
+ :root:root .viewer .singer-note>summary{align-items:flex-start;padding-block:12px;min-height:44px}
+ :root:root .viewer .singer-note-label{padding-top:1px;font-size:12px;font-weight:650;color:var(--accent-ink)}
+ :root:root .viewer .singer-note-preview{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;font-size:14px;line-height:1.45}
+ :root:root .viewer .singer-note>summary>.glyph{margin-top:3px}
+}
+@media(min-width:701px){:root:root .viewer .singer-note[open] .singer-note-preview{display:none}}
+@media(max-width:700px){
+ :root:root .dock .dk-tools .dk-loop{gap:6px}
+ :root:root:root .dock .dk-tools .dk-loop .loop-range input{width:38px}
+ :root:root .dock .dk-tools .dk-loop .pick-loop{padding:0 10px}
+}
+/* Phone leader library: the folder strip fades at the edge so it reads as scrollable, not clipped. */
+@media(max-width:700px){:root:root .app:not(.viewer) #folder-tabs{-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 32px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 32px),transparent);scroll-padding-inline:0 32px}:root:root .app:not(.viewer) #folder-tabs::after{content:'';flex:none;width:16px}}
