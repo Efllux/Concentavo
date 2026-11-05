@@ -1,4 +1,5 @@
 const nl={
+  'Go to bar…':'Ga naar maat…','Select':'Selecteren','Slower':'Langzamer','Faster':'Sneller','Click to seek; drag to loop':'Klik om te springen; sleep voor een herhaling',
   'Highlight':'Markeren','Choose a part first':'Kies eerst een partij','Choose part':'Kies partij','Full mix · no part':'Volledige mix · geen partij','Choose the part you practise':'Kies de partij die je oefent',
   'No {part} part':'Geen partij voor {part}',
 

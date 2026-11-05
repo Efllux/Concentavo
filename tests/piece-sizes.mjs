@@ -82,7 +82,7 @@ try{
   await singer.goto(pathToFileURL(resolve('test-results/choir-site.html')).href);await singer.waitForSelector('#voice-pref');
   const choices=await singer.locator('#voice-pref option').allTextContents();
   assert.ok((await singer.locator('[data-my-part="Alto 2"]').count())===1&&choices.includes('Anna · Alto 2'),'Website offers the choir parts and named singers');
-  await singer.locator('[data-my-part="Bass 1"]').click();
+  await singer.locator('.room-part-picker > summary').click();await singer.locator('[data-my-part="Bass 1"]').click();
   assert.ok((await singer.locator('.part-availability.unavailable').count())>0,'Room marks pieces without the chosen part');
   await singer.locator('#voice-pref').selectOption('@Anna');
   await singer.getByRole('button',{name:'Large double choir',exact:true}).click();
