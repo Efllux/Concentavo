@@ -15,11 +15,12 @@ export function pieceListHTML(tracks,{viewer,selected,sortMode,missing,visibilit
   }).join('')}</div>`;
 }
 
-// Fit whole tags on one line at every width. Overflow opens a keyboard-accessible menu containing every tag.
+// Desktop tables show every tag, wrapping when needed. Phone overflow opens a keyboard-accessible menu containing every tag.
 export function fitPieceTags(root){
   for(const row of root.querySelectorAll('.piece-list-row')){
     const host=row.querySelector('.track-tags'),more=host.querySelector('.piece-tags-more'),tags=[...host.children].filter(el=>el.matches('.tag'));
     tags.forEach(el=>el.hidden=false);more.hidden=true;
+    if(matchMedia('(min-width:701px)').matches)continue;
     const available=host.clientWidth,gap=parseFloat(getComputedStyle(host).gap)||0;
     let used=tags.reduce((n,el)=>n+el.getBoundingClientRect().width+gap,0),hidden=0;
     // Reserve the overflow trigger before hiding tags, so it never clips its last neighbour.

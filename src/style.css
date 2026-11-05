@@ -2880,3 +2880,184 @@ dialog:focus{outline:none}
 /* Dark dialogs: the tag field is one field; its inner input stays transparent inside the filled wrapper. */
 :root[data-theme=dark] dialog .tag-entry{background:#15171c;border-color:#ffffff33}
 :root[data-theme=dark] dialog .tag-entry input:not([type=checkbox]){background:transparent;border-color:transparent}
+
+/* Round 12: readable instruments, compact room tasks, and one notes disclosure. */
+.folder-picker{display:contents}
+.folder-picker>summary,.folder-options>.menu-label{display:none}
+.folder-options{display:contents}
+.leader-row-open{display:none}
+.rehearsal-note{position:relative;min-width:0}
+.notes-empty{min-height:44px;border-style:dashed;background:transparent;color:var(--muted);text-align:left}
+.notes-edit{position:absolute;right:14px;top:0;min-height:44px;padding:0 8px;font-size:14px}
+:root:root .project-heading .rehearsal-note .singer-note{width:100%;max-width:none;margin:0;padding:0 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+:root:root .project-heading .singer-note>summary{display:flex;align-items:center;gap:14px;min-height:44px;padding:10px 0;list-style:none;cursor:pointer}
+:root:root .project-heading .singer-note-label{flex:none;font-size:12.5px;font-weight:650;color:var(--accent-ink);padding:0}
+:root:root .project-heading .singer-note-preview{display:block;flex:1;min-width:0;max-width:none;font-size:14px;line-height:1.45;white-space:nowrap;overflow:hidden;text-overflow:clip}
+:root:root .project-heading .singer-note>summary>.glyph{flex:none;width:16px;height:16px;margin:0 0 0 auto;color:var(--muted)}
+:root:root .project-heading .singer-note[open] .singer-note-preview{visibility:hidden}
+:root:root .project-heading .singer-note-text{max-width:72ch;margin:0 0 14px;padding:0;background:none;border:0;font-size:14px;line-height:1.5}
+.pr-label small{display:block;max-width:180px;font-size:11.5px;font-weight:400;line-height:1.35;color:var(--muted);white-space:normal}
+.speed-bpm{font-size:13px;font-weight:600;white-space:nowrap;font-variant-numeric:tabular-nums}
+#follow-resume strong{background:var(--primary-fill,var(--blue))}
+:root[data-theme=dark] dialog input:not([type=checkbox]):not([type=radio]):not([type=color]):not([type=range]),:root[data-theme=dark] dialog textarea,:root[data-theme=dark] dialog select,:root[data-theme=dark] dialog .tag-entry{border-color:#777b89}
+:root[data-theme=dark] .visibility-choice button,:root[data-theme=dark] #staff-editor{border-color:#777b89;background:#15171c}
+:root[data-theme=dark] .visibility-choice button[aria-pressed=true]{background:#39345f;border-color:#aaa4ff;color:#eeeaff;box-shadow:inset 0 0 0 1px #aaa4ff}
+@media(min-width:701px){
+ :root:root .project-heading{position:relative;padding-bottom:0}
+ :root:root .project-heading .room-title{display:contents}
+ :root:root .project-heading{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0 16px}
+ .project-heading .room-name-row{grid-area:1/1}
+ .project-heading .room-actions,.project-heading .room-part-choice{grid-area:1/2}
+ :root:root .project-heading .rehearsal-note,:root:root .project-heading .notes-empty{grid-column:1/-1;margin-top:14px}
+ :root:root .app:not(.viewer) .project-heading .singer-note>summary{padding-right:84px}
+ :root:root .app:not(.viewer) .project-heading .singer-note>summary>.glyph{display:none}
+ :root:root .piece-list .piece-list-row .track-tags{flex-wrap:wrap!important;row-gap:3px}
+}
+@media(min-width:951px){
+ :root:root .dock .dk-group{flex:none;gap:8px;margin-left:auto}
+ :root:root .dock .dk-group>.dk-parts{gap:8px}
+ :root:root .dock .part-picker-button,:root:root .dock .dk-tools-toggle,:root:root .dock .view-button,:root:root .dock .dk-mix{display:flex;align-items:center;justify-content:center;gap:8px;height:44px;min-height:44px;padding:0 12px;font-size:14px;font-weight:600;line-height:20px;border-radius:8px}
+ :root:root .dock .part-picker-button{width:184px;min-width:184px}
+ :root:root .dock .dk-tools-toggle{width:192px;min-width:192px}
+ :root:root .dock .view-menu,:root:root .dock .view-button{width:158px;min-width:158px;max-width:none}
+ :root:root .dock .dk-mix{width:94px;min-width:94px}
+ :root:root .dock .dk-two{display:flex;flex-direction:row;align-items:center;gap:0;min-width:0;font-size:14px;line-height:20px}
+ :root:root .dock .pp-label,:root:root .dock .dk-cap,:root:root .dock .view-word{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+ :root:root .dock .pp-value,:root:root .dock .pp-name,:root:root .dock .view-state,:root:root .dock #practice-summary{font-size:14px;font-weight:600;line-height:20px;white-space:nowrap}
+ :root:root .dock .part-picker-button .pp-value{max-width:138px}
+ :root:root .dock .part-picker-button .pp-name{min-width:0;overflow:hidden;text-overflow:ellipsis}
+ :root:root .dock .dk-tools-toggle>.glyph:first-child{display:inline-flex;flex:none;width:17px;height:17px}
+ :root:root .dock .dk-tools-toggle>.glyph:last-child,:root:root .dock .part-picker-button>.glyph:last-child,:root:root .dock .view-button>.glyph:last-child{flex:none;width:12px;height:12px;margin-left:auto}
+ :root:root .dock #practice-summary .ps-follow{display:none}
+ :root:root .dock #practice-summary .ps-loop{display:inline-flex;font-size:14px}
+ :root:root .dock #practice-summary .ps-loop>.glyph{display:none}
+ :root:root .dock #practice-summary .ps-loop+.ps-speed::before{content:'·';display:inline;margin:0 5px}
+ :root:root .dock .dk-timeline{height:24px}
+}
+@media(max-width:700px){
+ :root:root:root .app .project-heading .rehearsal-note{grid-area:2/1/3/3;width:auto;margin:0;min-width:0}
+ :root:root:root .app .project-heading .rehearsal-note .singer-note{margin:0;padding:0 16px;border:0;border-bottom:1px solid var(--line);border-radius:0}
+ :root:root:root .viewer .project-heading .rehearsal-note{margin:0 -16px}
+ :root:root:root .app .project-heading .singer-note>summary{height:44px;min-height:44px;padding:0;gap:8px}
+ :root:root:root .app .project-heading .singer-note>summary>.glyph{display:inline-flex}
+ .notes-edit{display:none}
+ :root:root:root .viewer #singer-bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px;padding:6px 16px}
+ :root:root:root .viewer #singer-bar>.room-part-picker{flex:1 1 0;min-width:0;max-width:182px;width:auto;order:0}
+ :root:root:root .viewer #singer-bar .room-part-picker>.part-picker-button{width:100%;max-width:none;min-width:0;padding:0 10px}
+ :root:root:root .viewer #singer-bar .room-part-picker .dk-two{display:flex;flex-direction:column;align-items:flex-start;gap:0}
+ :root:root:root .viewer #singer-bar .room-part-picker .pp-label{font-size:11px}
+ :root:root:root .viewer #singer-bar>.folder-tabs,:root:root:root .viewer #singer-bar.searching>.folder-tabs,:root:root:root .app:not(.viewer) #library-bar #folder-tabs{display:block;flex:1 1 0;min-width:0;order:1;margin:0;padding:0;border:0;overflow:visible;mask-image:none;-webkit-mask-image:none}
+ :root:root:root .viewer #singer-bar>#search-open{order:2}
+ :root:root:root .viewer #singer-bar.searching>.folder-tabs{display:none}
+ :root:root:root .viewer #singer-bar.searching .search-wrap{order:0;flex:1 1 100%}
+ :root:root:root .app #folder-tabs::after{display:none}
+ .folder-picker{position:relative;display:block;min-width:0}
+ .folder-picker>summary{display:flex;align-items:center;gap:6px;min-height:44px;height:44px;padding:0 9px;list-style:none;cursor:pointer;border:1px solid var(--line);border-radius:10px;background:var(--surface);font-size:14px;font-weight:600}
+ .folder-picker>summary::-webkit-details-marker{display:none}
+ .folder-picker>summary>.glyph{flex:none;width:13px;height:13px;margin-left:auto;color:var(--muted)}
+ .folder-selected{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .folder-count{color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
+ .folder-picker[open]>summary{border-color:var(--blue);background:var(--accent-soft);color:var(--accent-ink)}
+ .folder-options{position:fixed;z-index:45;left:16px;right:16px;top:auto;display:block;max-height:60dvh;overflow:auto;margin-top:6px;padding:8px;border:1px solid var(--line);border-radius:12px;background:var(--surface);box-shadow:0 10px 32px #0003}
+ .folder-options>.menu-label{display:block;padding:6px 10px}
+ :root:root:root .app #folder-tabs .folder-options .folder-tab{display:flex;align-items:center;justify-content:flex-start;gap:8px;width:100%;height:auto;min-height:44px;padding:10px;border:0;border-radius:7px;white-space:normal;text-align:left;line-height:1.4}
+ :root:root:root .app #folder-tabs .folder-options .folder-tab::after{display:none}
+ .folder-options .folder-tab span{margin-left:auto;flex:none}
+ :root:root:root .app:not(.viewer) .project-heading .room-actions{padding-right:12px}
+ :root:root:root .app:not(.viewer) #library-bar{padding:6px 16px;gap:6px}
+ #library-primary{display:flex;align-items:center;gap:6px;min-width:0;order:0}
+ :root:root:root .app:not(.viewer) #library-primary #import,:root:root:root .app:not(.viewer) #library-primary #export-project{display:inline-flex;align-items:center;justify-content:center;flex:none;gap:5px;width:auto;min-width:0;height:44px;min-height:44px;padding:0 9px;font-size:13px;white-space:nowrap}
+ :root:root:root #library-primary .action-full{display:none}
+ :root:root:root #library-primary .action-short{display:inline;margin:0}
+ #library-primary .glyph{width:16px;height:16px}
+ :root:root:root .app:not(.viewer) #library-bar>.library-controls{order:1}
+ :root:root:root .app:not(.viewer) .piece-list .piece-select{display:none}
+ :root:root:root .app:not(.viewer) .piece-list .leader-row-open{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;color:var(--muted)}
+ :root:root:root .library-selecting .piece-list .piece-select{display:flex}
+ :root:root:root .library-selecting .piece-list .leader-row-open{display:none}
+ :root:root:root .library-selecting #library-primary{display:none}
+ :root:root:root .library-selecting #bulk-actions:has(.bulk){position:fixed;left:0;right:0;bottom:0;z-index:40;padding:6px 12px max(6px,env(safe-area-inset-bottom));background:var(--surface);border-top:1px solid var(--line)}
+ :root:root:root .library-selecting #bulk-actions .bulk{display:flex;flex-wrap:wrap;gap:4px;margin:0;padding:0;background:none}
+ :root:root:root .library-selecting #bulk-actions .bulk button{min-height:44px}
+ :root:root:root .library-selecting #tracks{padding-bottom:130px}
+ /* Give the title the space previously spent on a second settings button. */
+ :root:root:root .player-heading.compact-view .view-menu>summary{width:44px;min-width:44px;padding:0;gap:0}
+ :root:root:root .player-heading.compact-view .view-menu>summary .view-word{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+}
+@media(max-width:950px){
+ :root:root .dock .dk-loop-handles{display:none}
+ :root:root .dock .dk-tools .pr-speed{gap:8px}
+ :root:root .dock .dk-tools .pr-speed .pr-label{min-width:0}
+}
+/* Landscape: identity shares the transport row; the score takes the full space above it. */
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px){
+ :root:root .is-player .content{gap:0;padding-top:0}
+ :root:root .dock .dk-row{display:flex;gap:6px;align-items:center}
+ :root:root .dock .player-heading{display:flex;flex:1 1 150px;min-width:100px;max-width:190px;height:44px;min-height:44px;padding:0;margin:0;border:0;gap:0;background:none}
+ :root:root .dock .player-heading .piece-id{display:flex;flex:1;min-width:0;gap:2px}
+ :root:root .dock .player-heading .piece-title{min-width:0;flex:1}
+ :root:root .dock .player-heading h1{font-size:14px;max-width:none}
+ :root:root .dock .player-heading #back-library{width:44px;min-width:44px;height:44px;min-height:44px}
+ :root:root .dock .player-heading .actions{width:auto;padding:0;margin:0;gap:0}
+ :root:root .dock .player-heading .actions>button,:root:root .dock .player-heading .heading-rule{display:none}
+ :root:root .dock .player-heading .player-menu>summary{width:44px;height:44px;min-height:44px}
+ :root:root .dock .dk-main{gap:4px}
+ :root:root .dock .dk-readout{gap:0}
+ :root:root .dock .dk-readout .dk-time{display:none}
+ :root:root .dock .dk-group{flex:0 1 auto;gap:6px;margin-left:auto}
+ :root:root .dock .part-picker-button{min-width:130px;width:130px}
+ :root:root .dock .dk-mix.dk-narrow{width:44px;min-width:44px;padding:0}
+ :root:root .dock .dk-mix.dk-narrow>span:not(.glyph){display:none}
+ :root:root .dock .view-button{height:44px;min-height:44px;width:44px;min-width:44px;padding:0;justify-content:center}
+ :root:root .dock .view-button .dk-two,:root:root .dock .view-button>.glyph:last-child{display:none}
+ :root:root .dock #practice-summary .ps-follow{display:none}
+ :root:root .dock .horizontal-score #score{height:auto}
+}
+@media(max-width:700px){
+ :root:root:root .viewer #singer-bar>#folder-tabs{flex:1 1 0;min-width:0;order:1;margin:0;padding:0;mask-image:none;-webkit-mask-image:none}
+ :root:root:root .viewer #singer-bar.searching>#folder-tabs{display:none}
+ :root:root:root #library-primary>#folder-tabs{order:0}
+ #library-primary>#import,#library-primary>#export-project{order:1}
+}
+@media(min-width:951px){
+ :root:root .dock .dk-group .part-picker-button{width:184px}
+ :root:root .dock .dk-group .view-menu>summary{width:158px;min-width:158px;height:44px;min-height:44px;gap:8px;padding:0 12px;font-size:14px;border-radius:8px}
+}
+@media(max-width:700px){:root:root:root .app:not(.viewer) #library-bar{padding-block:4px;margin-bottom:4px}}
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px){
+ :root:root .dock .dk-group .view-menu>summary{height:44px;min-height:44px;border-radius:8px}
+}
+@media(max-width:700px){
+ :root:root:root .app:not(.viewer) .library-selecting .piece-list .piece-select{display:flex}
+ :root:root:root .app:not(.viewer) .library-selecting .piece-list .leader-row-open{display:none}
+}
+@media(min-width:951px) and (max-width:1150px){:root:root .dock .dk-readout .dk-time{display:none}}
+@media(min-width:701px){#folder-tabs #manage-folders{display:none}}
+@media(max-width:700px){
+ #library-primary>#import>.glyph,#library-primary>#export-project>.glyph{display:none}
+ :root:root:root .app #folder-tabs .folder-picker>summary{width:100%}
+ .folder-selected{white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere;font-size:13px;line-height:16px}
+}
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px){:root:root .dock .player-heading{max-width:270px;flex:1 1 220px}}
+@media(max-width:700px){
+ :root:root:root .player-heading.compact-view .view-menu>summary{width:44px;min-width:44px;padding:0;gap:0}
+ :root:root:root .player-heading.compact-view .view-menu>summary .view-word{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+}
+.selection-count{display:none}
+@media(max-width:700px){
+ .library-selecting .selection-count{display:inline;font-size:13px;font-weight:600;color:var(--text)}
+ :root:root:root .library-selecting #bulk-actions .bulk>strong{display:none}
+}
+@media(min-width:951px){:root .dock #view-state{font-size:14px;line-height:20px}}
+@media(max-width:700px){.folder-options .folder-tab.add-folder span{margin-left:0}}
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px){
+ :root:root .dock .player-heading .player-menu-body{position:fixed;top:auto;bottom:calc(var(--sheet-bottom,88px) + 8px);left:12px;right:auto;width:300px;min-width:0;max-width:calc(100vw - 24px);max-height:calc(100dvh - var(--sheet-bottom,88px) - 16px);overflow:auto}
+}
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px){
+ :root:root .dock .player-heading .player-menu-body button{min-height:44px;font-size:14px}
+ :root:root .dock .player-heading .player-menu-body .mode-control select{min-height:44px;font-size:14px}
+}
+@media(max-width:700px){
+ .player-heading.compact-view .piece-title{min-width:0;flex:1}
+ .player-heading.compact-view h1{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+}
