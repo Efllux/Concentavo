@@ -3061,3 +3061,129 @@ dialog:focus{outline:none}
  .player-heading.compact-view .piece-title{min-width:0;flex:1}
  .player-heading.compact-view h1{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 }
+
+/* Round 13: stabilisation. Desktop dock groups keep a legible 12px caption above each 14px single-line value; widths stay fixed. */
+@media(min-width:951px){
+ :root:root:root .dock .part-picker-button,:root:root:root .dock .dk-tools-toggle,:root:root:root .dock .dk-group .view-menu>summary{height:44px;min-height:44px;padding:0 12px;gap:9px;justify-content:flex-start}
+ :root:root:root .dock .dk-group .dk-two{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:1px;flex:1;min-width:0;overflow:hidden}
+ :root:root:root .dock .dk-group .pp-label,:root:root:root .dock .dk-group .dk-cap,:root:root:root .dock .dk-group .view-word{position:static;width:auto;height:auto;overflow:visible;clip-path:none;display:block;font-size:12px;line-height:15px;font-weight:500;color:var(--deck-muted);white-space:nowrap}
+ :root:root:root .dock .dk-group .pp-value,:root:root:root .dock .dk-group #practice-summary,:root:root:root .dock .dk-group .view-state{display:flex;align-items:center;max-width:100%;min-width:0;font-size:14px;line-height:18px;font-weight:600;color:var(--deck-text);white-space:nowrap;overflow:hidden}
+ :root:root:root .dock .dk-group .part-picker-button .pp-value{max-width:100%}
+ :root:root:root .dock .dk-group .part-picker-button{width:176px;min-width:176px}
+ :root:root:root .dock .dk-group .dk-mix{width:94px;min-width:94px}
+ :root:root:root .dock .dk-group .dk-tools-toggle{width:236px;min-width:236px}
+ :root:root:root .dock .dk-group .view-menu,:root:root:root .dock .dk-group .view-menu>summary{width:276px;min-width:276px;max-width:none}
+ :root:root:root .dock .dk-group .dk-tools-toggle>.glyph:first-child,:root:root:root .dock .dk-group .view-menu>summary>.glyph:first-child{width:16px;height:16px;flex:none;color:var(--deck-muted)}
+ :root:root:root .dock .dk-group .glyph:last-child{width:12px;height:12px;flex:none;margin-left:auto;color:var(--deck-muted)}
+ /* Practice value: loop range (loop colour), speed, follow state. */
+ :root:root:root .dock .dk-group #practice-summary>span{display:inline;flex:none}
+ :root:root:root .dock .dk-group #practice-summary>span+span::before{content:'·';display:inline;margin:0 5px;color:var(--deck-muted);font-weight:500}
+ :root:root:root .dock .dk-group #practice-summary .ps-loop{display:inline-flex;align-items:center;gap:0;color:var(--loop);font-size:14px}
+ :root:root:root .dock .dk-group #practice-summary .ps-loop>.glyph{display:none}
+ :root:root:root .dock .dk-group #practice-summary .ps-follow{display:inline;color:var(--deck-text);font-weight:600}
+ :root:root:root .dock .dk-group #practice-summary .ps-follow.ps-off{color:var(--deck-muted);font-weight:500}
+ :root:root:root .dock .dk-group #practice-summary .ps-follow-wide{display:inline}
+ :root:root:root .dock .dk-group #practice-summary .ps-follow-compact{display:none}
+ :root:root:root .dock .dk-group .dk-tools-toggle.loop-on>.glyph:first-child{color:var(--loop)}
+ /* View value: mode, then size preset when it fits. */
+ :root:root:root .dock .dk-group .view-state>span{flex:none}
+ :root:root:root .dock .dk-group .view-state .vs-size{color:var(--deck-muted);font-weight:500}
+ :root:root:root .dock .dk-group .view-state.vs-tight .vs-size{display:none}
+}
+@media(min-width:951px) and (max-width:1199px){
+ :root:root:root .dock .dk-group .part-picker-button{width:156px;min-width:156px}
+ :root:root:root .dock .dk-group .dk-tools-toggle{width:212px;min-width:212px}
+ :root:root:root .dock .dk-group .view-menu,:root:root:root .dock .dk-group .view-menu>summary{width:204px;min-width:204px}
+}
+/* Context voices stay readable (>=4.5:1 for lyrics) while the focused part keeps its marker and bold label. */
+:root:root:root .staff-dim{opacity:.4}
+:root:root:root[data-theme=dark][data-dark-score=on] .staff-dim{opacity:.36}
+/* Desktop rehearsal notes (leader and singer): a short note reads in full on up to two lines; longer notes end on a whole word. */
+@media(min-width:701px){
+ :root:root:root .project-heading .singer-note>summary{align-items:flex-start;padding:12px 0}
+ :root:root:root .project-heading .singer-note-label{line-height:20px}
+ :root:root:root .project-heading .singer-note-preview{display:block;white-space:normal;overflow:hidden;max-height:40px;line-height:20px;text-overflow:clip}
+ :root:root:root .project-heading .singer-note>summary>.glyph{margin-top:2px}
+ :root:root:root .project-heading .singer-note[open] .singer-note-preview{display:none}
+ :root:root:root .viewer .project-heading{grid-template-columns:minmax(0,1fr)}
+}
+/* Landscape phones: notation keeps the r11 size (more bars), the dock keeps elapsed time and the Follow state. */
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px){
+ :root:root:root .dock .dk-readout .dk-time{display:inline;font-size:13px;color:var(--deck-muted);font-variant-numeric:tabular-nums;margin-left:6px}
+ :root:root:root .dock .dk-readout .dk-time .time-sep,:root:root:root .dock .dk-readout .dk-time #duration{display:none}
+ :root:root:root .dock #practice-summary .ps-follow{display:inline}
+ :root:root:root .dock #practice-summary .ps-follow-wide{display:inline}
+ :root:root:root .dock #practice-summary .ps-follow-compact{display:none}
+}
+/* Phones: the loop endpoints are visible, draggable handles again; dragging the rail itself still only seeks. */
+@media(max-width:950px){:root:root:root .dock .dk-loop-handles{display:block}:root:root:root .dock .dk-loop-handles[hidden]{display:none}}
+
+/* Round 13: one control system. Every outlined control shares one boundary token, one radius per form factor,
+   one hover/pressed treatment and one selected state (accent tint, accent border, accent ink). */
+:root{--ctl-line:#c9ccd3;--ctl-line-hover:#9fa3ae;--ctl-press:#e9eaef;--ctl-r:8px;--sel-bg:var(--accent-soft);--sel-line:var(--blue);--sel-ink:var(--accent-ink);--link-ink:var(--blue)}
+:root[data-theme=dark]{--ctl-line:#4d5260;--ctl-line-hover:#717786;--ctl-press:#2a2d36;--link-ink:#aaa5ff}
+@media(max-width:700px),(max-height:500px) and (orientation:landscape) and (max-width:950px){:root{--ctl-r:10px}}
+:root:root:root :is(.icon-button,.publish-action,#search,#filter-toggle,.library-menu>summary,.library-select-toggle,.folder-picker>summary,.search-open,.part-picker-button,.dk-mix,.dk-tools-toggle,.view-button,.back-link,.focus-toggle,.part-toggle,.part-menu-button,#balanced,#rename-voices,.pick-loop,#loop-start,#loop-end,#speed-down,#speed-up,#speed,.pr-goto,#jump-bar,.view-presets>button,.view-show>button,.view-layout>button,.notes-empty,.room-switch,.sheet-done,.dialog-head .icon-button,#library-primary>button,.select-row label){border-color:var(--ctl-line);border-radius:var(--ctl-r)}
+:root:root:root :is(.view-presets>button,.view-show>button,.view-layout>button){border-width:1px;border-style:solid;box-shadow:none}
+:root:root:root :is(.publish-action,#filter-toggle,.library-menu>summary,.library-select-toggle,.folder-picker>summary,.search-open,.part-picker-button,.dk-mix,.dk-tools-toggle,.view-button,.part-toggle,.part-menu-button,#balanced,#rename-voices,.pick-loop,#speed-down,#speed-up,.pr-goto,.view-presets>button,.view-show>button,.view-layout>button,#library-primary>button:not(.primary)):hover:not(:disabled){border-color:var(--ctl-line-hover)}
+:root:root:root :is(.publish-action,#filter-toggle,.library-select-toggle,.search-open,.dk-mix,.part-toggle,#balanced,#rename-voices,.pick-loop,#speed-down,#speed-up,.pr-goto,.view-presets>button,.view-show>button,.view-layout>button):active:not(:disabled){background:var(--ctl-press)}
+/* Selected and pressed: one treatment everywhere (folder tabs, View choices, segmented visibility, toggles). */
+:root:root:root :is(.view-presets>button,.view-show>button,.view-layout>button,.dk-mix,.pick-loop,.library-select-toggle,#filter-toggle)[aria-pressed=true],
+:root:root:root .folder-tab.active,
+:root:root:root .folder-picker[open]>summary,
+:root:root:root .part-picker[open]>.part-picker-button,
+:root:root:root .view-menu[open]>.view-button,
+:root:root:root .dock .dk-tools-toggle[aria-expanded=true],
+:root:root:root .dock .dk-tools-toggle.changed{background:var(--sel-bg);border-color:var(--sel-line);color:var(--sel-ink)}
+:root:root:root .dock .dk-loop .loop-toggle[aria-pressed=true] .glyph{color:inherit}
+:root:root:root :is(.view-presets>button,.view-show>button,.view-layout>button)[aria-pressed=true] small{color:var(--sel-ink);opacity:.85}
+:root:root:root .folder-tab.active span{color:var(--sel-ink);opacity:.8}
+/* Segmented controls: an outlined track with the same selected thumb as every other choice. */
+:root:root:root .view-layout,:root:root:root .segmented{background:var(--surface-soft);border:1px solid var(--ctl-line);border-radius:var(--ctl-r);padding:3px;gap:3px}
+:root:root:root .view-layout>button:not(#_){border-color:transparent;border-radius:calc(var(--ctl-r) - 3px);background:transparent}
+:root:root:root .view-layout>button[aria-pressed=true]:not(#_){border-color:var(--sel-line);background:var(--sel-bg);color:var(--sel-ink);font-weight:600}
+:root:root:root .segmented label:not(#_){border:1px solid transparent;border-radius:calc(var(--ctl-r) - 3px);background:transparent}
+:root:root:root .segmented label:has(input:checked):not(#_){border-color:var(--sel-line);background:var(--sel-bg);color:var(--sel-ink);box-shadow:none}
+:root:root:root .view-steps:not(#_){background:transparent;border:1px solid var(--ctl-line);border-radius:var(--ctl-r)}
+:root:root:root .view-steps>button:not(#_){border-radius:calc(var(--ctl-r) - 2px)}
+/* Sheet Done shares the control radius. */
+:root:root:root .sheet-done{border-radius:var(--ctl-r)}
+/* Links and accent text: readable accent in dark (>=4.5:1). */
+:root[data-theme=dark] :is(.inline-link,.notes-edit){color:var(--link-ink)}
+:root[data-theme=dark] .dock .dk-play{background:var(--primary-fill,#5f57d9)}
+:root:root .crumb-sep{color:#b3b6bf}
+:root[data-theme=dark] .crumb-sep{color:#565b68}
+
+/* Phone folder picker: a small Folder caption, like My part beside it. */
+.folder-two{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:1px;min-width:0;flex:1;overflow:hidden}
+.folder-cap{display:none}
+.folder-value{display:flex;align-items:baseline;gap:6px;min-width:0;max-width:100%}
+@media(max-width:700px){
+ :root:root:root .folder-picker>summary .folder-cap{display:block;font-size:12px;line-height:15px;font-weight:500;color:var(--muted);white-space:nowrap}
+ :root:root:root .folder-picker>summary .folder-selected{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14px;line-height:18px;font-weight:650}
+ :root:root:root .folder-picker>summary .folder-count{line-height:18px}
+ :root:root:root .folder-picker[open]>summary .folder-cap,:root:root:root .folder-picker[open]>summary .folder-count{color:var(--sel-ink);opacity:.8}
+ :root:root:root .viewer #singer-bar .room-part-picker .pp-label,:root:root .viewer .singer-bar .pp-label{font-size:12px;line-height:15px}
+}
+
+/* Library tables (desktop): repertoire metadata reads at 13px, headings at 12px. */
+@media(min-width:701px){
+ :root:root:root .piece-list .piece-list-head{font-size:12px}
+ :root:root:root .piece-list .track-tags>.tag,:root:root:root .piece-list .piece-list-row .track-tags>.tag{font-size:12.5px;line-height:22px;padding:0 7px}
+ :root:root:root .piece-list .track-folder,:root:root:root .piece-list .track-meta{font-size:13px}
+ :root:root:root .piece-list .track-count{font-size:13px}
+ :root:root:root .piece-list .track-count small,:root:root:root .piece-list .track-count span{font-size:12px}
+ :root:root:root .app:not(.viewer) #folder-tabs .folder-tab.add-folder:not(#_){margin-top:5px}
+ :root:root:root .piece-list .folder-chip{font-size:13px}
+}
+/* Phone rows: folder name and tag chips share one centre line. */
+@media(max-width:700px){:root:root:root .app:not(.viewer) .piece-list .track-taxonomy .folder-chip{transform:translateY(2px)}}
+/* The chosen part keeps its part-coloured boundary; row buttons share one fill on a highlighted row. */
+:root:root:root .focus-toggle[aria-pressed=true]:not(#_){border-color:var(--part,var(--sel-line))}
+:root:root:root .voice .part-menu-button:not(#_){background:var(--surface)}
+/* Practice value: wider at full desktop so Dutch loop + speed + Follow fits; tight fallback hides only the default Follow on. */
+@media(min-width:1200px){:root:root:root .dock .dk-group .dk-tools-toggle{width:262px;min-width:262px}}
+:root:root:root .dock #practice-summary.ps-tight .ps-follow:not(.ps-off){display:none}
+/* The score-picking action keeps its whole label: the desktop popover grows for it, phones wrap it to two lines. */
+@media(min-width:951px){:root:root:root .dock .dk-tools{width:auto;min-width:420px;max-width:min(520px,calc(100vw - 32px))}:root:root:root .dock .dk-tools .dk-loop .pick-loop{white-space:nowrap;flex:none}}
+@media(max-width:950px){:root:root:root .dock .dk-tools .dk-loop .pick-loop{white-space:normal;line-height:15px;text-align:center;min-width:0;flex:1 1 0;padding:0 8px;overflow-wrap:normal}}
