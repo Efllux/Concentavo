@@ -23,16 +23,18 @@ export function fitPieceTags(root){
     if(matchMedia('(min-width:701px)').matches)continue;
     const available=host.clientWidth,gap=parseFloat(getComputedStyle(host).gap)||0;
     let used=tags.reduce((n,el)=>n+el.getBoundingClientRect().width+gap,0),hidden=0;
+    // Ensemble labels (SATB, SSA…) repeat what the part counts already say: they go into the overflow before practice tags such as accompaniment.
+    const ensemble=el=>/^[SATB]{2,6}$/i.test(el.textContent.trim()),order=[...tags.filter(el=>!ensemble(el)),...tags.filter(ensemble)];
     // Reserve the overflow trigger before hiding tags, so it never clips its last neighbour.
-    for(let i=tags.length-1;i>=0&&used>available+1;i--){
-      const width=tags[i].getBoundingClientRect().width;tags[i].hidden=true;hidden++;
+    for(let i=order.length-1;i>=0&&used>available+1;i--){
+      const width=order[i].getBoundingClientRect().width;order[i].hidden=true;hidden++;
       more.hidden=false;more.querySelector('summary').textContent='+'+hidden;
       used-=width+gap;
       if(used+more.getBoundingClientRect().width+gap<=available+1)break;
     }
     if(hidden){
       // If the first pass only just fit, include the trigger's width in the final calculation.
-      for(let i=tags.length-hidden-1;i>=0&&used+more.getBoundingClientRect().width+gap>available+1;i--){used-=tags[i].getBoundingClientRect().width+gap;tags[i].hidden=true;hidden++;more.querySelector('summary').textContent='+'+hidden;}
+      for(let i=order.length-hidden-1;i>=0&&used+more.getBoundingClientRect().width+gap>available+1;i--){used-=order[i].getBoundingClientRect().width+gap;order[i].hidden=true;hidden++;more.querySelector('summary').textContent='+'+hidden;}
     }
   }
 }

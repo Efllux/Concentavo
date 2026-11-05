@@ -3187,3 +3187,138 @@ dialog:focus{outline:none}
 /* The score-picking action keeps its whole label: the desktop popover grows for it, phones wrap it to two lines. */
 @media(min-width:951px){:root:root:root .dock .dk-tools{width:auto;min-width:420px;max-width:min(520px,calc(100vw - 32px))}:root:root:root .dock .dk-tools .dk-loop .pick-loop{white-space:nowrap;flex:none}}
 @media(max-width:950px){:root:root:root .dock .dk-tools .dk-loop .pick-loop{white-space:normal;line-height:15px;text-align:center;min-width:0;flex:1 1 0;padding:0 8px;overflow-wrap:normal}}
+/* r14 — whole-system pages: a system cut by the dock edge is veiled (the soft edge sits on the gap above it), never sliced through a staff. */
+:root:root:root .score-viewport.paged-score:not(.horizontal-score){--veil:0px;-webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - var(--veil) - 10px),transparent calc(100% - var(--veil)));mask-image:linear-gradient(to bottom,#000 calc(100% - var(--veil) - 10px),transparent calc(100% - var(--veil)))}
+/* r14 — landscape dock: one 44px control height and top; Mixer and View keep visible labels (icon over label, like portrait Mixer);
+   the readout stacks the bar over elapsed / total time; the title yields width first. */
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px){
+ :root:root:root .dock .dk-row:not(#_){align-items:center;gap:10px}
+ :root:root:root .dock .dk-row .piece-id:not(#_){gap:6px}
+ :root:root:root .dock .dk-row .piece-title:not(#_){max-width:118px;min-width:0}
+ :root:root:root .dock .dk-row .piece-title h1:not(#_){font-size:14px;line-height:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ :root:root:root .dock .dk-row .player-heading:not(#_){width:auto;flex:0 1 auto;min-width:0;gap:6px}
+ :root:root:root .dock .dk-main:not(#_){gap:4px;flex:none}
+ :root:root:root .dock .dk-main .dk-play:not(#_){width:44px;height:44px;min-width:44px;min-height:44px}
+ :root:root:root .dock .dk-main .dk-restart:not(#_){width:36px;height:44px;min-height:44px}
+ :root:root:root .dock .dk-main .dk-readout:not(#_){display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:1px;height:44px;margin-left:4px;min-width:0}
+ :root:root:root .dock .dk-main .dk-readout #bar-label:not(#_){font-size:13px;line-height:16px;font-weight:600}
+ :root:root:root .dock .dk-main .dk-readout .dk-time:not(#_){display:block;margin:0;padding:0;font-size:13px;line-height:16px;font-variant-numeric:tabular-nums;white-space:pre;color:var(--muted)}
+ :root:root:root .dock .dk-main .dk-readout .time-sep:not(#_),:root:root:root .dock .dk-main .dk-readout #duration:not(#_){display:inline}
+ :root:root:root .dock .dk-group:not(#_){gap:6px;align-items:center}
+ :root:root:root .dock .dk-parts:not(#_){gap:6px;align-items:center}
+ :root:root:root .dock #mobile-parts:not(#_),:root:root:root .dock #view-menu > summary.view-button:not(#_){display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;height:44px;min-height:44px;width:auto;min-width:52px;padding:0 8px}
+ :root:root:root .dock #mobile-parts > span:not(.glyph):not(#_){display:block;font-size:12px;line-height:14px;font-weight:600}
+ :root:root:root .dock #view-menu > summary.view-button .dk-two:not(#_){display:block}
+ :root:root:root .dock #view-menu > summary.view-button .view-word:not(#_){display:block;font-size:12px;line-height:14px;font-weight:600;color:inherit}
+ :root:root:root .dock #view-menu > summary.view-button:not(#_){color:var(--deck-text,var(--text))}
+ :root:root:root .dock #view-menu > summary.view-button .view-state:not(#_),:root:root:root .dock #view-menu > summary.view-button > .glyph:last-child:not(#_){display:none}
+ :root:root:root .dock .dk-tools-toggle:not(#_),:root:root:root .dock .part-picker-button:not(#_),:root:root:root .dock .player-menu > summary:not(#_),:root:root:root .dock #back-library:not(#_){height:44px;min-height:44px}
+}
+@media(max-height:500px) and (orientation:landscape) and (max-width:799px){
+ :root:root:root .dock #mobile-parts > span:not(.glyph):not(#_),:root:root:root .dock #view-menu > summary.view-button .view-word:not(#_){display:none}
+ :root:root:root .dock .dk-main .dk-readout #duration:not(#_),:root:root:root .dock .dk-main .dk-readout .time-sep:not(#_){display:none}
+}
+/* r14 — first run: no empty notes band; a small inline action beside the room name instead. */
+:root:root:root .room-name-row .notes-add:not(#_){display:inline-flex;align-items:center;gap:6px;flex:none;min-height:34px;margin-left:6px;padding:0 10px;border:1px dashed var(--ctl-line);border-radius:var(--ctl-r);background:transparent;color:var(--muted);font-size:13px;font-weight:600;white-space:nowrap;cursor:pointer}
+:root:root:root .room-name-row .notes-add:not(#_) svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+:root:root:root .room-name-row .notes-add:hover:not(#_){color:var(--text);border-color:var(--ctl-line-hover);border-style:solid}
+@media(max-width:700px){:root:root:root .room-name-row .notes-add:not(#_){min-height:44px}:root:root:root .room-name-row .notes-add span:not(#_){display:none}}
+/* r14 — Website visibility uses the View › Layout segmented control in both themes: outlined track, transparent segments, accent-tint selection. */
+:root:root:root .segmented.visibility-choice:not(#_):not(#_){height:auto;min-height:44px;padding:3px;gap:3px;border:1px solid var(--ctl-line);border-radius:var(--ctl-r);background:var(--surface-soft)}
+:root:root:root .segmented.visibility-choice>button:not(#_):not(#_){flex:1 1 auto;min-height:36px;padding:0 12px;border:1px solid transparent;border-radius:calc(var(--ctl-r) - 3px);background:transparent;color:var(--muted);box-shadow:none;font-size:13px;font-weight:550}
+:root:root:root .segmented.visibility-choice>button:hover:not([aria-pressed=true]):not(#_):not(#_){color:var(--text)}
+:root:root:root .segmented.visibility-choice>button[aria-pressed=true]:not(#_):not(#_){border-color:var(--sel-line);background:var(--sel-bg);color:var(--sel-ink);font-weight:650;box-shadow:none}
+/* r14 — leader phone library: folders are visible again as a swipeable strip in the picker's place (same row, same height),
+   using the picker's control tokens; New folder and Manage folders close the strip. The singer room keeps its picker. */
+@media(max-width:700px){
+ :root:root:root .app:not(.viewer) #folder-tabs:not(#_){display:block;min-width:0;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;overscroll-behavior-x:contain}
+ :root:root:root .app:not(.viewer) #folder-tabs::-webkit-scrollbar{display:none}
+ :root:root:root .app:not(.viewer) #folder-tabs::after{display:none}
+ :root:root:root .app:not(.viewer) .folder-picker.folder-strip:not(#_){display:block;width:max-content;min-width:100%;border:0;background:none;padding:0}
+ :root:root:root .app:not(.viewer) .folder-picker.folder-strip>summary:not(#_){display:none}
+ :root:root:root .app:not(.viewer) .folder-strip .folder-options:not(#_){position:static;inset:auto;display:flex;flex-wrap:nowrap;align-items:center;gap:6px;width:auto;min-width:0;max-height:none;margin:0;padding:0 28px 0 0;border:0;border-radius:0;background:none;box-shadow:none;overflow:visible;transform:none;opacity:1;visibility:visible}
+ :root:root:root .app:not(.viewer) .folder-strip .menu-label:not(#_){display:none}
+ :root:root:root .app:not(.viewer) .folder-strip .folder-tab:not(#_){display:inline-flex;align-items:center;gap:7px;flex:none;width:auto;height:44px;min-height:44px;margin:0;padding:0 12px;border:1px solid var(--ctl-line);border-radius:var(--ctl-r);background:var(--surface);color:var(--text);font-size:15px;font-weight:600;line-height:1;white-space:nowrap;box-shadow:none}
+ :root:root:root .app:not(.viewer) .folder-strip .folder-tab>span:not(#_){margin:0;color:var(--muted);font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
+ :root:root:root .app:not(.viewer) .folder-strip .folder-tab .folder-colour:not(#_){width:9px;height:9px;flex:none;border-radius:50%;background:var(--folder)}
+ :root:root:root .app:not(.viewer) .folder-strip .folder-tab.active:not(#_){border-color:var(--sel-line);background:var(--sel-bg);color:var(--sel-ink)}
+ :root:root:root .app:not(.viewer) .folder-strip .folder-tab.active>span:not(#_){color:var(--sel-ink);opacity:.8}
+ :root:root:root .app:not(.viewer) .folder-strip .folder-tab.add-folder:not(#_),:root:root:root .app:not(.viewer) .folder-strip #manage-folders:not(#_){border-style:dashed;background:transparent;color:var(--muted);font-weight:600}
+ :root:root:root .app:not(.viewer) .folder-strip .folder-tab.add-folder svg:not(#_){width:16px;height:16px}
+}
+/* r14 — product owner: piece titles use the sans-serif UI face everywhere (no Times/Georgia look). */
+:root:root:root .track-title:not(#_),:root:root:root .piece-list .piece-list-row .track-title:not(#_){font-family:Inter,"SF Pro Display","SF Pro Text",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-weight:650;letter-spacing:-.012em}
+@media(max-width:700px){:root:root:root .app:not(.viewer) #folder-tabs:not(#_){-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}}
+/* r14 — product owner: phone portrait transport reads restart → Play → timeline → bar/time on one row; the part, mixer and practice
+   controls share the row below at full width. */
+:root:root:root .deck-portrait .dk-timeline:not(#_){display:flex;align-items:center;gap:8px;height:auto;min-height:48px;padding:6px 0 8px;grid-template-columns:none}
+:root:root:root .deck-portrait .dk-timeline #restart:not(#_){order:0;flex:none;width:40px;height:44px;min-height:44px;margin:0;position:static}
+:root:root:root .deck-portrait .dk-timeline #play:not(#_){order:1;flex:none;width:48px;height:48px;min-height:48px;margin:0 2px 0 0;position:static}
+:root:root:root .deck-portrait .dk-timeline .dk-scrub:not(#_){order:2;flex:1 1 auto;min-width:0;width:auto;margin:0;position:relative;grid-column:auto}
+:root:root:root .deck-portrait .dk-timeline .dk-readout:not(#_){order:3;display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:1px;flex:none;margin:0;position:static}
+:root:root:root .deck-portrait .dk-timeline .dk-readout .dk-bar:not(#_){display:none}
+:root:root:root .deck-portrait .dk-timeline .dk-readout #bar-label:not(#_){display:block;font-size:13px;line-height:16px;font-weight:650;color:var(--deck-text,var(--text));position:static}
+:root:root:root .deck-portrait .dk-timeline .dk-readout .dk-time:not(#_){display:block;font-size:12px;line-height:15px;font-variant-numeric:tabular-nums;color:var(--muted);white-space:pre;position:static}
+:root:root:root .deck-portrait .dk-timeline .dk-readout .time-sep:not(#_),:root:root:root .deck-portrait .dk-timeline .dk-readout #duration:not(#_){display:inline}
+:root:root:root .deck-portrait .dk-timeline .resume-follow:not(#_){order:4}
+:root:root:root .deck-portrait .dk-row .dk-main:not(#_){display:none}
+:root:root:root .deck-portrait .dk-row .dk-group:not(#_){flex:1 1 auto;width:100%;margin:0}
+:root:root:root .deck-portrait .dk-row .dk-parts:not(#_){flex:1 1 auto;min-width:0}
+:root:root:root .deck-portrait .dk-row .part-picker:not(#_){flex:1 1 auto;min-width:0}
+:root:root:root .deck-portrait .dk-row .part-picker-button:not(#_){width:100%}
+/* r14 — product owner: on desktop and laptop the timeline gets clear air above the control row; loop grips stay inside the timeline band. */
+@media(min-width:951px){
+ :root:root:root .dock .dk-row:not(#_){margin-top:12px}
+ :root:root:root .dock .dk-ticks i>span:not(#_){font-size:12px;line-height:14px}
+ :root:root:root .dock .loop-handle:not(#_)::after{top:12px;height:14px}
+}
+/* r14 — product owner: phone player header — one 44px control size (Back, View, settings), even 8px rhythm, title centred on the same line. */
+@media(max-width:950px){
+ :root:root:root .app .player-heading:not(#_){min-height:60px;padding:8px 12px;gap:8px;align-items:center;box-sizing:border-box}
+ :root:root:root .app .player-heading .piece-id:not(#_){gap:10px;align-items:center;min-width:0}
+ :root:root:root .app .player-heading #back-library:not(#_),:root:root:root .app .player-heading .player-menu>summary:not(#_){width:44px;height:44px;min-width:44px;min-height:44px;padding:0;display:grid;place-items:center}
+ :root:root:root .app .player-heading .view-button:not(#_){height:44px;min-height:44px}
+ :root:root:root .app .player-heading .actions:not(#_){gap:8px;align-items:center}
+ :root:root:root .app .player-heading :is(#back-library,.player-menu>summary,.view-button) :is(.glyph,svg):not(.chevron):not(#_){width:18px;height:18px}
+ :root:root:root .app .player-heading .piece-title h1:not(#_){font-size:18px;line-height:22px;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+}
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px){
+ :root:root:root .app .player-heading:not(#_){min-height:48px;padding:2px 12px}
+ :root:root:root .app .player-heading .piece-title h1:not(#_){font-size:17px}
+}
+/* r14 — singer room: Folder and My part pickers are one family (same caption baseline, weights and chevron). */
+:root:root:root .viewer .folder-picker>summary .folder-two:not(#_){gap:0;line-height:15px}
+:root:root:root .viewer .folder-picker>summary .folder-cap:not(#_),:root:root:root .viewer .room-part-picker>summary .pp-label:not(#_){font-size:12px;line-height:15px;font-weight:500;margin:1px 0 0}
+:root:root:root .viewer .folder-picker>summary .folder-selected:not(#_),:root:root:root .viewer .room-part-picker>summary .pp-name:not(#_){font-weight:650}
+:root:root:root .viewer :is(.folder-picker,.room-part-picker)>summary>.glyph:not(#_){width:14px;height:14px;align-self:center;margin-top:0}
+:root:root:root .viewer :is(.folder-picker,.room-part-picker)>summary>.glyph svg:not(#_){width:14px;height:14px}
+/* r14 — until a singer chooses a part, the My part picker is the room's primary prompt. */
+:root:root:root .viewer .room-part-picker>summary:has(.pp-empty):not(#_){border-color:var(--sel-line);background:var(--sel-bg)}
+:root:root:root .viewer .room-part-picker>summary .pp-empty:not(#_){color:var(--sel-ink)}
+:root:root:root .viewer .room-part-picker>summary .pp-empty .part-dot:not(#_){border-color:var(--sel-ink);background:var(--sel-ink)}
+:root:root:root .viewer .room-part-picker>summary .pp-empty .pp-name:not(#_){color:var(--sel-ink)}
+:root:root:root .viewer .folder-picker>summary .folder-cap:not(#_){margin-top:1.5px}
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px){
+ :root:root:root .app .player-heading .player-menu-body:not(#_){top:calc(100% + 4px);bottom:auto;max-height:calc(100dvh - 60px);overflow-y:auto;overscroll-behavior:contain}
+ :root:root:root .app .player-heading .player-menu-body button:not(#_){min-height:44px}
+}
+/* r14 — whole-system pages start right above a system, so the loop flag sits inside the band above the staff instead of above the page edge. */
+:root:root:root .paged-score .measure-hit.loop-first:not(#_)::before{top:1px;left:4px;border-radius:5px}
+/* r14 — three size presets read as one list (name left, what it does right), not a 2+1 grid. */
+:root:root:root .view-presets:not(#_){display:grid;grid-template-columns:1fr;gap:4px}
+:root:root:root .view-presets>button:not(#_){display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:10px;min-height:40px;padding:0 12px;text-align:left}
+:root:root:root .view-presets>button small:not(#_){margin:0;white-space:nowrap}
+@media(max-width:950px){:root:root:root .view-presets>button:not(#_){min-height:44px}}
+/* r14 — phone leader toolbar: Import and Export become compact icon-over-label buttons (like the dock's Mixer) so the folder strip gets the room. */
+@media(max-width:700px){
+ :root:root:root .app:not(.viewer) #library-primary>button:not(#_){display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;height:44px;min-height:44px;min-width:52px;padding:0 9px}
+ :root:root:root .app:not(.viewer) #library-primary>button .glyph:not(#_){width:16px;height:16px;margin:0;display:block}
+ :root:root:root .app:not(.viewer) #library-primary>button .glyph svg:not(#_){width:16px;height:16px}
+ :root:root:root .app:not(.viewer) #library-primary>button .action-short:not(#_){font-size:12px;line-height:14px;font-weight:650}
+ :root:root:root .app:not(.viewer) .folder-strip .folder-tab:not(#_){font-size:14px;padding:0 10px}
+}
+@media(max-width:700px){
+ :root:root:root .app:not(.viewer) #library-primary>button:not(#_){padding:0 7px}
+ :root:root:root .app:not(.viewer) #library-primary>button .action-short:not(#_){font-size:11.5px;letter-spacing:-.005em}
+ :root:root:root .app:not(.viewer) #library-primary:not(#_){gap:6px}
+}

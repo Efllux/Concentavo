@@ -18,7 +18,8 @@ try{
   assert.ok(await page.locator('#export-project').isVisible(),'Export remains a named phone action');
   assert.equal(await page.locator('.piece-select').first().isVisible(),false,'Checkboxes are hidden until Select');
   await page.locator('#library-select').click();assert.ok(await page.locator('.piece-select').first().isVisible(),'Select exposes row checkboxes');await page.locator('#library-select').click();
-  await page.locator('#folder-tabs summary').click();assert.ok(await page.locator('#folder-tabs [data-folder]').first().isVisible(),'Folder picker exposes the complete list');await page.keyboard.press('Escape');
+  // r14: the leader's phone folders are a visible, swipeable strip (no dropdown to open).
+  assert.ok(await page.locator('#folder-tabs [data-folder]').first().isVisible(),'Phone folders are visible without opening a menu');assert.ok(await page.locator('#folder-tabs [data-folder]').count()>=2&&await page.locator('#folder-tabs #add-folder').count()===1,'Folder strip exposes the complete list and New folder');
   await page.locator('.room-menu > summary').click();
   for(const id of ['#language','#theme','#help','#edit-project'])assert.ok(await page.locator(`.room-menu-body ${id}`).isVisible(),`Phone room menu keeps ${id} reachable`);
   await page.locator('.room-menu > summary').click();
@@ -65,8 +66,11 @@ try{
   assert.ok(await page.locator('#mobile-parts').isVisible(),'Landscape phone keeps Parts reachable');
   assert.equal(await page.locator('.mixer').isVisible(),false,'Landscape mixer opens on demand');
   assert.equal(await page.evaluate(()=>document.documentElement.scrollHeight),390,'Landscape player fits viewport');
-  assert.ok(await page.locator('#dock .player-heading').isVisible(),'Landscape identity shares the playback dock');
-  assert.ok(await page.locator('#score-viewport').evaluate(e=>e.getBoundingClientRect().height>=290),'Landscape gives the score at least 290px');
+  // Product owner (r14): Back sits top-left before the title, settings top-right, and Back is never right of Play; the score keeps most of the height.
+  assert.ok(await page.locator('.player-heading').isVisible(),'Landscape shows the piece header');
+  {const back=await page.locator('#back-library').boundingBox(),play=await page.locator('#play').boundingBox(),restart=await page.locator('#restart').boundingBox(),title=await page.locator('.player-heading h1').boundingBox(),gear=await page.locator('.player-menu > summary').boundingBox();
+   assert.ok(back.x<title.x&&back.y<play.y&&back.x<=play.x,'Landscape Back is top-left, before the title and never right of Play');assert.ok(gear.x>title.x+title.width&&gear.y<play.y,'Landscape settings sit top-right');assert.ok(restart.x<play.x,'Restart comes before Play');}
+  assert.ok(await page.locator('#score-viewport').evaluate(e=>e.getBoundingClientRect().height>=240),'Landscape gives the score at least 240px');
   await page.locator('#mobile-parts').click();
   assert.equal(await page.locator('.mixer').isVisible(),true,'Landscape mixer opens');
   console.log('PASS: phone score, bar navigation, part picker, and landscape sideways layout.');
