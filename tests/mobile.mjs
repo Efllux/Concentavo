@@ -29,7 +29,7 @@ try{
   await page.waitForFunction(()=>!document.querySelector('#score-part').disabled&&document.querySelector('#score-part').value==='');
   assert.equal(await page.locator('[data-practise]').nth(1).getAttribute('aria-pressed'),'true','Full score keeps My part selected');
   await page.locator('[data-show="mine"]').click();await page.waitForFunction(()=>!document.querySelector('#score-part').disabled&&document.querySelector('#score-part').value===document.querySelectorAll('[data-practise]')[1].dataset.practise);await page.keyboard.press('Escape');
-  assert.match(await page.locator('#tools-toggle').innerText(),/Practice.*100%.*Follow on/s,'Closed Practice drawer names its current settings');
+  assert.match(await page.locator('#tools-toggle').innerText(),/Practice.*100%.*Follow/s,'Closed Practice drawer names its current settings');assert.equal(await page.locator('#practice-summary .ps-follow').getAttribute('title'),'Follow on','Compact phone summary retains the full Follow state');
   assert.equal(await page.locator('#mobile-parts span:not(.glyph)').innerText(),'Mixer','Mixer has an explicit visible label');
   assert.match(await page.locator('.part-picker > summary').innerText(),new RegExp(await page.locator('[data-practise]').nth(1).getAttribute('aria-label')),'The dock names the chosen part in full');
   await page.locator('.part-picker > summary').click();assert.equal(await page.locator('[data-practise][aria-pressed="true"] .part-check').isVisible(),true,'Part selection has a non-colour checkmark');await page.keyboard.press('Escape');

@@ -1,4 +1,5 @@
 import { chromium } from 'playwright';
+import {testBrowser} from './browser.mjs';
 import { existsSync } from 'node:fs';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { unzipSync, strFromU8 } from 'fflate';
@@ -27,7 +28,7 @@ const pieces=[
 
 const macChrome='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const executablePath=process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH||(!existsSync(chromium.executablePath())&&process.platform==='darwin'&&existsSync(macChrome)?macChrome:undefined);
-const browser=await chromium.launch({executablePath,headless:true});
+const session=await testBrowser({executablePath,headless:true}),{browser}=session;
 const report=[];
 try{
   await mkdir('test-results',{recursive:true});
@@ -101,4 +102,4 @@ try{
   assert.deepEqual(errors,[],'No page errors');
   console.table(report.map(r=>({piece:r.piece,view:r.view,ms:r.ms,zoom:r.zoom??'',score:r.scoreShare?.toFixed?.(2)??'',buttons:r.buttons??'',narrowest:Number.isFinite(r.narrowest)?Math.round(r.narrowest):'',renders:r.renders??''})));
   console.log('PASS: tiny, duet, SATB and 8-voice 240-bar pieces on phone, sideways and desktop; rotation engraves once; choir parts and singers link pieces to the right part.');
-}finally{await browser.close();}
+}finally{await session.close();}

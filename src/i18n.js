@@ -1,4 +1,75 @@
 const nl={
+  'Click to play from this bar':'Klik om vanaf deze maat af te spelen',
+  'The notation renderer could not display this score. Audio and rehearsal controls are still available.':'De notatieweergave kon deze partituur niet tonen. Audio en oefenbediening zijn nog beschikbaar.',
+
+  'Sort and filters':'Sorteren en filteren',
+
+  'Piece':'Stuk','More tags':'Meer labels','Export':'Exporteren','Update':'Bijwerken','Sort':'Sorteren','Custom order':'Eigen volgorde',
+
+  "Concentavo · Rehearsal rooms":"Concentavo · Repetitieruimtes",
+  "Double-click to edit":"Dubbelklik om te bewerken",
+  "Close dialog":"Dialoog sluiten",
+  "Import":"Importeren",
+  "Import piece":"Stuk importeren",
+  "Import {count} pieces":"{count} stukken importeren",
+  "Import results":"Importresultaten",
+  "Part name":"Partijnaam",
+  "Part type":"Partijsoort",
+  "part available":"partij beschikbaar",
+  "A message for your choir…":"Een bericht voor je koor…",
+  "Personal notes stay on each singer’s device.":"Persoonlijke notities blijven op het apparaat van elke zanger.",
+  "Moved to Recently removed.":"Verplaatst naar Recent verwijderd.",
+  "Recently removed ({count})":"Recent verwijderd ({count})",
+  "1 piece imported.":"1 stuk geïmporteerd.",
+  "{count} pieces imported.":"{count} stukken geïmporteerd.",
+  "{count} score parts · choose what appears online":"{count} partijen · kies wat online verschijnt",
+  "{count} score parts + chord accompaniment · choose what appears online":"{count} partijen + akkoordbegeleiding · kies wat online verschijnt",
+  "Select {name}":"{name} selecteren",
+  "Edit {name}":"{name} bewerken",
+  "Reorder {name}":"{name} verplaatsen",
+  "Publish {name}":"{name} publiceren",
+  "Part {number}":"Partij {number}",
+  "{name} · click to rename":"{name} · klik om de naam te wijzigen",
+  "{name} volume":"Volume van {name}",
+  "{name} sound":"Klank van {name}",
+  "{name} stereo position":"Stereopositie van {name}",
+  "More for {name}":"Meer voor {name}",
+  "Mute {name}":"{name} dempen",
+  "Solo {name}":"{name} solo",
+  "Remove {name}":"{name} verwijderen",
+  "Remove tag {name}":"Label {name} verwijderen",
+  "Bar {number}":"Maat {number}",
+  "My part: none":"Mijn partij: geen",
+  "My part: {name}":"Mijn partij: {name}",
+  "{name} · muted":"{name} · gedempt",
+  "Loop {first}–{last}":"Herhaal {first}–{last}",
+  "Drag to reorder":"Sleep om te verplaatsen",
+  "Choose custom order to reorder":"Kies eigen volgorde om te verplaatsen",
+  "Composer not specified":"Componist niet opgegeven",
+  "Re-read original score":"Oorspronkelijke partituur opnieuw lezen",
+  "Apply improved score interpretation while keeping the compact notation, part names, sounds and practice settings.":"Pas verbeterde partituurherkenning toe met behoud van de compacte notatie, partijnamen, klanken en oefeninstellingen.",
+  "Original score re-read. Your part and practice settings were kept.":"Oorspronkelijke partituur opnieuw gelezen. Partij- en oefeninstellingen zijn behouden.",
+  "Room password set for this session.":"Wachtwoord voor de ruimte ingesteld voor deze sessie.",
+  "Password set for this session.":"Wachtwoord ingesteld voor deze sessie.",
+  "Choose a valid first and last bar.":"Kies een geldige eerste en laatste maat.",
+  "That passage is not in the current playback order.":"Die passage staat niet in de huidige afspeelvolgorde.",
+  "Rendering your current mix…":"Je huidige mix wordt verwerkt…",
+  "WAV export ready.":"WAV-export gereed.",
+  "Website exported. Unzip it to find your home page.":"Website geëxporteerd. Pak het bestand uit om je startpagina te openen.",
+  "Practice page exported, with score and audio included.":"Oefenpagina geëxporteerd, inclusief partituur en audio.",
+  "No removed pieces. Removed scores stay here until restored.":"Geen verwijderde stukken. Verwijderde partituren blijven hier totdat ze worden hersteld.",
+  "Move":"Verplaatsen",
+  "Hide":"Verbergen",
+  "Lock":"Beveiligen",
+  "Clear":"Wissen",
+  "Move selected pieces":"Geselecteerde stukken verplaatsen",
+  "Move pieces":"Stukken verplaatsen",
+  "Publish at least one part.":"Publiceer ten minste één partij.",
+  "Add another part before sharing a passage.":"Voeg nog een partij toe voordat je een passage deelt.",
+  "Choose a valid source and bar range.":"Kies een geldige bronpartij en matenreeks.",
+  "Hidden pieces are excluded from HTML":"Verborgen stukken worden niet in HTML opgenomen",
+  "Custom {percent}%":"Aangepast {percent}%",
+
   'Go to bar…':'Ga naar maat…','Select':'Selecteren','Slower':'Langzamer','Faster':'Sneller','Click to seek; drag to loop':'Klik om te springen; sleep voor een herhaling',
   'Highlight':'Markeren','Choose a part first':'Kies eerst een partij','Choose part':'Kies partij','Full mix · no part':'Volledige mix · geen partij','Choose the part you practise':'Kies de partij die je oefent',
   'No {part} part':'Geen partij voor {part}',
@@ -86,18 +157,29 @@ const nl={
   'View':'Weergave','Readable':'Leesbaar','Overview':'Overzicht','Larger notes and lyrics':'Grotere noten en tekst','More bars at once':'Meer maten tegelijk','Score size':'Partituurgrootte','Layout':'Indeling','Smaller notation':'Noten kleiner weergeven','Larger notation':'Noten groter weergeven','View: score size and layout':'Weergave: partituurgrootte en indeling','Score size and layout':'Partituurgrootte en indeling','Hide parts':'Partijen verbergen','Parts and volume':'Partijen en volume','Repeat a passage or go to a bar (G)':'Herhaal een passage of ga naar een maat (G)','Export this piece as a practice website':'Dit stuk als oefenwebsite exporteren','Add a piece to export this room':'Voeg een stuk toe om deze ruimte te exporteren',
   'Mixer':'Mixer','Select bars':'Maten kiezen','Practice tools':'Oefenhulpmiddelen','Follow, loop and speed':'Volgen, herhalen en tempo','Volume, focus and mute for each part':'Volume, focus en dempen per partij','Close mixer':'Mixer sluiten','Close mixer (Esc)':'Mixer sluiten (Esc)','Larger notes':'Grotere noten','More bars':'Meer maten','Playback speed':'Afspeeltempo'
 };
+// Dictionary keys also serve as English source strings. Named slots preserve user data in dynamic labels.
+const templates=Object.entries(nl).filter(([key])=>key.includes('{')).sort(([a],[b])=>b.replace(/\{\w+\}/g,'').length-a.replace(/\{\w+\}/g,'').length).map(([key,value])=>{
+  const names=[];
+  const pattern=key.split(/(\{\w+\})/).map(part=>{if(/^\{\w+\}$/.test(part)){names.push(part.slice(1,-1));return '(.+?)';}return part.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}).join('');
+  return {pattern:new RegExp('^'+pattern+'$'),value,names};
+});
+function dutch(text){
+  if(nl[text])return nl[text];
+  for(const {pattern,value,names} of templates){const match=text.match(pattern);if(match)return value.replace(/\{(\w+)\}/g,(_,name)=>match[names.indexOf(name)+1]);}
+  return text.replace(/^Shared passages · /,'Gedeelde passages · ').replace(/· staff (\d+)/g,'· notenbalk $1').replace(/^Bars (\d+)–(\d+) will repeat until you stop\.$/,'Maten $1–$2 worden herhaald tot je stopt.').replace(/^Loop bars (\d+)–(\d+)$/,'Maten $1–$2 herhalen').replace(/^Automatic · /,'Automatisch · ').replace(/^(\d+) pieces? · one self-contained website$/,(m,n)=>`${n} ${n==='1'?'stuk':'stukken'} · één zelfstandige website`).replace(/\bbars\b/g,'maten').replace(/\bparts\b/g,'partijen').replace(/ selected$/,' geselecteerd');
+}
 export function translate(root,language='en'){
   document.documentElement.lang=language;
-  if(language!=='nl')return;
+  if(typeof root==='string')return language==='nl'?dutch(root):root;
+  if(language!=='nl'||!root)return;
   const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let node;
   while(node=walker.nextNode()){
     const raw=node.nodeValue,trim=raw.trim();if(!trim)continue;
-    let value=nl[trim];
-    if(!value)value=trim.replace(/^No (.+) part$/,'Geen partij voor $1').replace(/^Shared passages · /,'Gedeelde passages · ').replace(/· staff (\d+)/g,'· notenbalk $1').replace(/^Bars (\d+)–(\d+) will repeat until you stop\.$/,'Maten $1–$2 worden herhaald tot je stopt.').replace(/^Loop bars (\d+)–(\d+)$/,'Maten $1–$2 herhalen').replace(/^Automatic · /,'Automatisch · ').replace(/^(\d+) pieces? · one self-contained website$/,(m,n)=>`${n} ${n==='1'?'stuk':'stukken'} · één zelfstandige website`).replace(/\bbars\b/g,'maten').replace(/\bparts\b/g,'partijen').replace(/ selected$/,' geselecteerd');
-    if(value!==trim)node.nodeValue=raw.replace(trim,value);
+    const value=dutch(trim);if(value!==trim)node.nodeValue=raw.replace(trim,value);
   }
-  root.querySelectorAll('[placeholder]').forEach(el=>{if(nl[el.placeholder])el.placeholder=nl[el.placeholder];});
-  root.querySelectorAll('[aria-label]').forEach(el=>{if(nl[el.getAttribute('aria-label')])el.setAttribute('aria-label',nl[el.getAttribute('aria-label')]);});
-  root.querySelectorAll('optgroup[label]').forEach(el=>{if(nl[el.label])el.label=nl[el.label];});
-  root.querySelectorAll('[title]').forEach(el=>{if(nl[el.title])el.title=nl[el.title];});
+  // Include root itself: dynamic buttons and their tooltips are often updated without re-rendering.
+  const elements=[...(root.nodeType===1?[root]:[]),...root.querySelectorAll('*')];
+  for(const el of elements)for(const attr of ['placeholder','aria-label','title','alt','aria-valuetext','aria-description','aria-roledescription',...(el.matches('optgroup,option')?['label']:[])]){
+    if(el.hasAttribute(attr))el.setAttribute(attr,dutch(el.getAttribute(attr)));
+  }
 }

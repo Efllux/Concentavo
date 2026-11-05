@@ -1,4 +1,5 @@
 import { chromium } from 'playwright';
+import {testBrowser} from './browser.mjs';
 import { unzipSync, strFromU8 } from 'fflate';
 import { build } from 'esbuild';
 import { mkdir,readFile,writeFile } from 'node:fs/promises';
@@ -12,7 +13,7 @@ await mkdir('test-results',{recursive:true});
 const testModule=await build({entryPoints:['tests/music-entry.js'],bundle:true,format:'iife',write:false});
 const macChrome='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const executablePath=process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || (!existsSync(chromium.executablePath()) && process.platform==='darwin' && existsSync(macChrome) ? macChrome : undefined);
-const browser=await chromium.launch({executablePath,headless:true});
+const session=await testBrowser({executablePath,headless:true}),{browser}=session;
 try {
 const page=await browser.newPage({viewport:{width:1440,height:1040},acceptDownloads:true});
 page.setDefaultTimeout(15000);
@@ -53,7 +54,7 @@ await openTools();await page.locator('#follow').check();await page.locator('#sco
 await page.waitForTimeout(4200);await page.locator('#play').click();await page.waitForTimeout(100);await page.locator('#play').click();assert.equal(await page.locator('.checkbox-line.paused').count(),1,'Follow stays paused after four seconds');await page.locator('#follow-resume').click();assert.equal(await page.locator('.checkbox-line.paused').count(),0,'Resume explicitly restores following');
 await page.locator('.player-menu > summary').click();await page.locator('#score-settings-button').click();await page.locator('#view-menu [data-flow="horizontal"]').click();await page.keyboard.press('Escape');await page.waitForFunction(()=>!document.querySelector('#score-part').disabled);assert.ok(await page.locator('#score-viewport').evaluate(e=>e.scrollWidth>e.clientWidth),'Sideways score creates a horizontal rehearsal strip');await page.locator('.player-menu > summary').click();await page.locator('#score-settings-button').click();await page.locator('#view-menu [data-flow="vertical"]').click();await page.keyboard.press('Escape');await page.waitForFunction(()=>!document.querySelector('#score-part').disabled);
 await page.locator('#play').click();await page.waitForFunction(()=>Number(document.querySelector('#seek')?.value)>.5,null,{timeout:10000});await page.locator('#play').click();
-await openTools();await page.locator('#speed').selectOption('0.8');await page.locator('#transpose').selectOption('2');await page.locator('#count-in').check();await page.locator('#loop-toggle').click();assert.equal(await page.locator('#loop-toggle').getAttribute('aria-pressed'),'true');
+await page.locator('#speed-down').click();await page.locator('#speed-down').click();assert.equal(await page.locator('#speed').inputValue(),'0.8','Dock speed changes playback');await openTools();await page.locator('#transpose').selectOption('2');await page.locator('#count-in').check();await page.locator('#loop-toggle').click();assert.equal(await page.locator('#loop-toggle').getAttribute('aria-pressed'),'true');
 await page.locator('#back-library').click();await page.locator('[data-open]').first().click();await page.waitForSelector('#score svg');assert.equal(await page.locator('#count-in').isChecked(),true,'Count-in becomes the piece default in the authoring app');
 await page.screenshot({path:'test-results/player.png',fullPage:true});
 // Export is tested offline, including the embedded JavaScript and score renderer.
@@ -103,7 +104,7 @@ await page.locator('#export-project').click();const roomDownload=page.waitForEve
 const roomWebsite=strFromU8(unzipSync(await readFile('test-results/protected-room.zip'))['index.html']);const roomBoot=JSON.parse(roomWebsite.match(/<script id="boot-data" type="application\/json">(.*?)<\/script>/s)[1]);assert.ok(roomBoot.roomLock?.encrypted,'Whole-room export is encrypted');assert.equal(roomBoot.project,undefined,'No plaintext room payload is exported');assert.ok(!roomWebsite.includes(protectedRoomName),'Room name is not included in protected HTML');assert.ok(!roomWebsite.includes('OneRoomCode'),'Room password is not included in protected HTML');
 await writeFile('test-results/protected-room.html',roomWebsite);const roomSinger=await browser.newPage();roomSinger.on('pageerror',e=>errors.push(e.message));await roomSinger.context().setOffline(true);await roomSinger.goto(pathToFileURL(resolve('test-results/protected-room.html')).href);await roomSinger.locator('#room-gate-password').fill('wrong');await roomSinger.locator('#room-gate-form button').click();await roomSinger.waitForFunction(()=>!!document.querySelector('#room-gate-error')?.textContent);assert.equal(await roomSinger.locator('.track-row').count(),0,'Wrong room password exposes no pieces');await roomSinger.locator('#room-gate-password').fill('OneRoomCode');await roomSinger.locator('#room-gate-form button').click();await roomSinger.waitForSelector('.track-row');assert.equal(await roomSinger.locator('.project-heading h1').innerText(),protectedRoomName);await roomSinger.close();
 console.log('Whole-room password export and offline unlock passed');
-await browser.close();assert.deepEqual(errors,[],'No browser runtime errors');
+assert.deepEqual(errors,[],'No browser runtime errors');
 // Exercise publishing without mutating a real GitHub account.
 const calls=[],remembered=[];const api=async(method,path,data)=>{calls.push({method,path,data});if(path==='/user')return {login:'test-choir'};if(path==='/user/repos')return {name:'practice',default_branch:'main'};if(path.includes('/contents/')){const e=Error('missing');e.status=404;throw e;}if(path.includes('/git/ref/'))return {object:{sha:'head'}};if(path.endsWith('/git/commits/head'))return {tree:{sha:'base'}};if(path.endsWith('/git/trees'))return {sha:'tree'};if(path.endsWith('/git/commits'))return {sha:'commit'};if(path.endsWith('/pages')&&method==='GET'){const e=Error('missing');e.status=404;throw e;}if(path.endsWith('/pages'))return {html_url:'https://test-choir.github.io/practice/',source:{branch:'main',path:'/'},build_type:'legacy'};return {};};
 const published=await publishProject({api,projectId:'project-id',name:'practice',html:'<!DOCTYPE html><html></html>',remember:async t=>remembered.push(t)});
@@ -112,5 +113,5 @@ let blocked=false;try{await publishProject({api:async(method,path)=>path==='/use
 console.log('PASS: import, playback, mixer, loops, MIDI display, offline HTML, WAV, metadata, removal/restore, backups, persistence, responsive layout, GitHub publishing contract, ownership protection, folders, keyboard ordering, encrypted exports and offline unlocking.');
 
 } finally {
-  await browser.close();
+  await session.close();
 }
