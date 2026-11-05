@@ -72,7 +72,7 @@ const nl={
 
   'Go to bar…':'Ga naar maat…','Select':'Selecteren','Slower':'Langzamer','Faster':'Sneller','Click to seek; drag to loop':'Klik om te springen; sleep voor een herhaling',
   'Highlight':'Markeren','Choose a part first':'Kies eerst een partij','Choose part':'Kies partij','Full mix · no part':'Volledige mix · geen partij','Choose the part you practise':'Kies de partij die je oefent',
-  'No {part} part':'Geen partij voor {part}',
+  'No {part} part':'Geen {part}-partij',
 
   'My part brings your voice forward. Select it again to restore your mix.':'Mijn partij brengt je stem naar voren. Kies opnieuw om je mix te herstellen.',
 
@@ -111,7 +111,7 @@ const nl={
   'New room':'Nieuwe ruimte','Dark mode':'Donkere modus','Toggle dark mode':'Donkere modus wisselen','Automatic':'Automatisch',
   'Room settings':'Ruimte-instellingen','Back up room':'Ruimte back-uppen','Publish website':'Website publiceren','Update website':'Website bijwerken',
   'Help':'Hulp','Language':'Taal','English':'Engels','Dutch':'Nederlands','All pieces':'Alle stukken','New folder':'Nieuwe map','Manage folders':'Mappen beheren',
-  'Search pieces or tags':'Zoek stukken of labels','All folders':'Alle mappen','All visibility':'Alle zichtbaarheid','Visible':'Zichtbaar','Hidden':'Verborgen','Locked':'Beveiligd',
+  'Search pieces or tags':'Zoek stukken of labels','All folders':'Alle mappen','All visibility':'Alles','Visible':'Zichtbaar','Hidden':'Verborgen','Locked':'Beveiligd',
   'Sort: custom order':'Sortering: eigen volgorde','Title A–Z':'Titel A–Z','Composer A–Z':'Componist A–Z','Newest first':'Nieuwste eerst','Folder A–Z':'Map A–Z',
   'Import scores':'Partituren importeren','Recently removed':'Recent verwijderd','No matching pieces':'Geen overeenkomende stukken','Add your first score':'Voeg je eerste partituur toe',
   'Open':'Openen','Unlock':'Ontgrendelen','Settings':'Instellingen','Parts':'Partijen','bars':'maten','Select all shown pieces':'Selecteer alle getoonde stukken',
@@ -155,7 +155,8 @@ const nl={
   'Room password':'Wachtwoord voor de ruimte','Protected rehearsal room':'Beveiligde repetitieruimte','Open room':'Ruimte openen',
   'Export website':'Website exporteren','Export website ZIP':'Website-ZIP exporteren','Paused':'Gepauzeerd','Resume':'Hervatten','Back to the start':'Terug naar het begin','Keep the playing bar in view':'Houd de spelende maat in beeld','Show or hide the parts mixer':'Partijenmixer tonen of verbergen','Type a bar number and press Enter':'Typ een maatnummer en druk op Enter','Bar':'Maat','First loop bar':'Eerste maat van de herhaling','Last loop bar':'Laatste maat van de herhaling','Click the first and last bar in the score':'Klik op de eerste en laatste maat in de partituur','Repeat the chosen bars':'De gekozen maten herhalen','Every part at the same volume':'Alle partijen even luid','Bring this part forward; click again to restore the mix':'Breng deze partij naar voren; klik nogmaals om de mix te herstellen','More':'Meer','Dark score in dark mode':'Donkere partituur in donkere modus','Drop MusicXML or MIDI files here, or choose them from your computer.':'Sleep MusicXML- of MIDI-bestanden hierheen, of kies ze op je computer.','MusicXML (.musicxml, .xml, .mxl) and MIDI (.mid, .midi)':'MusicXML (.musicxml, .xml, .mxl) en MIDI (.mid, .midi)','Organise':'Ordenen','Name':'Naam','Type':'Soort','Put it on GitHub Pages':'Op GitHub Pages zetten','Score':'Partituur','Playback position':'Afspeelpositie',
   'View':'Weergave','Readable':'Leesbaar','Overview':'Overzicht','Larger notes and lyrics':'Grotere noten en tekst','More bars at once':'Meer maten tegelijk','Score size':'Partituurgrootte','Layout':'Indeling','Smaller notation':'Noten kleiner weergeven','Larger notation':'Noten groter weergeven','View: score size and layout':'Weergave: partituurgrootte en indeling','Score size and layout':'Partituurgrootte en indeling','Hide parts':'Partijen verbergen','Parts and volume':'Partijen en volume','Repeat a passage or go to a bar (G)':'Herhaal een passage of ga naar een maat (G)','Export this piece as a practice website':'Dit stuk als oefenwebsite exporteren','Add a piece to export this room':'Voeg een stuk toe om deze ruimte te exporteren',
-  'Mixer':'Mixer','Select bars':'Maten kiezen','Practice tools':'Oefenhulpmiddelen','Follow, loop and speed':'Volgen, herhalen en tempo','Volume, focus and mute for each part':'Volume, focus en dempen per partij','Close mixer':'Mixer sluiten','Close mixer (Esc)':'Mixer sluiten (Esc)','Larger notes':'Grotere noten','More bars':'Meer maten','Playback speed':'Afspeeltempo'
+  'Mixer':'Mixer','Select bars':'Maten kiezen','Practice tools':'Oefenhulpmiddelen','Follow, loop and speed':'Volgen, herhalen en tempo','Volume, focus and mute for each part':'Volume, focus en dempen per partij','Close mixer':'Mixer sluiten','Close mixer (Esc)':'Mixer sluiten (Esc)','Larger notes':'Grotere noten','More bars':'Meer maten','Playback speed':'Afspeeltempo',
+  'Loop, speed and follow':'Herhalen, tempo en volgen','Repeat the chosen bars (L)':'De gekozen maten herhalen (L)','Go to a bar or repeat a phrase (G)':'Naar een maat gaan of een frase herhalen (G)','Loop on or off':'Herhalen aan of uit','On':'Aan','Off':'Uit'
 };
 // Dictionary keys also serve as English source strings. Named slots preserve user data in dynamic labels.
 const templates=Object.entries(nl).filter(([key])=>key.includes('{')).sort(([a],[b])=>b.replace(/\{\w+\}/g,'').length-a.replace(/\{\w+\}/g,'').length).map(([key,value])=>{

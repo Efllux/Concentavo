@@ -2418,3 +2418,222 @@ dialog:focus{outline:none}
 :root .mixer .voice .voice-name .focus-toggle[aria-pressed=true]{background:var(--part-ink);border-color:var(--part-ink);color:#fff}
 .voice{--part-ink:color-mix(in srgb,var(--part) 55%,#16181d)}
 :root .piece-list .piece-tags-more>summary{border:0;background:transparent;color:var(--accent-ink)}
+
+/* Round 9: one rehearsal control group. Playback and position on the left; My part, Mixer, Practice and View together on the right.
+   Practice owns loop, speed and follow, and its trigger is the only place their state is summarised. The timeline row is always full width. */
+:root .player-layout .dock{position:relative}
+:root .dock .dk-row{position:static;display:flex;align-items:center;gap:12px}
+:root .dock .dk-group{display:flex;align-items:center;gap:8px;margin-left:auto;min-width:0}
+:root .dock .dk-group>.dk-parts,:root .dock .dk-group>.dk-practice{display:flex;align-items:center;gap:8px;margin:0;padding:0;height:auto;border:0}
+:root .dock .dk-practice{position:static}
+:root .dock .dk-timeline{padding-right:0}
+/* One trigger style: caption over value, the same height, radius and border. */
+:root:root .dock .part-picker-button,:root:root .dock .dk-tools-toggle,:root:root .dock .dk-mix,:root:root .dock .dk-group .view-menu>summary{display:inline-flex;align-items:center;gap:8px;height:40px;min-height:0;padding:0 10px 0 12px;border:1px solid var(--deck-line);border-radius:10px;background:var(--deck);color:var(--deck-text);font-size:13px;font-weight:600;box-shadow:none}
+:root:root .dock .dk-mix{padding:0 14px 0 12px}
+:root:root .dock .dk-tools-toggle{border-left:1px solid var(--deck-line)}
+:root:root .dock .dk-two>:first-child,:root:root .dock .view-menu .dk-two .view-word{font-size:11.5px;font-weight:500;line-height:14px;color:var(--deck-muted)}
+:root:root .dock .dk-two>:last-child{font-size:13px;line-height:16px;font-weight:650}
+:root:root .dock .part-picker[open]>.part-picker-button,:root:root .dock .dk-tools-toggle[aria-expanded=true],:root:root .dock .dk-mix[aria-pressed=true],:root:root .dock .view-menu[open]>summary{border-color:var(--blue);background:var(--accent-soft)}
+:root:root .dock .dk-tools-toggle.picking{border-color:var(--loop);background:color-mix(in srgb,var(--loop) 10%,var(--deck))}
+:root .dock .dk-tools-toggle>.glyph{flex:none;width:14px;height:14px;color:var(--deck-muted)}
+/* The Practice summary: loop range, speed and an explicit follow state. */
+:root .dock #practice-summary{display:inline-flex;align-items:center;flex-wrap:nowrap;gap:0;max-width:none;overflow:visible;white-space:nowrap;font-variant-numeric:tabular-nums}
+:root .dock #practice-summary>span+span::before{content:'·';display:inline;margin:0 5px;color:var(--deck-muted);font-weight:500}
+:root .dock #practice-summary .ps-loop{display:inline-flex;align-items:center;gap:3px;color:var(--loop)}
+:root .dock #practice-summary .ps-loop .glyph{width:13px;height:13px}
+:root .dock #practice-summary .ps-loop-range{display:inline}
+:root .dock #practice-summary .ps-follow,:root .dock #practice-summary .ps-follow.quiet{position:static;flex-basis:auto;width:auto;height:auto;clip-path:none;font-size:inherit;line-height:inherit;font-weight:550;color:var(--deck-text)}
+:root .dock #practice-summary .ps-follow.ps-paused{color:var(--loop);font-weight:650}
+:root .dock #practice-summary .ps-follow.ps-off{color:var(--deck-muted);font-weight:500}
+:root .dock .ps-follow-wide{display:inline}
+:root .dock .ps-follow-compact{display:none}
+
+/* Practice panel rows: Loop, Speed, Follow score, then Go to bar on phones. */
+:root:root .dock .dk-tools{gap:2px;padding:4px 10px 10px}
+:root:root .dock .dk-tools>.pr-row{order:0;display:flex;align-items:center;gap:8px;width:100%;min-height:48px;height:auto;margin:0;padding:6px 6px;border:0;border-radius:10px;background:transparent;color:var(--text)}
+:root:root .dock .dk-tools>.pr-row+.pr-row{border-top:1px solid var(--line);border-radius:0}
+.pr-label{flex:1;min-width:0;font-size:13.5px;font-weight:600;color:var(--text);white-space:nowrap}
+:root:root .dock .dk-tools .dk-loop{justify-content:flex-start}
+:root:root .dock .dk-tools .dk-loop.active{background:transparent}
+:root:root .dock .dk-tools .dk-loop .loop-toggle{display:inline-flex;align-items:center;gap:6px;height:34px;min-height:0;padding:0 12px 0 9px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--text);font-size:13px;font-weight:600}
+:root:root .dock .dk-tools .dk-loop .loop-toggle[aria-pressed=true]{border-color:var(--loop);background:var(--loop);color:#fff}
+:root:root .dock .dk-tools .dk-loop .loop-range{display:inline-flex;align-items:center;gap:4px;margin-left:auto;padding:0;font-size:12.5px;font-weight:500;color:var(--muted)}
+:root:root .dock .dk-tools .dk-loop .loop-range input{width:40px;height:34px;padding:0 2px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--text);font-size:13px;font-weight:650;text-align:center}
+:root:root .dock .dk-tools .dk-loop .pick-loop{height:34px;padding:0 10px;border:1px solid var(--line);border-left:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--text);font-size:12.5px;font-weight:550;white-space:nowrap}
+:root:root .dock .dk-tools .dk-loop .pick-loop[aria-pressed=true]{border-color:var(--loop);background:var(--accent-soft);color:var(--accent-ink)}
+:root:root .dock .dk-tools .dk-speed-stepper{display:flex;align-items:center;gap:6px;margin:0;font-size:13px;color:var(--text)}
+:root:root .dock .dk-tools .dk-speed-stepper button{width:34px;height:34px;min-height:0;padding:0;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--text);font-size:17px;font-weight:500}
+:root:root .dock .dk-tools .dk-speed-stepper button:hover,:root:root .dock .dk-tools .dk-loop button:hover{background:var(--surface-soft)}
+:root:root .dock .dk-tools .dk-loop .loop-toggle[aria-pressed=true]:hover{background:var(--loop)}
+.speed-value{position:relative;display:inline-flex}
+:root:root .dock .speed-value select{width:72px;height:34px;min-height:0;margin:0;padding:0 18px 0 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3C/svg%3E") no-repeat right 5px center/13px;color:var(--text);font:inherit;font-size:13.5px;font-weight:650;font-variant-numeric:tabular-nums;text-align:center;appearance:none;-webkit-appearance:none;cursor:pointer}
+:root:root .dock .speed-value select:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+:root:root .dock .dk-tools .dk-follow{position:relative;cursor:pointer}
+:root:root .dock .dk-tools .dk-follow:hover{background:var(--surface-soft)}
+.follow-state{font-size:12.5px;font-weight:550;color:var(--muted)}
+.follow-state>span{display:none}
+.dk-follow:not(.paused):not(.off) .follow-on,.dk-follow.off:not(.paused) .follow-off{display:inline}
+:root .dk-follow.paused .follow-state .follow-paused{display:inline;color:var(--loop);font-weight:650}
+:root:root .dock .dk-tools .dk-follow .dk-switch{order:0}
+:root:root .dock .dk-tools .pr-goto{display:none}
+:root:root .dock .dk-tools .dk-extra{order:0;padding:8px 6px 0;border-top:1px solid var(--line)}
+
+/* Shared sheet anatomy. On wide screens the title is a quiet caption and the popover closes from its trigger or Esc. */
+.sheet-head{display:flex;align-items:center;gap:8px;min-height:34px;padding:4px 6px 2px}
+.sheet-grip{display:none}
+.sheet-title{flex:1;min-width:0;margin:0;font-size:12px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--muted);white-space:nowrap}
+:root .sheet-done{display:none}
+.part-picker-body>.sheet-head,.view-menu-body>.sheet-head{padding-inline:8px 4px}
+:root .view-menu-body>.sheet-head{margin:-6px -6px 0;padding-inline:0}
+:root:root .mixer .mixer-head{height:auto;min-height:40px;margin:0;padding:0 2px 0 8px}
+:root:root .mixer .mixer-head .sheet-title{font-size:14px;color:var(--text)}
+:root .mixer .mixer-presets{display:flex;flex-wrap:nowrap;gap:6px;margin:0 0 6px;padding:0 6px}
+:root .mixer .mixer-presets button{white-space:nowrap}
+
+@media(min-width:951px){
+ /* Popovers: above the whole dock, centred on their trigger, 16px inside the window (placed by placePopover). */
+ :root:root .dock .dk-tools,:root:root .dock .part-picker-body,:root:root .dock .view-menu-body{position:fixed;left:var(--pop-left,auto);right:auto;bottom:var(--pop-bottom,96px);top:auto;z-index:45}
+ :root:root .dock .dk-tools{width:420px}
+ :root .dock .dk-row{height:44px}
+ :root .dock .dk-timeline{height:26px}
+ :root:root .dock #follow-resume{position:static;transform:none;display:inline-flex;height:32px;min-height:0;margin:0 0 0 8px;padding:0 4px 0 12px;box-shadow:none;font-size:12.5px}
+ :root:root .dock #follow-resume[hidden]{display:none!important}
+ :root:root .dock #follow-resume strong{height:24px;padding:0 10px;font-size:12.5px}
+ :root .dock .view-state{max-width:none;overflow:visible}
+ :root:root .dock .view-state>span{display:inline}
+ :root .dock .dk-group>.view-menu{max-width:none}
+ .dk-narrow{display:none!important}
+}
+@media(min-width:951px) and (max-width:1300px){
+ :root .dock .dk-group{gap:6px}
+ :root .dock .dk-group>.dk-parts{gap:6px}
+ :root:root .dock .part-picker-button{min-width:0}
+ :root .dock .dk-readout{gap:10px}
+}
+
+/* Phones and small tablets: a deliberate two-row deck that never changes, and every panel is one bottom sheet sitting on it. */
+@media(max-width:950px){
+ :root .dock .dk-row{gap:6px}
+ :root .dock .dk-main{flex:none}
+ :root .dock .dk-group{flex:1;gap:6px;margin-left:0}
+ :root .dock .dk-group>.dk-parts{flex:1;min-width:0;gap:6px}
+ :root .dock .dk-group>.dk-parts>.part-picker{flex:1;min-width:0}
+ :root:root .dock .part-picker-button{width:100%;height:48px;padding:0 8px 0 10px}
+ :root:root .dock .dk-mix.dk-wide{display:none}
+ :root:root .dock .dk-mix.dk-narrow{display:inline-flex;flex-direction:column;justify-content:center;gap:2px;width:52px;height:48px;padding:0;font-size:11px;font-weight:600}
+ :root:root .dock .dk-mix.dk-narrow>.glyph{display:inline-block;width:18px;height:18px}
+ :root:root .dock .dk-tools-toggle{height:48px;padding:0 10px}
+ :root:root .dock .dk-tools-toggle>.glyph{display:none}
+ :root:root .dock .dk-play{width:48px;height:48px}
+ :root .dock #practice-summary .ps-loop{display:none}
+ :root .dock .ps-follow-wide{display:none}
+ :root .dock .ps-follow-compact{display:inline}
+ /* The deck stays whole while a sheet is open. */
+ :root:root .show-parts .dk-parts,:root:root .show-parts .dk-practice,:root:root .show-parts .dk-tools-toggle{display:flex!important}
+ :root:root .show-parts .dk-parts{display:flex!important}
+ :root:root .show-parts .score-panel{visibility:visible}
+ /* One sheet: fixed on the dock's top edge, full width, the same head, scrolling inside. */
+ :root:root .dock .dk-tools,:root:root .dock .part-picker-body,:root:root .player-heading .view-menu-body,:root:root .dock .view-menu-body,:root:root .player-layout .mixer{position:fixed;z-index:60;left:0;right:0;top:auto;bottom:var(--sheet-bottom,120px);width:auto;max-width:none;min-width:0;max-height:calc(100dvh - var(--sheet-bottom,120px) - var(--safe-top,0px) - 56px);margin:0;overflow:auto;overscroll-behavior:contain;padding:0 max(14px,var(--safe-right,0px)) 12px max(14px,var(--safe-left,0px));border:0;border-top:1px solid var(--line);border-radius:18px 18px 0 0;background:var(--surface);box-shadow:0 -14px 36px #16181d26;transform:none}
+ :root:root .player-layout:not(.show-parts) .mixer{display:none}
+ :root:root .player-layout.show-parts .mixer{display:block;grid-area:auto;align-self:auto}
+ :root:root .dock .dk-tools{display:none!important;flex-direction:column}
+ :root:root .dock.tools-open .dk-tools{display:flex!important}
+ .sheet-head,:root:root .mixer .mixer-head{position:sticky;top:0;z-index:3;display:flex;align-items:center;gap:8px;height:auto;min-height:60px;margin:0 0 2px;padding:10px 0 4px;background:var(--surface)}
+ :root:root .view-menu-body>.sheet-head{margin:0 0 2px;padding-inline:0}
+ :root .sheet-grip{display:block;position:absolute;top:6px;left:50%;width:36px;height:4px;margin-left:-18px;border-radius:2px;background:var(--line-strong,#c9c9cf)}
+ :root:root .sheet-title,:root:root .mixer .mixer-head .sheet-title{font-size:17px;font-weight:650;color:var(--text)}
+ :root:root .sheet-done,:root:root .mixer #mixer-done{display:inline-flex;align-items:center;justify-content:center;flex:none;width:auto;min-width:72px;height:44px;min-height:44px;padding:0 16px;border:0;border-radius:22px;background:var(--accent-soft);color:var(--accent-ink);font-size:15px;font-weight:650;box-shadow:none}
+ :root:root .mixer .mixer-hide{display:none}
+ :root:root .mixer .mixer-presets{margin:0 0 6px;padding:0}
+ :root:root .mixer .mixer-presets button{height:36px;min-height:36px;padding:0 12px;border:1px solid var(--line);border-radius:18px;background:var(--surface);color:var(--text);font-size:13px;font-weight:550}
+ :root:root .dock .dk-tools>.pr-row{min-height:56px;padding:6px 2px}
+ :root:root .dock .dk-tools .dk-loop{flex-wrap:nowrap}
+ :root:root .dock .dk-tools .dk-loop .loop-toggle,:root:root .dock .dk-tools .dk-loop .pick-loop,:root:root .dock .dk-tools .dk-loop .loop-range input,:root:root .dock .dk-tools .dk-speed-stepper button,:root:root .dock .speed-value select{height:44px;min-height:44px}
+ :root:root .dock .dk-tools .dk-speed-stepper button{width:44px}
+ :root:root .dock .speed-value select{width:80px;font-size:15px}
+ :root:root .dock .dk-tools .dk-loop .loop-range input{width:42px;font-size:15px}
+ :root:root .dock .dk-tools .pr-goto{order:0;display:flex;align-items:center;gap:10px;width:100%;height:48px;min-height:48px;margin:6px 0 0;padding:0 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text);font-size:14px;font-weight:600;text-align:left}
+ :root:root .dock .dk-tools .pr-goto .bars-text{flex:1;font-size:14px}
+ :root:root .dock .dk-tools .pr-goto .bars-text::after{content:none}
+ :root:root .dock .dk-tools .pr-goto>.glyph{display:inline-block;width:17px;height:17px;color:var(--muted)}
+ :root:root .dock .dk-tools .pr-goto>.glyph:last-child{transform:rotate(-90deg);width:14px;height:14px}
+ :root:root .part-picker-body .part-chips button{height:48px!important;font-size:15px}
+ :root:root .part-picker-body .pp-none{height:48px}
+ :root:root .player-heading .view-menu-body{padding-top:0}
+}
+/* Sideways phones: the same two rows; the group spreads right of Play, and the summary has room for the loop. */
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px){
+ :root:root .dock .dk-speed-stepper{margin:0}
+ :root .dock .dk-group{flex:0 1 auto;margin-left:auto}
+ :root .dock .dk-group>.dk-parts>.part-picker{flex:none}
+ :root:root .dock .part-picker-button{width:auto;min-width:170px;height:44px}
+ :root:root .dock .dk-mix.dk-narrow{flex-direction:row;gap:8px;width:auto;height:44px;padding:0 14px 0 12px;font-size:13px}
+ :root:root .dock .dk-tools-toggle{height:44px}
+ :root .dock #practice-summary .ps-loop{display:inline-flex}
+ :root .dock .ps-follow-wide{display:inline}
+ :root .dock .ps-follow-compact{display:none}
+ :root:root .dock .dk-tools,:root:root .dock .part-picker-body,:root:root .player-heading .view-menu-body,:root:root .player-layout .mixer{left:auto;right:max(8px,var(--safe-right,0px));width:min(440px,calc(100vw - 16px));max-height:calc(100dvh - var(--sheet-bottom,120px) - 8px);border:1px solid var(--line);border-bottom:0}
+ .sheet-head,:root:root .mixer .mixer-head{min-height:52px;padding-top:8px}
+}
+
+/* Separators only between visible summary items. */
+@media(max-width:950px){
+ :root .dock #practice-summary .ps-loop+span::before{display:none}
+ :root .dock .dk-timeline{padding-right:76px}
+ :root:root .dock .dk-timeline .dk-time{position:absolute;right:0;width:72px;text-align:right}
+ :root:root .dock .dk-timeline #follow-resume{position:absolute;right:0;top:0;width:72px;transform:none;justify-content:center;padding:0;box-shadow:none}
+}
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px){
+ :root:root .dock .dk-timeline{padding-right:0}
+ :root:root .dock #practice-summary .ps-loop+span::before{display:inline}
+ :root:root .dock #follow-resume{position:static;width:auto;height:44px;min-height:44px;margin-left:8px;padding:0 4px 0 12px;font-size:12.5px}
+ :root:root .dock #follow-resume .resume-state{position:static;width:auto;height:auto;overflow:visible;clip-path:none}
+ :root:root .dock #follow-resume[hidden]{display:none!important}
+}
+@media(min-width:951px){:root:root .dock .view-menu-body>.sheet-head{display:none}}
+/* My part in the mixer keeps its hue: a tint of the part colour, a hue border and dark ink. */
+:root:root .mixer .voice .voice-name .focus-toggle[aria-pressed=true]{border:1.5px solid var(--part);background:color-mix(in srgb,var(--part) 20%,var(--surface));color:var(--text)}
+:root:root .mixer .voice .voice-name .focus-toggle[aria-pressed=true] .focus-check{color:var(--part-ink)}
+:root[data-theme=dark] .voice{--part-ink:color-mix(in srgb,var(--part) 70%,#fff)}
+/* Library: visibility is exception-only and looks the same in both themes; tags stay on one line with +N. */
+:root:root .piece-list .piece-list-row .track-tags{flex-wrap:nowrap!important}
+:root:root .piece-list .track-status.status-hidden,:root:root .piece-list .track-status.status-locked{display:inline-flex;align-items:center;height:22px;padding:0 9px;border:1px solid var(--line);border-radius:999px;background:var(--surface-soft);color:var(--muted);font-size:11.5px;font-weight:600}
+/* Dark selected folder: an accent tint, like light mode, never an inverted white pill. */
+:root:root[data-theme=dark] .folder-tab.active{background:color-mix(in srgb,var(--blue) 22%,var(--surface));color:var(--accent-ink);border-color:color-mix(in srgb,var(--blue) 50%,transparent);box-shadow:none}
+/* Singer room on wider screens: Sort and Filters stay visible beside search, even for a short list. */
+@media(min-width:701px){
+ :root:root .compact-library .library-controls{grid-template-columns:minmax(0,1fr) auto auto;align-items:center;column-gap:8px}
+ :root .compact-library .library-controls>.search-wrap{grid-column:1;grid-row:1}
+ :root .compact-library #filter-toggle{display:inline-flex;grid-column:3;grid-row:1}
+ :root:root .compact-library .library-filters{display:flex;grid-column:2;grid-row:1;align-items:center;gap:8px;padding:0;pointer-events:auto}
+ :root:root .compact-library .library-filters .frequent-tags{display:none}
+ :root:root .compact-library .library-filters.expanded{grid-column:1/-1;grid-row:2;flex-wrap:wrap}
+ :root:root .compact-library .library-filters.expanded .frequent-tags{display:flex}
+}
+/* Follow state is always explicit in the Practice summary, including while Resume is offered. */
+:root:root .dock:has(#follow-resume:not([hidden])) #practice-summary .ps-paused{display:inline}
+:root:root .piece-list .track-status.status-visible{position:absolute!important;width:1px!important;height:1px!important;margin:-1px!important;padding:0!important;overflow:hidden!important;clip-path:inset(50%)!important;border:0!important;white-space:nowrap}
+:root:root .piece-list .track-status.status-visible::before{content:none}
+@media(min-width:701px){:root:root .compact-library #filter-toggle{align-items:center;justify-content:center;height:42px;min-height:42px;padding:0 16px}}
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px){:root .dock .dk-readout #bar-label{order:-1}:root .dock .dk-readout{gap:10px}}
+/* Dark dialogs: one raised surface with a visible edge over a deeper scrim; destructive text stays legible. */
+:root[data-theme=dark] dialog{--surface:#1f2128;--surface-soft:#272a32;border:1px solid #ffffff1c;box-shadow:0 24px 80px #000c}
+:root[data-theme=dark] dialog::backdrop{background:#000000a8}
+:root[data-theme=dark] .danger,:root[data-theme=dark] dialog .danger{color:#ff8f86}
+/* Singer room: a piece without your part keeps readable text; only the availability badge steps back. */
+:root:root .viewer .track-row.part-missing .track-title,:root:root .viewer .track-row.part-missing .track-meta,:root:root .viewer .track-row.part-missing .folder-chip,:root:root .viewer .track-row.part-missing .tag{opacity:1}
+:root:root[data-theme=dark][data-dark-score=on] .staff-dim{background:var(--surface);opacity:.42}
+/* Phone singer header: the menu button sits centred with clear space above and below. */
+@media(max-width:700px){:root:root .viewer .topbar{height:58px;min-height:58px;padding-block:7px}}
+/* The header View trigger shows its open state like the dock triggers. */
+:root .player-heading .view-menu[open]>summary{border-color:var(--blue);background:var(--accent-soft);color:var(--accent-ink)}
+:root:root .mixer .mixer-presets:not(:has(button:not([hidden]))){display:none}
+/* Guide: shortcuts in two columns so the whole guide fits; long dialogs show a soft edge when more content is below. */
+@media(min-width:701px){
+ .shortcut-table tbody{display:grid;grid-template-columns:1fr 1fr;column-gap:20px}
+ .shortcut-table tr{display:flex;align-items:center;gap:10px}
+ :root .shortcut-table td:first-child{flex:none;width:76px}
+}
+:root dialog .dialog-body{background:linear-gradient(transparent,var(--surface) 70%) bottom/100% 28px no-repeat local,radial-gradient(farthest-side at 50% 100%,#16181d26,transparent) bottom/100% 12px no-repeat scroll,var(--surface)}
+:root .shortcut-table td:first-child{white-space:nowrap}@media(min-width:701px){:root .shortcut-table td:first-child{width:92px}}
+@media(max-width:700px){:root:root .viewer #folder-tabs{padding-bottom:6px;margin-bottom:6px}:root:root .viewer .project-heading{margin-bottom:10px}}
