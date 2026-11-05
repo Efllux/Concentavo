@@ -21,7 +21,18 @@ try{
   await page.locator('[data-practise]').nth(1).click();
   await page.waitForFunction(()=>{const s=document.querySelector('#score-part');return !s.disabled&&s.value===document.querySelectorAll('[data-practise]')[1].dataset.practise;});
   assert.equal(await page.locator('[data-practise]').nth(1).getAttribute('aria-pressed'),'true','Shown part is the part you practise');
+  await page.evaluate(()=>{for(const key of Object.keys(localStorage))if(key.startsWith('concentavo-my-voice-'))localStorage.removeItem(key);});await page.reload();
+  await page.waitForFunction(()=>{const s=document.querySelector('#score-part');return s&&!s.disabled&&s.value===document.querySelectorAll('[data-practise]')[1]?.dataset.practise;});
+  assert.equal(await page.locator('[data-practise]').nth(1).getAttribute('aria-pressed'),'true','Earlier saved score-part choice restores as My part');
   assert.equal(await page.locator('.measure-hit').count(),16,'Single part retains every bar');
+  await page.locator('#view-menu > summary').click();await page.locator('[data-show="full"]').click();
+  await page.waitForFunction(()=>!document.querySelector('#score-part').disabled&&document.querySelector('#score-part').value==='');
+  assert.equal(await page.locator('[data-practise]').nth(1).getAttribute('aria-pressed'),'true','Full score keeps My part selected');
+  await page.locator('[data-show="mine"]').click();await page.waitForFunction(()=>!document.querySelector('#score-part').disabled&&document.querySelector('#score-part').value===document.querySelectorAll('[data-practise]')[1].dataset.practise);await page.keyboard.press('Escape');
+  assert.match(await page.locator('#tools-toggle').innerText(),/Practice.*100%.*Follow on/s,'Closed Practice drawer names its current settings');
+  assert.equal(await page.locator('#mobile-parts span:not(.glyph)').innerText(),'Mixer','Mixer has an explicit visible label');
+  assert.equal(await page.locator('[data-practise][aria-pressed="true"] .part-check').isVisible(),true,'Part selection has a non-colour checkmark');
+  assert.equal(await page.locator('#score-view').count(),0,'Mixer does not duplicate the score selector');
   // Loop and speed sit in the practice tools, one tap away on an upright phone.
   await page.locator('#tools-toggle').click();
   await page.locator('#bar-controls-button').click();

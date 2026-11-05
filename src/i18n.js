@@ -1,4 +1,14 @@
 const nl={
+  'No {part} part':'Geen partij voor {part}',
+
+  'My part brings your voice forward. Select it again to restore your mix.':'Mijn partij brengt je stem naar voren. Kies opnieuw om je mix te herstellen.',
+
+  'Unlock to check part':'Ontgrendel om de partij te controleren',
+
+  'Tags':'Labels','Add a tag…':'Label toevoegen…','Choose or create a folder…':'Kies of maak een map…','Works offline':'Werkt offline','Notation, mixer and shared notes included':'Partituur, mixer en gedeelde notities inbegrepen','Hidden pieces excluded':'Verborgen stukken uitgesloten','Included pieces':'Inbegrepen stukken',
+
+  'My part':'Mijn partij','My part only':'Alleen mijn partij','Highlight my part':'Mijn partij markeren','Practice':'Oefenen','Follow on':'Volgen aan','Follow off':'Volgen uit','Select all':'Alles selecteren','No matching part':'Geen passende partij',
+
   'Switch rehearsal room':'Repetitieruimte wisselen','App settings':'App-instellingen','Room menu':'Ruimtemenu','Repertoire':'Repertoire','Rehearsal notes':'Repetitienotities','Filters':'Filters','Increase notation size':'Noten groter weergeven','Go to bar (G)':'Ga naar maat (G)',
   'Import scores, check the detected parts, then save.':'Importeer partituren, controleer de gevonden partijen en sla op.',
   'Use Piece settings for part names, tags and visibility.':'Gebruik Stukinstellingen voor partijnamen, labels en zichtbaarheid.',
@@ -81,7 +91,7 @@ export function translate(root,language='en'){
   while(node=walker.nextNode()){
     const raw=node.nodeValue,trim=raw.trim();if(!trim)continue;
     let value=nl[trim];
-    if(!value)value=trim.replace(/^Shared passages · /,'Gedeelde passages · ').replace(/· staff (\d+)/g,'· notenbalk $1').replace(/^Bars (\d+)–(\d+) will repeat until you stop\.$/,'Maten $1–$2 worden herhaald tot je stopt.').replace(/^Loop bars (\d+)–(\d+)$/,'Maten $1–$2 herhalen').replace(/^Automatic · /,'Automatisch · ').replace(/^(\d+) pieces? · one self-contained website$/,(m,n)=>`${n} ${n==='1'?'stuk':'stukken'} · één zelfstandige website`).replace(/\bbars\b/g,'maten').replace(/\bparts\b/g,'partijen').replace(/ selected$/,' geselecteerd');
+    if(!value)value=trim.replace(/^No (.+) part$/,'Geen partij voor $1').replace(/^Shared passages · /,'Gedeelde passages · ').replace(/· staff (\d+)/g,'· notenbalk $1').replace(/^Bars (\d+)–(\d+) will repeat until you stop\.$/,'Maten $1–$2 worden herhaald tot je stopt.').replace(/^Loop bars (\d+)–(\d+)$/,'Maten $1–$2 herhalen').replace(/^Automatic · /,'Automatisch · ').replace(/^(\d+) pieces? · one self-contained website$/,(m,n)=>`${n} ${n==='1'?'stuk':'stukken'} · één zelfstandige website`).replace(/\bbars\b/g,'maten').replace(/\bparts\b/g,'partijen').replace(/ selected$/,' geselecteerd');
     if(value!==trim)node.nodeValue=raw.replace(trim,value);
   }
   root.querySelectorAll('[placeholder]').forEach(el=>{if(nl[el.placeholder])el.placeholder=nl[el.placeholder];});

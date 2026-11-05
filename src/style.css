@@ -1549,3 +1549,172 @@ dialog:focus{outline:none}
  .dk-main{min-width:280px}
 }
 @media(max-width:950px){:root .dock .dk-speed{border:1px solid var(--deck-line);background:transparent}}
+
+/* Round 5: one personal part, one score view, a named practice drawer. */
+.part-choice{display:flex;align-items:center;gap:8px;min-width:0}
+.part-choice-label{font-size:12px;font-weight:600;color:var(--deck-muted,var(--muted));white-space:nowrap}
+.part-check{display:none;font-size:12px;line-height:1;font-weight:800}
+:root .part-chips button[aria-pressed=true] .part-check{display:inline}
+:root .part-chips button[aria-pressed=true] .part-dot{display:none}
+.part-level{font-size:10px;font-weight:500;opacity:.8;font-variant-numeric:tabular-nums}
+.part-level .glyph{width:12px;height:12px}
+.part-muted .part-full,.part-muted .part-short{text-decoration:line-through}
+:root .dk-follow.paused .follow-short{display:none}
+:root .dk-follow.paused .follow-paused{display:inline;color:var(--deck-text)}
+:root .dock #follow-resume{position:static;display:inline-flex;align-items:center;min-height:34px;height:34px;margin:0;padding:0 9px;border:1px solid var(--line-strong);border-radius:8px;background:var(--surface);color:var(--accent-ink);font-size:12px;box-shadow:none;white-space:nowrap}
+:root .dock #follow-resume[hidden]{display:none}
+.staff-dim{opacity:.24}
+:root[data-theme=dark][data-dark-score=on] .staff-dim{opacity:.26}
+:root .project-heading .eyebrow{display:none}
+:root .folder-tab.active{box-shadow:none;border-bottom-color:transparent;background:var(--accent-soft);color:var(--accent-ink)}
+:root .folder-tab.active::after{display:none}
+:root .folder-tab.add-folder{border:0;background:transparent;border-radius:8px;color:var(--muted)}
+:root .track-tags .tag,:root .track-tags .folder-chip{font-size:12px;line-height:1.5;padding-top:3px;padding-bottom:3px}
+.room-part-choice{margin-top:12px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.room-part-choice .part-choice-label{color:var(--muted)}
+.room-part-choice .part-chips{border-color:var(--line);background:var(--surface-soft)}
+:root .room-part-choice .part-chips button{min-height:40px;color:var(--text);padding:0 14px}
+:root .room-part-choice .part-chips button[aria-pressed=true]{color:#fff}
+.room-part-choice .part-full{display:inline}
+.room-part-choice .part-short{display:none}
+.part-availability.available{color:var(--accent-ink);font-weight:600}
+.part-availability.unavailable{color:var(--muted)}
+:root .room-part-choice .voice-pref{margin:0;font-size:12px}
+:root .singer-notes{margin-top:6px}
+:root .singer-notes p{max-width:65ch;margin:6px 0 0}
+:root .view-show{display:grid;grid-template-columns:1fr}
+:root .view-show button{min-height:38px;justify-content:flex-start}
+:root .view-show button[aria-pressed=true]::after{content:'✓';margin-left:auto}
+@media(min-width:951px){
+ .dk-parts{margin-left:10px;padding-left:10px;gap:3px}
+ .dk-tools{margin-left:10px;padding-left:10px;gap:4px}
+ .part-choice{gap:6px}
+ :root .part-chips button{padding:0 7px;gap:4px;height:38px;flex-wrap:wrap;position:relative;padding-bottom:11px}
+ .part-level{position:absolute;bottom:1px;left:0;right:0;text-align:center;line-height:12px}
+ :root .dock .dk-mix{width:auto;padding:0 9px}
+ :root .dk-mix>span:not(.glyph),:root .dk-speed .dk-pill-label{display:inline}
+ :root .dock .dk-loop .pick-loop{display:none}
+ :root .dock .dk-loop:focus-within .pick-loop,:root .dock .dk-loop:has(.pick-loop[aria-pressed=true]) .pick-loop{display:inline-flex}
+ :root .dock .dk-loop-button{display:inline-flex}
+ :root .dock .dk-loop{display:none}
+ .dk-tools .dk-loop-button{order:1}
+ .dk-readout{min-width:92px}
+ .dk-main{min-width:250px}
+ :root .dock .dk-tools-toggle{display:none}
+ .dk-tools .dk-follow{margin-left:0}
+ .dk-tools .dk-follow::before{display:none}
+ .dock>.view-menu .view-state{font-size:11px}
+}
+@media(min-width:1400px){
+ :root .dk-parts .part-chips .part-full{display:inline;font-size:12px}
+ :root .dk-parts .part-chips .part-short{display:none}
+ :root .dk-parts .part-chips{max-width:420px}
+}
+@media(max-width:950px){
+ :root .player-layout .dock{gap:6px;padding-top:8px;padding-bottom:max(6px,var(--safe-bottom))}
+ .dk-parts{gap:7px}
+ .dk-parts>.part-choice{flex:1;gap:5px}
+ .part-choice-label{font-size:11px}
+ :root .dock .dk-mix{width:auto;min-width:72px;padding:0 9px;gap:5px;font-size:12px;border-radius:10px}
+ :root .part-chips button{height:44px!important;min-width:30px;padding:0 5px!important;gap:4px!important}
+ .dk-parts .part-full{display:none}
+ .dk-parts .part-short{display:inline}
+ .dk-parts .part-level{display:none}
+ :root .dock .dk-tools-toggle{order:4;display:flex;align-items:center;justify-content:flex-start;gap:7px;width:100%;height:44px;min-height:44px;padding:0 10px;border-radius:9px;font-size:12px;background:transparent}
+ .dk-tools-toggle>strong{font-size:12px;font-weight:650}
+ .dk-tools-toggle>.glyph:first-child{width:16px;height:16px;color:var(--accent-ink)}
+ .dk-tools-toggle>.glyph:last-of-type{width:14px;height:14px;margin-left:auto}
+ #practice-summary{font-size:12px;font-weight:500;color:var(--deck-muted)}
+ .dk-tools-toggle .dk-dot{display:none}
+ :root .dock .dk-tools{order:5;margin:0;padding:8px 0 2px;border-top:1px solid var(--deck-line);gap:6px}
+ :root .dock.tools-open .dk-tools{display:flex}
+ :root .dock .dk-follow{font-size:12px;padding:0 8px}
+ :root .dock .dk-speed{margin-left:auto;font-size:12px;padding:0 9px}
+ :root .dock .dk-loop-button{font-size:12px;padding:0 9px}
+ .show-parts .dk-tools-toggle{display:none!important}
+ :root .dock #follow-resume{height:44px;min-height:44px}
+ :root .library-controls{grid-template-columns:minmax(0,1fr) auto}
+ :root .track-list .select-row{display:flex;justify-content:flex-end;min-height:32px;padding:0 4px 5px}
+ :root .track-list .select-row label{display:flex;align-items:center;gap:9px;min-height:44px;font-size:12px;line-height:1.3;color:var(--muted)}
+ :root .room-part-choice{margin-top:8px;gap:8px}
+ :root .room-part-choice .part-choice{width:100%;gap:8px}
+ :root .room-part-choice .part-chips{flex:1;min-width:0}
+ :root .room-part-choice .part-full{display:none}
+ :root .room-part-choice .part-short{display:inline}
+ :root .room-part-choice .part-chips button{min-height:44px;padding:0 10px}
+ :root .viewer .project-heading{margin-bottom:8px}
+ :root .viewer .topbar{min-height:44px;padding-top:3px;padding-bottom:3px}
+}
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px){
+ :root .player-layout .dock{position:relative;gap:8px;padding-top:4px;padding-bottom:4px}
+ :root .dock .dk-tools-toggle{display:flex!important;flex:none;width:106px;min-height:44px;height:44px;flex-wrap:wrap;gap:0 5px;padding:3px 7px}
+ .dk-tools-toggle>strong{font-size:11px}
+ .dk-tools-toggle>#practice-summary{width:100%;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .dk-tools-toggle>.glyph:last-of-type{display:none}
+ :root .dock .dk-tools{display:none;position:absolute;right:8px;bottom:100%;padding:8px;background:var(--deck);border:1px solid var(--line);border-radius:10px;box-shadow:0 -5px 18px #0002}
+ .dk-parts>.part-choice{gap:5px}
+ .dk-parts .part-choice-label{display:none}
+ :root .dock .dk-mix{min-width:70px}
+ .dk-parts .part-chips{max-width:210px}
+ .dk-main{min-width:240px}
+ :root .dock .dk-play{width:44px;height:44px}
+ :root .player-heading .piece-id{flex:1}
+ :root .player-heading .piece-title h1{max-width:60vw}
+}
+@media(min-width:951px){
+ :root .dock .dk-loop{display:flex}
+ :root .dock .dk-loop-button{display:none}
+}
+.tag-entry{display:flex;flex-wrap:wrap;align-items:center;gap:4px;min-height:40px;padding:3px 7px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+:root .tag-entry input{flex:1;min-width:100px;width:100px;height:30px;min-height:30px;padding:0 3px;border:0;background:transparent;box-shadow:none}
+.tag-entry:focus-within{outline:2px solid var(--blue);outline-offset:1px}
+:root .tag-token{min-height:26px;padding:2px 7px;border:0;border-radius:5px;background:var(--accent-soft);color:var(--accent-ink);font-size:12px}
+:root .import-part input:not([type=checkbox]),:root .import-part select{height:40px;min-height:40px}
+:root .import-organise .field>input{height:40px;min-height:40px}
+.export-checks{list-style:none;padding:0;margin:20px 0;display:grid;gap:9px;color:var(--accent-ink)}
+.export-checks li{display:flex;gap:10px;font-size:14px}
+.export-checks span{color:var(--text)}
+.included-pieces{padding:12px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.included-pieces summary{font-size:13px;font-weight:600;cursor:pointer}
+.included-pieces li{font-size:13px;padding:3px 0;color:var(--muted)}
+@media(min-width:951px){
+ :root .dock .dk-loop{position:relative}
+ :root .dock .dk-loop .pick-loop{position:absolute;bottom:calc(100% + 8px);right:0;z-index:30;height:36px;padding:0 12px;min-width:108px;border:1px solid var(--line);border-radius:8px;background:var(--surface);box-shadow:0 3px 15px #0002;color:var(--text)}
+}
+@media(max-width:950px){
+ :root .room-part-choice .part-chips.many{display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+ :root .room-part-choice .part-chips.many button{flex:1 0 auto;min-width:36px}
+ :root .dock .dk-mix{column-gap:6px}
+ :root .dock .dk-tools-toggle>.glyph:last-of-type{margin-left:auto}
+}
+:root .internal-part-command[hidden]{display:none!important}
+:root .dock #follow-resume{order:5}
+:root .import-organise .tag-entry{box-sizing:border-box;height:40px}
+@media(max-width:950px){
+ :root .dock .dk-tools-toggle>.glyph:last-of-type{margin-left:auto}
+}
+:root .singer-notes{max-width:65ch}
+:root .singer-notes>summary{align-items:flex-start;font-size:13px;color:var(--muted);line-height:1.45}
+:root .singer-notes>summary::before{margin-top:6px}
+.singer-note-preview{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.singer-notes[open] .singer-note-preview{display:none}
+.singer-notes[open] .visually-hidden{position:static;width:auto;height:auto;clip:auto;clip-path:none;overflow:visible}
+.singer-notes[open] p{font-size:13px;color:var(--muted);line-height:1.5}
+@media(max-width:950px){
+ :root .dock .part-chips button{min-width:44px}
+}
+@media(min-width:951px){
+ :root .dock .view-state{display:inline-flex;gap:3px}
+}
+@media(min-width:951px) and (max-width:1300px){
+ :root .dock .view-state>span:not(:first-child){display:none}
+}
+.singer-utilities{position:relative}
+.singer-utilities>summary{list-style:none;cursor:pointer}
+.singer-utilities>summary::-webkit-details-marker{display:none}
+.singer-utilities-body{position:absolute;right:0;top:calc(100% + 6px);z-index:30;display:flex;align-items:center;gap:6px;padding:8px;border:1px solid var(--line);border-radius:12px;background:var(--surface);box-shadow:0 6px 24px #0002}
+@media(max-width:700px){
+ :root .viewer .topbar{height:48px;min-height:48px;padding:2px 12px}
+ :root .viewer .topbar .singer-utilities>summary{width:44px;height:44px;min-height:44px}
+}
+.part-availability{display:inline-block;white-space:nowrap}
