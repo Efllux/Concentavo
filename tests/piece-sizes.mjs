@@ -47,7 +47,7 @@ try{
       const t0=Date.now();
       await page.getByRole('button',{name:p.title,exact:true}).click();await settled();
       const ms=Date.now()-t0;
-      const shot=await page.evaluate(()=>{const vp=document.querySelector('#score-viewport'),deck=document.querySelector('.transport'),buttons=[...document.querySelectorAll('.practise-as button')].filter(b=>b.offsetParent);
+      const shot=await page.evaluate(()=>{const vp=document.querySelector('#score-viewport'),deck=document.querySelector('.dock'),buttons=[...document.querySelectorAll('.part-chips button')].filter(b=>b.offsetParent);
         return {overflow:document.documentElement.scrollWidth>innerWidth+1,pageScroll:document.documentElement.scrollHeight>innerHeight+1,scoreShare:vp.clientHeight/innerHeight,deckBottom:deck.getBoundingClientRect().bottom,buttons:buttons.length,narrowest:Math.min(...buttons.map(b=>b.getBoundingClientRect().width)),clipped:buttons.some(b=>b.getBoundingClientRect().right>innerWidth+1),zoom:document.querySelector('#zoom-label')?.textContent};});
       await page.screenshot({path:`test-results/size-${p.file.split('.')[0]}-${label}.png`});
       report.push({piece:p.title,view:label,ms,...shot});

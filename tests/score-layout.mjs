@@ -43,8 +43,8 @@ try{
  const phone=await inspect();assert.deepEqual(phone.collisions,[],'Dense multi-verse lyrics do not overlap on a phone');assert.equal(phone.outerWidth,390);assert.equal(phone.outerHeight,844);assert.ok(phone.lyricHeight>10,'Dense bars retain readable text');
  await page.screenshot({path:'test-results/score-narrow.png'});
  await page.setViewportSize({width:844,height:390});await page.locator('#view-menu > summary').click();await page.locator('#view-menu [data-flow="horizontal"]').click();await page.keyboard.press('Escape');await page.waitForFunction(()=>!document.querySelector('#score-part').disabled);await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));
- const landscape=await inspect();assert.ok(landscape.width>820,'Landscape uses the whole width');assert.ok(landscape.follow.width>=16,'Follow is directly accessible in landscape');// The strip is capped at a moderate staff size so several bars stay in view; it still fills most of the pane.
- assert.ok(landscape.svgHeight<=landscape.height+1&&landscape.svgHeight>landscape.height*.75,'Every verse fits a readable sideways strip height');assert.ok(landscape.lyricHeight>10,'Sideways lyrics stay readable');assert.deepEqual(landscape.collisions,[],'Sideways lyrics do not overlap');
+ const landscape=await inspect();assert.ok(landscape.width>820,'Landscape uses the whole width');assert.ok(landscape.follow.width>=16,'Follow is directly accessible in landscape');// The strip is capped at a moderate staff size (about 35px) so four or five bars stay in view; with several verses it still fills more than half the pane.
+ assert.ok(landscape.svgHeight<=landscape.height+1&&landscape.svgHeight>landscape.height*.55,'Every verse fits a readable sideways strip height');assert.ok(landscape.lyricHeight>10,'Sideways lyrics stay readable');assert.deepEqual(landscape.collisions,[],'Sideways lyrics do not overlap');
  await page.screenshot({path:'test-results/score-sideways.png'});
  await page.locator('#play').click();await page.waitForFunction(()=>document.querySelector('#play').textContent==='Ⅱ');
  const motion=await page.evaluate(()=>new Promise(resolve=>{

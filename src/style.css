@@ -1296,3 +1296,256 @@ dialog:focus{outline:none}
 #staff-editor.wide-action::after{content:"";width:7px;height:7px;border-right:1.7px solid var(--muted);border-top:1.7px solid var(--muted);transform:rotate(45deg)}
 #staff-editor.wide-action:hover{border-color:var(--line-strong);background:var(--surface-soft)}
 @media(prefers-reduced-motion:reduce){.view-menu>summary .glyph,#dialog details>summary::before,.room-notes>summary::before{transition:none!important}}
+
+/* Round 4 (2026-11-05): one dock at every size. Primary playback, part chips beside one mixer, then practice tools.
+   Desktop: a single row in three clusters. Upright phones: parts and playback, tools one tap away. Sideways phones: tools in the header. */
+.dk-state{display:none!important}
+.dock{position:relative;color:var(--deck-text)}
+.dock button,.dock select,.dock input{font:inherit}
+.dk-main,.dk-parts,.dk-tools,.dk-seek,.dk-readout{display:flex;align-items:center;min-width:0}
+.dk-seek{flex:1;gap:14px}
+.dk-scrub{position:relative;flex:1;min-width:0;height:32px;display:flex;align-items:center}
+.dk-scrub input{position:relative;width:100%;margin:0}
+.dk-loop-band{position:absolute;top:50%;height:14px;margin-top:-7px;border-radius:4px;background:color-mix(in srgb,var(--loop) 22%,transparent);box-shadow:inset 2px 0 0 var(--loop),inset -2px 0 0 var(--loop);pointer-events:none}
+.dk-loop-band[hidden]{display:none}
+.dk-readout{flex-direction:column;align-items:flex-start;justify-content:center;gap:1px;color:var(--deck-muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.dk-bar{display:flex;align-items:center;gap:4px;font-size:12.5px;font-weight:600;color:var(--deck-text)}
+.dk-bar label{font-weight:500;color:var(--deck-muted)}
+.dk-bar .bar-of{font-weight:500;color:var(--deck-muted)}
+:root .dock #jump-bar{field-sizing:content;width:auto;min-width:28px;height:26px;min-height:0;padding:0 4px;border:1px solid var(--line-strong);border-radius:6px;background:var(--surface);color:var(--text);font:inherit;font-weight:650;text-align:center;-moz-appearance:textfield;appearance:textfield}
+:root .dock #jump-bar:focus{border-color:var(--blue);outline:2px solid color-mix(in srgb,var(--blue) 30%,transparent);outline-offset:0}
+.dk-time{font-size:11.5px;color:var(--deck-muted)}
+:root .dock #bar-label{display:none;font-weight:600;color:var(--deck-text)}
+:root .dock .dk-play{flex:none;display:grid;place-items:center;width:42px;height:42px;min-height:0;padding:0;border:0;border-radius:50%;background:var(--blue);color:#fff;font-size:15px;box-shadow:0 1px 2px #16181d29}
+:root .dock .dk-play:hover{background:color-mix(in srgb,var(--blue) 88%,black)}
+:root .dock .dk-restart{flex:none;display:inline-grid;place-items:center;width:34px;height:34px;min-height:0;padding:0;border:0;border-radius:9px;background:transparent;color:var(--deck-text)}
+:root .dock .dk-restart:hover{background:var(--surface-soft)}
+.dk-restart .glyph{width:18px;height:18px}
+.dk-tools-toggle{display:none}
+/* Part chips: a segmented control, the chosen part filled in its colour. */
+.part-chips{display:flex;align-items:center;gap:2px;padding:3px;border:1px solid var(--deck-line);border-radius:11px;background:var(--surface-soft)}
+:root .part-chips button{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:30px;min-height:0;min-width:38px;padding:0 10px;border:0;border-radius:8px;background:transparent;color:var(--deck-text);font-size:13px;font-weight:650;white-space:nowrap;box-shadow:none}
+:root .part-chips button:hover{background:color-mix(in srgb,var(--deck-text) 7%,transparent)}
+.part-chips .part-dot{flex:none;width:8px;height:8px;border-radius:50%;background:var(--part)}
+.part-chips .part-short{display:none}
+:root .part-chips button[aria-pressed=true]{background:var(--part);color:#fff;box-shadow:0 1px 2px #16181d33}
+:root .part-chips button[aria-pressed=true] .part-dot{background:#fff;opacity:.9}
+:root .part-chips button:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+:root .dock .dk-mix{flex:none;display:inline-flex;align-items:center;justify-content:center;gap:7px;height:36px;min-height:0;padding:0 11px;border:0;border-radius:10px;background:transparent;color:var(--deck-text);font-size:13px;font-weight:550}
+:root .dock .dk-mix:hover{background:var(--surface-soft)}
+:root .dock .dk-mix[aria-pressed=true]{background:var(--accent-soft);color:var(--accent-ink)}
+.dk-mix .glyph{width:17px;height:17px}
+/* Tools: one pill style for loop, speed and follow. */
+:root .dock .dk-pill,:root .player-heading .dk-pill{position:relative;display:inline-flex;align-items:center;gap:7px;height:36px;min-height:0;padding:0 11px;border:0;border-radius:10px;background:var(--surface-soft);color:var(--deck-text);font-size:13px;font-weight:600;white-space:nowrap}
+.dk-pill .glyph{width:16px;height:16px}
+.dk-pill-label{font-weight:500;color:var(--deck-muted)}
+:root .dk-speed select{height:100%;min-height:0;margin:0;padding:0 18px 0 0;border:0;background:transparent;color:var(--deck-text);font:inherit;font-weight:650;font-variant-numeric:tabular-nums;appearance:none;-webkit-appearance:none;cursor:pointer;box-shadow:none;outline:0}
+.dk-speed>.glyph{position:absolute;right:9px;top:50%;width:14px;height:14px;margin-top:-7px;color:var(--deck-muted);pointer-events:none}
+.dk-speed:has(select:focus-visible){outline:2px solid var(--blue);outline-offset:2px}
+:root .dock .dk-pill:hover,:root .player-heading .dk-pill:hover{background:color-mix(in srgb,var(--deck-text) 9%,var(--surface))}
+.dk-speed.changed select{color:var(--accent-ink)}
+/* Follow: an explicit labelled switch. The real checkbox covers it, so it stays clickable and focusable. */
+.dk-follow{position:relative;display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 10px 0 8px;border-radius:10px;font-size:13px;font-weight:600;color:var(--deck-text);cursor:pointer;white-space:nowrap}
+.dk-follow:hover{background:var(--surface-soft)}
+.dk-follow input{position:absolute;inset:0;z-index:1;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.dk-switch{position:relative;flex:none;width:30px;height:18px;border-radius:9px;background:var(--switch-off);transition:background .15s}
+.dk-switch::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#fff;box-shadow:0 1px 2px #16181d40;transition:transform .15s}
+.dk-follow input:checked+.dk-switch{background:var(--blue)}
+.dk-follow input:checked+.dk-switch::after{transform:translateX(12px)}
+.dk-follow input:focus-visible+.dk-switch{outline:2px solid var(--blue);outline-offset:3px}
+:root .dk-follow .follow-paused{display:none}
+:root .dk-follow.paused .follow-short{display:none}
+:root .dk-follow.paused .follow-paused{display:inline;color:var(--deck-muted)}
+:root .dk-follow.paused input:checked+.dk-switch{background:color-mix(in srgb,var(--blue) 45%,var(--switch-off))}
+/* Loop on wide screens: one control for state, range and choosing bars in the score. */
+:root .dock .dk-loop{display:flex;align-items:center;gap:0;height:36px;padding:0 3px;border:0;border-radius:10px;background:var(--surface-soft)}
+:root .dock .dk-loop.active{background:color-mix(in srgb,var(--loop) 10%,var(--surface))}
+:root .dock .dk-loop .loop-toggle{display:inline-flex;align-items:center;gap:6px;height:30px;min-height:0;padding:0 9px 0 7px;border:0;border-radius:8px;background:transparent;color:var(--deck-text);font-size:13px;font-weight:600}
+:root .dock .dk-loop .loop-toggle .glyph{width:16px;height:16px}
+:root .dock .dk-loop .loop-toggle[aria-pressed=true]{background:var(--loop);color:#fff}
+:root .dock .dk-loop .loop-range{display:none;align-items:center;gap:1px;padding:0 4px;font-size:13px;font-weight:600;color:var(--deck-muted)}
+:root .dock .dk-loop.active .loop-range{display:inline-flex}
+:root .dock .dk-loop .loop-range input{width:30px;height:26px;min-height:0;padding:0;border:1px solid transparent;border-radius:6px;background:transparent;color:var(--deck-text);font-weight:650;text-align:center;-moz-appearance:textfield;appearance:textfield}
+:root .dock .dk-loop .loop-range input:hover{border-color:var(--line-strong)}
+:root .dock .dk-loop .loop-range input:focus{border-color:var(--blue);background:var(--surface)}
+:root .dock .dk-loop .pick-loop{height:30px;min-height:0;padding:0 9px;border:0;border-left:1px solid var(--line-strong);border-radius:0 8px 8px 0;background:transparent;color:var(--deck-muted);font-size:12.5px;font-weight:550}
+:root .dock .dk-loop .pick-loop:hover{color:var(--deck-text)}
+:root .dock .dk-loop .pick-loop[aria-pressed=true]{border-radius:8px;border-left-color:transparent;background:var(--accent-soft);color:var(--accent-ink)}
+.dk-extra{display:flex;align-items:center;gap:6px}
+:root:not([data-interface-mode=advanced]) .dk-extra{display:none}
+.dk-check{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 6px;font-size:12.5px;color:var(--deck-muted);white-space:nowrap}
+:root .dk-extra select{height:28px;min-height:0;border:0;border-radius:7px;background:var(--surface);font-size:12.5px}
+:root .dock .dk-quiet{height:32px;min-height:0;padding:0 8px;border:0;border-radius:8px;background:transparent;color:var(--deck-muted);font-size:12.5px}
+:root .dock .dk-loop-button{display:none}
+/* Score shows, in View. */
+.view-show{display:flex;flex-wrap:wrap;gap:4px}
+:root .view-show button{display:inline-flex;align-items:center;gap:6px;height:32px;min-height:0;padding:0 11px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--text);font-size:13px;font-weight:550}
+:root .view-show button:hover{border-color:var(--line-strong)}
+.view-show .part-dot{width:8px;height:8px;border-radius:50%;background:var(--part)}
+:root .view-show button[aria-pressed=true]{border-color:var(--blue);background:var(--accent-soft);color:var(--accent-ink);box-shadow:inset 0 0 0 1px var(--blue)}
+.view-presets button small{white-space:nowrap}
+/* Your part in the score. */
+#score{position:relative}
+.staff-dim{position:absolute;z-index:1;background:var(--surface);opacity:.52;pointer-events:none}
+.staff-mark{position:absolute;z-index:1;width:4px;border-radius:2px;background:var(--part);pointer-events:none}
+.staff-dot{position:absolute;z-index:1;width:8px;height:8px;border-radius:50%;background:var(--part);pointer-events:none}
+#score svg text.staff-label-mine{fill:var(--part);font-weight:700}
+:root[data-theme=dark][data-dark-score=on] .staff-dim{background:#0b0c0e;opacity:.55}
+:root[data-theme=dark][data-dark-score=on] .staff-mark,:root[data-theme=dark][data-dark-score=on] .staff-dot{filter:none}
+@media print{.staff-dim,.staff-mark,.staff-dot,.dock{display:none!important}}
+@media(prefers-reduced-motion:reduce){.dk-switch,.dk-switch::after{transition:none}}
+
+@media(min-width:951px){
+ :root .player-layout{grid-template-columns:minmax(0,1fr);position:relative}
+ .dock{grid-area:2/1/3/-1;display:flex;align-items:center;gap:0;height:64px;padding:0 12px;border-top:1px solid var(--line);background:var(--deck)}
+ .dk-main{order:1;flex:1;gap:6px}
+ .dk-seek{margin-left:8px}
+ .dk-readout{order:-1;min-width:104px}
+ .dk-parts{order:2;flex:none;gap:4px;margin-left:16px;padding-left:16px;border-left:1px solid var(--line);height:36px}
+ .dk-tools{order:3;flex:none;gap:6px;margin-left:14px;padding-left:14px;border-left:1px solid var(--line);height:36px}
+ .dk-tools .dk-loop{order:1}.dk-tools .dk-speed{order:2}.dk-tools .dk-extra{order:3}
+ .dk-tools .dk-follow{order:4;margin-left:8px}
+ .dk-tools .dk-follow::before{content:"";position:absolute;left:-8px;top:6px;bottom:6px;width:1px;background:var(--line)}
+ .dock>.view-menu{order:4;margin-left:4px}
+ :root .dock .dk-mix.dk-narrow{display:none}
+ .part-chips{border:0}
+ .part-chips .part-full{display:none}
+ .part-chips .part-short{display:inline}
+ :root[data-interface-mode=advanced] .dock{height:auto;min-height:64px;flex-wrap:wrap;row-gap:4px;padding-top:8px;padding-bottom:8px}
+ :root[data-interface-mode=advanced] .dk-tools{flex-wrap:wrap;height:auto}
+ /* The mixer opens over the lower right of the score, beside the button that opened it. */
+ :root .player-layout .mixer{display:none}
+ :root .player-layout.mixer-open .mixer{display:block;grid-area:1/1;align-self:end;justify-self:end;position:relative;z-index:25;width:340px;max-height:calc(100% - 20px);overflow:auto;margin:0 12px 10px 0;padding:8px 8px 10px;border:1px solid var(--line);border-radius:14px;background:var(--surface);box-shadow:0 18px 48px #16181d2e,0 2px 6px #16181d14}
+ :root[data-theme=dark] .player-layout.mixer-open .mixer{box-shadow:0 18px 48px #0009,0 0 0 1px #ffffff0d}
+ :root .mixer .mixer-head{height:38px;padding:0 2px 0 8px}
+ .mixer-hide .glyph{transform:none!important}
+}
+@media(min-width:951px) and (max-width:1300px){
+ .dk-parts{margin-left:10px;padding-left:10px}
+ .dk-tools{margin-left:10px;padding-left:10px}
+ .dk-mix>span:not(.glyph){display:none}
+ :root .dock .dk-mix{width:36px;padding:0}
+ .dk-speed .dk-pill-label{display:none}
+ .dk-readout{min-width:92px}
+ :root .dock .dk-loop .pick-loop{padding:0 7px}
+}
+
+/* Phones and tablets. */
+@media(max-width:950px){
+ :root .player-layout .dock{grid-area:2/1;display:flex;flex-direction:column;align-items:stretch;gap:8px;margin:0;padding:8px max(12px,var(--safe-right)) max(8px,var(--safe-bottom)) max(12px,var(--safe-left));border-top:1px solid var(--deck-line);background:var(--deck);z-index:9}
+ .dk-tools{order:1;display:none;gap:8px;flex-wrap:wrap}
+ .dock.tools-open .dk-tools{display:flex}
+ .dk-parts{order:2;gap:8px}
+ .dk-main{order:3;gap:8px}
+ :root .dock .dk-mix.dk-wide,:root .dock .dk-loop{display:none}
+ :root .dock .dk-loop-button{display:inline-flex}
+ :root .dock .dk-mix{width:46px;height:44px;padding:0;border:1px solid var(--deck-line);border-radius:12px;background:var(--surface-soft)}
+ :root .dock .dk-mix[aria-pressed=true]{border-color:var(--blue)}
+ .dk-mix .glyph{width:19px;height:19px}
+ .part-chips{flex:1;min-width:0;display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);border-radius:13px}
+ :root .part-chips button{height:38px;min-width:0;padding:0 6px;border-radius:10px;font-size:14px;gap:5px}
+ .part-chips .part-full{overflow:hidden;text-overflow:ellipsis}
+ .part-chips.long .part-full{display:none}
+ .part-chips.long .part-short{display:inline}
+ .part-chips.many{grid-auto-flow:row;grid-template-columns:repeat(var(--cols,4),minmax(0,1fr))}
+ :root .dock .dk-play{width:48px;height:48px;font-size:17px}
+ :root .dock .dk-restart{width:40px;height:44px}
+ .dk-seek{flex-direction:column;align-items:stretch;gap:0;margin-left:2px}
+ .dk-scrub{height:26px}
+ .dk-readout{flex-direction:row;justify-content:space-between;align-items:center;gap:8px}
+ .dk-bar{display:none}
+ :root .dock #bar-label{display:inline;font-size:12px}
+ .dk-time{order:-1;font-size:12px}
+ .dk-tools-toggle{display:inline-grid}
+ :root .dock .dk-tools-toggle{position:relative;flex:none;place-items:center;width:46px;height:44px;min-height:0;padding:0;border:1px solid var(--deck-line);border-radius:12px;background:var(--surface-soft);color:var(--deck-text)}
+ :root .dock .dk-tools-toggle[aria-expanded=true]{border-color:var(--blue);background:var(--accent-soft);color:var(--accent-ink)}
+ .dk-tools-toggle .glyph{width:20px;height:20px}
+ .dk-dot{position:absolute;top:7px;right:7px;width:8px;height:8px;border-radius:50%;background:var(--loop);box-shadow:0 0 0 2px var(--surface-soft)}
+ .dk-dot[hidden]{display:none}
+ :root .dock .dk-pill,:root .dock .dk-follow{height:44px;border-radius:12px;font-size:14px}
+ :root .dock .dk-follow{padding:0 12px 0 10px;border:1px solid var(--deck-line)}
+ :root .dock .dk-loop-button{border:1px solid var(--deck-line);background:transparent;padding:0 13px 0 11px;font-variant-numeric:tabular-nums}
+ :root .dock .dk-loop-button.loop-active{border-color:var(--loop);background:color-mix(in srgb,var(--loop) 12%,var(--deck))}
+ :root .dock .dk-loop-button.loop-active .glyph{color:var(--loop)}
+ :root .dock .dk-speed{margin-left:auto;padding:0 12px}
+ .dk-speed>.glyph{right:11px}
+ :root .dk-speed select{padding-right:20px}
+ .dk-extra{flex-basis:100%;flex-wrap:wrap}
+ /* While the parts sheet is open the dock keeps only playback. */
+ .show-parts .dk-parts,.show-parts .dk-tools{display:none!important}
+}
+/* Sideways phones: tools in the header row, parts and a long timeline in the dock. */
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px){
+ :root .player-layout .dock{flex-direction:row;align-items:center;gap:10px;padding-top:5px;padding-bottom:max(5px,var(--safe-bottom))}
+ .dk-parts{order:1;flex:none}
+ .dk-main{order:2;flex:1}
+ .part-chips{flex:none;display:flex}
+ :root .part-chips button{height:36px;min-width:42px;padding:0 9px}
+ .part-chips .part-full{display:none}
+ .part-chips .part-short{display:inline}
+ :root .dock .dk-mix{height:42px;width:44px}
+ :root .dock .dk-play{width:44px;height:44px}
+ .dk-tools-toggle{display:none!important}
+ .player-heading .dk-tools{display:flex!important;order:0;gap:6px;flex-wrap:nowrap;margin-right:2px}
+ :root .player-heading .dk-pill,:root .player-heading .dk-follow{height:38px;min-height:0;border-radius:11px;font-size:14px}
+ :root .player-heading .dk-follow{padding:0 10px 0 8px;border:1px solid var(--line)}
+ :root .player-heading .dk-loop-button{display:inline-flex;padding:0 12px 0 10px;border:1px solid var(--line);background:var(--surface)}
+ :root .player-heading .dk-loop-button.loop-active{border-color:var(--loop);background:color-mix(in srgb,var(--loop) 12%,var(--surface))}
+ :root .player-heading .dk-loop,.player-heading .dk-extra{display:none}
+ :root .player-heading .dk-speed{border:1px solid var(--line);background:var(--surface)}
+ .player-heading .dk-speed .dk-pill-label{display:none}
+ :root .player-heading .view-menu>summary{height:38px;min-height:0;border-radius:11px}
+ :root .player-heading .player-menu>summary{height:38px;min-height:0}
+}
+:root .dk-follow .follow-short{display:inline}
+:root .dk-follow.paused .follow-short{display:none}
+.player-heading .dk-tools,.player-heading .dk-tools>*{flex:none}
+@media(max-width:950px){
+ :root .part-chips button[aria-pressed=true] .part-dot{display:none}
+ :root .part-chips:not(.long) button{padding:0 4px}
+}
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px){
+ :root .player-heading .actions{max-width:none;flex:none;overflow:visible;gap:6px}
+ :root .player-heading .piece-id{flex:1 1 0;min-width:0}
+}
+/* The beat cursor: a soft column over the current notes, without a cap that would sit on dynamics above the staff. */
+:root{--cursor-band:color-mix(in srgb,#4f46c8 17%,transparent)}
+:root[data-theme=dark]{--cursor-band:color-mix(in srgb,#a79dff 26%,transparent)}
+:root .score-viewport #score img{padding-top:0;border-top:0;border-radius:4px;translate:0 -2px;box-shadow:inset 0 -3px 0 color-mix(in srgb,var(--cursor-cap) 70%,transparent)}
+/* Leader's room on phones: no eyebrow, select-all beside search, so the first piece comes up the screen. */
+@media(max-width:700px){
+ :root .app:not(.viewer) .project-heading .eyebrow,:root .viewer .project-heading .eyebrow{display:none!important}
+ :root .library-controls:has(>.select-row){grid-template-columns:minmax(0,1fr) auto 46px}
+ :root .library-controls>.select-row{display:flex;align-items:center;justify-content:center;margin:0;padding:0}
+ :root .library-controls>.select-row label{display:grid;place-items:center;width:46px;height:44px;min-height:44px;padding:0;gap:0;font-size:0;color:transparent;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+ :root .library-controls>.select-row input{width:20px;height:20px}
+ :root .app:not(.is-player) .content{padding-top:12px}
+ :root .project-heading{margin-bottom:10px}
+}
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px){.player-heading .dk-speed .dk-pill-label{display:inline}}
+@media(max-width:700px){:root .library-controls>.select-row label{line-height:0}:root .library-controls>.select-row input{display:block}}
+@media(max-width:950px){
+ :root .part-chips:not(.many){display:flex}
+ :root .part-chips:not(.many) button{flex:1 1 auto;min-width:0;padding:0 5px;gap:5px}
+}
+@media(min-width:701px){:root .app:not(.viewer) .track-list .select-row label{padding-right:28px}}
+@media(min-width:951px){
+ :root[data-interface-mode=advanced] .dk-main{flex:1 1 100%;min-width:0}
+ :root[data-interface-mode=advanced] .dk-parts{margin-left:0;padding-left:0;border-left:0}
+ :root[data-interface-mode=advanced] .dock>.view-menu{margin-left:auto}
+}
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px){:root .part-chips:not(.many) button{flex:none;min-width:44px;padding:0 10px}}
+/* Many parts: the chip strip scrolls rather than squeezing the timeline. */
+@media(min-width:951px){
+ .dk-main{min-width:300px}
+ .dk-parts .part-chips{max-width:min(440px,30vw);overflow-x:auto;scrollbar-width:none}
+ .dk-parts .part-chips::-webkit-scrollbar{display:none}
+ :root .part-chips.many button{min-width:34px;padding:0 8px;gap:5px}
+ :root .part-chips.many .part-dot{width:7px;height:7px}
+}
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px){
+ .dk-parts .part-chips{max-width:44vw;overflow-x:auto;scrollbar-width:none}
+ .dk-parts .part-chips::-webkit-scrollbar{display:none}
+ .dk-main{min-width:280px}
+}
+@media(max-width:950px){:root .dock .dk-speed{border:1px solid var(--deck-line);background:transparent}}

@@ -22,6 +22,8 @@ try{
   await page.waitForFunction(()=>{const s=document.querySelector('#score-part');return !s.disabled&&s.value===document.querySelectorAll('[data-practise]')[1].dataset.practise;});
   assert.equal(await page.locator('[data-practise]').nth(1).getAttribute('aria-pressed'),'true','Shown part is the part you practise');
   assert.equal(await page.locator('.measure-hit').count(),16,'Single part retains every bar');
+  // Loop and speed sit in the practice tools, one tap away on an upright phone.
+  await page.locator('#tools-toggle').click();
   await page.locator('#bar-controls-button').click();
   await page.locator('#dialog-jump').fill('4');
   await page.locator('#dialog-go').click();
@@ -30,7 +32,7 @@ try{
   await page.waitForFunction(()=>{const s=document.querySelector('#score-part');return !s.disabled&&s.value==='';});
   await page.reload();await page.waitForSelector('#score svg');assert.equal(await page.locator('#score-part').inputValue(),'','Full-score choice survives refresh on a phone');
   await page.locator('#mobile-parts').click();
-  const bounds=await page.evaluate(()=>({mixer:document.querySelector('.mixer').getBoundingClientRect().bottom,transport:document.querySelector('.transport').getBoundingClientRect().top,height:document.documentElement.scrollHeight,viewport:innerHeight}));
+  const bounds=await page.evaluate(()=>({mixer:document.querySelector('.mixer').getBoundingClientRect().bottom,transport:document.querySelector('.dock').getBoundingClientRect().top,height:document.documentElement.scrollHeight,viewport:innerHeight}));
   assert.ok(bounds.mixer<=bounds.transport+1,'Phone mixer never covers transport controls');
   assert.equal(bounds.height,bounds.viewport,'Phone player fits viewport');
   await page.locator('#mixer-done').click();

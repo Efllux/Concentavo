@@ -40,10 +40,11 @@ const parsing=await page.evaluate(async()=>{
 console.log('Music:',parsing.join('; '));
 await page.locator('[data-open]').first().click();await page.waitForSelector('#score svg',{timeout:30000});
 assert.equal(await page.locator('#score .vf-stavenote').count(),64,'All example notes render, including the opening bar');
-await page.locator('[data-focus]').first().click();assert.equal(await page.locator('[data-volume]').first().inputValue(),'100');assert.equal(await page.locator('[data-volume]').nth(1).inputValue(),'22');
+// The full mixer opens from the dock; part chips focus a part directly.
+await page.locator('#mixer-toggle').click();await page.locator('[data-focus]').first().click();assert.equal(await page.locator('[data-volume]').first().inputValue(),'100');assert.equal(await page.locator('[data-volume]').nth(1).inputValue(),'22');
 await page.locator('[data-focus]').first().click();assert.equal(await page.locator('[data-volume]').first().inputValue(),'75');assert.equal(await page.locator('[data-focus]').first().getAttribute('aria-pressed'),'false');
 assert.equal(await page.evaluate(()=>document.documentElement.scrollHeight),1040,'Desktop player fits viewport');
-await page.locator('[data-name]').first().fill('Soprano I');await page.locator('[data-name]').first().press('Tab');await page.locator('[data-type]').first().selectOption('instrument');await page.locator('[data-sound]').first().selectOption('choirAh');
+await page.locator('[data-name]').first().fill('Soprano I');await page.locator('[data-name]').first().press('Tab');await page.locator('[data-type]').first().selectOption('instrument');await page.locator('[data-sound]').first().selectOption('choirAh');await page.keyboard.press('Escape');assert.equal(await page.locator('.mixer').isVisible(),false,'Escape closes the mixer');
 await page.locator('[data-measure="3"]').click();assert.ok(Number(await page.locator('#seek').inputValue())>1,'Measure click seeks');
 await page.locator('#pick-loop').click();await page.locator('[data-measure="1"]').click();await page.locator('[data-measure="3"]').click();assert.equal(await page.locator('#loop-start').inputValue(),'2');assert.equal(await page.locator('#loop-end').inputValue(),'4');assert.equal(await page.locator('#loop-toggle').getAttribute('aria-pressed'),'true');await page.locator('#loop-toggle').click();await page.locator('#restart').click();
 await page.locator('#score-viewport').focus();await page.keyboard.press('g');assert.equal(await page.locator('#jump-bar').evaluate(el=>el===document.activeElement),true,'G focuses Go to bar');await page.locator('#score-viewport').focus();
