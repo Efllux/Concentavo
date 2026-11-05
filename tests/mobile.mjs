@@ -13,6 +13,11 @@ try{
   await page.goto(pathToFileURL(resolve('dist/index.html')).href);
   await page.waitForSelector('.track-row');
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),'No mobile horizontal overflow');
+  assert.ok(await page.locator('.track-row').first().evaluate(el=>el.getBoundingClientRect().top<210),'Leader enters the piece list by 210px on a phone');
+  assert.ok(await page.locator('#import').isVisible()&&await page.locator('#library-bar #search').isVisible()&&await page.locator('#library-bar #folder-tabs').isVisible(),'Phone leader header and bar keep Import, search and the folders');
+  await page.locator('.room-menu > summary').click();
+  for(const id of ['#export-project','#language','#theme','#help','#edit-project'])assert.ok(await page.locator(`.room-menu-body ${id}`).isVisible(),`Phone room menu keeps ${id} reachable`);
+  await page.locator('.room-menu > summary').click();
   await page.locator('[data-open]').first().click();
   await page.waitForSelector('#score svg');
   assert.ok(parseInt(await page.locator('#zoom-label').textContent())>=78&&parseInt(await page.locator('#zoom-label').textContent())<=100,'Phone score opens at a readable staff scale');

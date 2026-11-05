@@ -80,14 +80,14 @@ const nl={
 
   'Tags':'Labels','Add a tag…':'Label toevoegen…','Choose or create a folder…':'Kies of maak een map…','Works offline':'Werkt offline','Notation, mixer and shared notes included':'Partituur, mixer en gedeelde notities inbegrepen','Hidden pieces excluded':'Verborgen stukken uitgesloten','Included pieces':'Inbegrepen stukken',
 
-  'My part':'Mijn partij','My part only':'Alleen mijn partij','Highlight my part':'Mijn partij markeren','Practice':'Oefenen','Follow on':'Volgen aan','Follow off':'Volgen uit','Select all':'Alles selecteren','No matching part':'Geen passende partij',
+  'My part':'Mijn partij','My part only':'Alleen mijn partij','Highlight my part':'Mijn partij markeren','Practice':'Oefenen','Follow on':'Volgen: aan','Follow off':'Volgen: uit','Select all':'Alles selecteren','No matching part':'Geen passende partij',
 
   'Switch rehearsal room':'Repetitieruimte wisselen','App settings':'App-instellingen','Room menu':'Ruimtemenu','Repertoire':'Repertoire','Rehearsal notes':'Repetitienotities','Filters':'Filters','Increase notation size':'Noten groter weergeven','Go to bar (G)':'Ga naar maat (G)',
   'Import scores, check the detected parts, then save.':'Importeer partituren, controleer de gevonden partijen en sla op.',
   'Use Piece settings for part names, tags and visibility.':'Gebruik Stukinstellingen voor partijnamen, labels en zichtbaarheid.',
   'Focus brings one part forward. Select it again to restore your mix.':'Focus brengt één partij naar voren. Kies opnieuw om je mix te herstellen.',
   'Click a bar to seek. To loop, open':'Klik op een maat om erheen te gaan. Voor een herhaling open je',', choose':', kies je','and then click or tap the first and last bar.':'en klik of tik je daarna op de eerste en de laatste maat.',
-  'Manual scrolling pauses Follow score. Select Resume to follow playback again.':'Handmatig scrollen pauzeert Volg partituur. Kies Hervatten om het afspelen weer te volgen.',
+  'Manual scrolling pauses Follow score. Select Resume to follow playback again.':'Handmatig scrollen pauzeert Partituur volgen. Kies Hervatten om weer mee te lezen.',
   'Use Sideways for a continuous score in landscape.':'Gebruik Zijwaarts voor een doorlopende partituur in liggende stand.',
   'Follow paused':'Volgen gepauzeerd','Keyboard':'Toetsenbord','Back or forward five seconds':'Vijf seconden terug of vooruit','Move between controls and activate':'Door de knoppen gaan (Tab) en kiezen (Enter)',
   'Switch rooms in the header. Each room has its own website.':'Wissel van ruimte bovenaan. Elke ruimte heeft een eigen website.',
@@ -115,8 +115,8 @@ const nl={
   'Sort: custom order':'Sortering: eigen volgorde','Title A–Z':'Titel A–Z','Composer A–Z':'Componist A–Z','Newest first':'Nieuwste eerst','Folder A–Z':'Map A–Z',
   'Import scores':'Partituren importeren','Recently removed':'Recent verwijderd','No matching pieces':'Geen overeenkomende stukken','Add your first score':'Voeg je eerste partituur toe',
   'Open':'Openen','Unlock':'Ontgrendelen','Settings':'Instellingen','Parts':'Partijen','bars':'maten','Select all shown pieces':'Selecteer alle getoonde stukken',
-  'Back to the room':'Terug naar de ruimte','Piece settings':'Stukinstellingen','Export HTML':'HTML exporteren','My practice':'Mijn oefening',
-  'Show':'Toon','Full score':'Volledige partituur','Follow score':'Volg partituur','Follow':'Volgen','Select loop':'Herhaling kiezen','Bars':'Maten','Fit':'Passend','Print':'Afdrukken',
+  'Back to the room':'Terug naar de ruimte','Piece settings':'Stukinstellingen','Export HTML':'HTML exporteren','My practice':'Mijn voortgang',
+  'Show':'Tonen','Full score':'Volledige partituur','Follow score':'Partituur volgen','Follow':'Volgen','Select loop':'Herhaling kiezen','Bars':'Maten','Fit':'Passend','Print':'Afdrukken',
   'Speed':'Tempo','Pitch':'Toonhoogte','original':'origineel','Count-in':'Aftellen','Repeats':'Herhalingen','Download WAV':'WAV downloaden',
   'Go to bar':'Ga naar maat','Loop bars':'Herhaal maten','to':'tot','Loop off':'Herhaling uit','Reset mix':'Mix herstellen','Edit parts':'Partijen bewerken',
   'Voice':'Stem','Instrument':'Instrument','Focus':'Focus','Centre':'Midden','Left':'Links','Right':'Rechts','Vertical':'Verticaal','Sideways':'Zijwaarts',
