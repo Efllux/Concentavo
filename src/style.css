@@ -3543,8 +3543,6 @@ dialog:focus{outline:none}
 }
 /* Resuming scrolling never changes the score pane's size or resets its scroll position. */
 :root:root:root .app .singer-heading .actions #follow-resume:not(#_){position:static;inset:auto;transform:none;margin:0;display:flex;flex-direction:column;justify-content:center;gap:1px;width:158px;max-width:158px;min-height:44px;height:44px;padding:3px 8px;border:1px solid var(--ctl-line);border-radius:var(--ctl-r);background:var(--surface);box-shadow:none;font-size:12px;line-height:15px;white-space:nowrap}
-:root:root:root .app .singer-heading.scrolling-paused .player-menu:not(#_){display:none}
-:root:root:root .app .singer-heading.scrolling-paused .actions:not(#_){max-width:none;width:auto;flex:none}
 :root:root:root .singer-deck .pp-empty .part-dot:not(#_){display:none}
 /* r16 — compact singer rows: the whole row opens the song; details are a small, secondary info button. */
 :root:root:root:root .viewer .piece-list .singer-song:not(#_){display:grid;grid-template-columns:minmax(0,1fr) auto 44px 20px;grid-template-areas:'identity availability details actions';align-items:center;gap:0 12px;min-height:72px;padding:12px 12px 12px 16px;position:relative}
@@ -3930,3 +3928,147 @@ dialog:focus{outline:none}
  :root:root:root:root:root .dock:not(.singer-deck) .dk-main .dk-play:not(#_){display:inline-flex;align-items:center;justify-content:center;gap:7px;width:auto;min-width:96px;height:44px;padding:0 18px 0 16px;border-radius:22px;font-size:15px;font-weight:650}
  :root:root:root:root:root .dock:not(.singer-deck) .dk-play .transport-word:not(#_){display:inline;white-space:nowrap}
 }
+/* r19 — one practice strip on every player: icon Back to start and Play, labelled Speed, Repeat passage and My part. */
+:root:root:root:root:root:root .singer-deck :is(#restart,#play):not(#_){padding:0;gap:0;justify-content:center}
+:root:root:root:root:root:root .singer-deck #restart:not(#_){width:52px;min-width:52px}
+:root:root:root:root:root:root .singer-deck #play:not(#_){width:72px;min-width:72px}
+:root:root:root:root:root:root .singer-deck #restart>.glyph:not(#_){width:24px;height:24px}
+:root:root:root:root:root:root .singer-deck #play>.glyph:not(#_){width:28px;height:28px}
+:root:root:root:root:root:root .singer-deck :is(#restart,#play)>.glyph svg:not(#_){width:100%;height:100%}
+:root:root:root:root:root:root .singer-deck #restart>.glyph svg:not(#_){stroke-width:2.1}
+:root:root:root:root:root:root .singer-deck .transport-word:not(#_){display:none}
+:root:root:root:root:root:root .singer-deck:not(.strip-deck) #more-toggle:not(#_){display:none}
+/* Desktop app: the strip, then the leader's Mixer, View and More options on the right. */
+:root:root:root:root:root:root .strip-deck .singer-choose:not(#_){display:none}
+:root:root:root:root:root:root .strip-deck .dk-group:not(#_){display:flex;align-items:center;flex:1 1 auto;min-width:0;gap:8px;margin:0}
+:root:root:root:root:root:root .strip-deck :is(.dk-parts,.dk-practice):not(#_){display:contents}
+:root:root:root:root:root:root .strip-deck #tools-toggle:not(#_){order:1;flex:none}
+:root:root:root:root:root:root .strip-deck #part-picker:not(#_){order:2;flex:0 1 200px;min-width:150px}
+:root:root:root:root:root:root .strip-deck .part-picker-button:not(#_){min-width:0;width:100%}
+:root:root:root:root:root:root .strip-deck #follow-resume:not(#_){order:3}
+:root:root:root:root:root:root .strip-deck #mixer-toggle:not(#_){order:4;margin-left:auto;display:inline-flex}
+:root:root:root:root:root:root .strip-deck #view-menu:not(#_){order:5;flex:none;margin:0}
+:root:root:root:root:root:root .strip-deck #more-toggle:not(#_){order:6;display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 12px;font-size:14px;white-space:nowrap;flex:none}
+:root:root:root:root:root:root .strip-deck #more-toggle>.glyph:not(#_){width:18px;height:18px}
+:root:root:root:root:root:root .strip-deck #mobile-parts:not(#_){display:none}
+:root:root:root:root:root:root .strip-deck .dk-readout .dk-bar:not(#_){display:flex;align-items:center;gap:5px;font-size:12px}
+:root:root:root:root:root:root .strip-deck .dk-readout #bar-label:not(#_){display:none}
+:root:root:root:root:root:root .strip-deck .dk-readout #jump-bar:not(#_){width:40px;height:28px;min-height:28px;padding:0 4px;text-align:center}
+/* Paused scrolling: Resume gets its own slot in the strip, never on top of another control. */
+@media(min-width:951px){
+ :root:root:root:root:root:root .singer-deck #follow-resume:not(#_){position:static;transform:none;display:inline-flex;align-items:center;gap:6px;height:44px;min-height:44px;width:auto;max-width:none;margin:0;padding:0 14px;border:1px solid var(--sel-line);border-radius:var(--ctl-r);background:var(--sel-bg);color:var(--sel-ink);font-size:14px;white-space:nowrap;flex:none;box-shadow:none}
+ :root:root:root:root:root:root .singer-deck #follow-resume[hidden]:not(#_){display:none}
+ :root:root:root:root:root:root .singer-deck #follow-resume .resume-state:not(#_){display:none}
+ :root:root:root:root:root:root .singer-deck #follow-resume strong:not(#_){display:inline;height:auto;padding:0;background:transparent;color:inherit;font-size:14px;font-weight:650}
+}
+/* Desktop strip: View is a compact secondary button; its state stays in the accessible name. */
+:root:root:root:root:root:root .strip-deck #view-menu>summary:not(#_){width:auto;min-width:0;max-width:none;height:44px;padding:0 12px;gap:8px}
+:root:root:root:root:root:root .strip-deck #view-menu>summary .dk-two:not(#_){display:block}
+:root:root:root:root:root:root .strip-deck #view-menu>summary .view-word:not(#_){position:static;display:inline;font-size:14px;font-weight:600;color:var(--text);clip-path:none;width:auto;height:auto}
+:root:root:root:root:root:root .strip-deck #view-menu>summary .view-state:not(#_){position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+:root:root:root:root:root:root .strip-deck .dk-mix:not(#_){padding:0 12px}
+/* Speed on desktop: the same joined unit as on phones, caption inside above the value. */
+@media(min-width:951px){
+ :root:root:root:root:root:root .singer-deck .pr-speed:not(#_){position:relative;flex:none;width:152px;margin:0 0 0 4px}
+ :root:root:root:root:root:root .singer-deck .pr-speed .pr-label:not(#_){display:block;position:absolute;left:44px;top:4px;width:64px;font-size:11px;line-height:12px;font-weight:600;z-index:1;color:var(--muted);text-align:center;pointer-events:none}
+ :root:root:root:root:root:root .singer-deck .pr-speed .pr-label small:not(#_){display:none}
+ :root:root:root:root:root:root .singer-deck .speed-value:not(#_){display:block;width:64px;min-width:0;max-width:64px}
+ :root:root:root:root:root:root .singer-deck #speed:not(#_){width:64px;min-width:0;padding:13px 2px 0;text-align:center;font-size:15px;font-weight:650}
+}
+/* Repeat sheet: while repeating, Done is the main action and Stop repeating is secondary. */
+:root:root:root:root:root:root .dk-tools #loop-toggle[aria-pressed=true]:not(#_){background:var(--surface);color:var(--text);border:1px solid var(--ctl-line);box-shadow:none}
+:root:root:root:root:root:root .singer-deck .dk-tools>.sheet-head .sheet-done:not(#_){background:var(--primary-fill,var(--blue));color:#fff;border-color:transparent}
+/* Listen to the whole choir: a normal, enabled secondary button everywhere. */
+:root:root:root:root:root:root .singer-part-choices #choose-choir:not(#_){background:var(--surface);border:1px solid var(--ctl-line);color:var(--text);font-size:14px;font-weight:600;opacity:1}
+:root:root:root:root:root:root .singer-part-choices #choose-choir .glyph:not(#_){color:var(--text)}
+:root:root:root:root:root:root .room-listen:not(#_){display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:48px;margin-top:10px;padding:0 14px;border:1px solid var(--ctl-line);border-radius:var(--ctl-r);background:var(--surface);color:var(--text);font-size:15px;font-weight:600;text-decoration:none}
+:root:root:root:root:root:root .room-listen .glyph:not(#_){width:18px;height:18px}
+:root:root:root:root:root:root .room-listen[aria-pressed=true]:not(#_){border-color:var(--sel-line);background:var(--sel-bg);color:var(--sel-ink)}
+/* "then press ▶" and the split-part cue use the Play icon itself. */
+.hint-play{display:inline-flex;align-items:center;justify-content:center;width:22px;height:18px;margin-left:2px;border-radius:5px;background:var(--primary-fill,var(--blue));color:#fff;vertical-align:-3px}
+.hint-play .glyph{width:13px;height:13px}
+.divisi-cue{display:flex;align-items:center;gap:6px;margin:8px 0 0;font-size:13.5px;line-height:20px;color:var(--text)}
+.divisi-cue[hidden]{display:none}
+.divisi-cue>.glyph{width:18px;height:18px;color:var(--sel-ink);flex:none}
+:root:root:root:root:root:root .singer-choose.divisi .part-option[aria-pressed=false]:not(#_){background:var(--surface);border-color:var(--ctl-line);box-shadow:none}
+:root:root:root:root:root:root .singer-choose.divisi .part-option[aria-pressed=true]:not(#_){border-width:2px;border-color:var(--part)}
+:root:root:root:root:root:root .singer-choose.divisi .part-option[aria-pressed=true]:not(#_)::after{content:"";width:18px;height:18px;margin-left:2px;flex:none;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12.5 4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12.5 4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/contain no-repeat}
+/* Repeat this line keeps its bar range: on a narrow guide the range takes a second line. */
+:root:root:root:root:root:root #repeat-guide-line.rg-two:not(#_){display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:17px;gap:1px;height:auto;min-height:48px;padding:4px 10px;white-space:normal}
+:root:root:root:root:root:root #repeat-guide-line.rg-two .rg-dot:not(#_){display:none}
+:root:root:root:root:root:root #repeat-guide-line.rg-two .rg-range:not(#_){display:block;font-size:12.5px;font-weight:550;opacity:.92}
+/* Score size: presets choose, the stepper fine-tunes with − and + around the note size. */
+:root:root:root:root:root:root .view-steps .step-word:not(#_){display:none}
+:root:root:root:root:root:root .view-steps :is(#zoom-out,#notation-size):not(#_){min-width:48px;justify-content:center;padding:0}
+:root:root:root:root:root:root .view-steps :is(#zoom-out,#notation-size)>[aria-hidden]:not(#_){font-size:22px}
+:root:root:root:root:root:root .view-menu-body .view-heading:not(#_){margin-top:16px}
+:root:root:root:root:root:root .view-menu-body>.view-heading:first-of-type:not(#_){margin-top:4px}
+/* Phone transport: Back to start a square icon, Play the wide primary, Speed keeps its joined unit. */
+:root:root:root:root:root:root .deck-portrait .singer-deck .singer-transport:not(#_){grid-template-columns:56px minmax(0,1fr) 152px;gap:8px}
+:root:root:root:root:root:root .deck-portrait .singer-deck :is(#restart,#play):not(#_){width:auto;min-width:0;padding:0}
+:root:root:root:root:root:root .deck-portrait .singer-deck .pr-speed:not(#_){width:152px}
+:root:root:root:root:root:root .deck-portrait .singer-deck :is(.speed-value,#speed):not(#_){width:64px;max-width:64px}
+:root:root:root:root:root:root .deck-portrait .singer-deck .pr-speed .pr-label:not(#_){width:64px}
+@media(max-width:349px){:root:root:root:root:root:root .deck-portrait .singer-deck .singer-transport:not(#_){grid-template-columns:52px minmax(0,1fr) 140px;gap:6px}:root:root:root:root:root:root .deck-portrait .singer-deck .pr-speed:not(#_){grid-column:auto;width:140px}:root:root:root:root:root:root .deck-portrait .singer-deck .dk-speed-stepper button:not(#_){width:38px}}
+/* Phone timeline: the full width for the bar, room above and below it, bar and time on their own line. */
+:root:root:root:root:root:root .deck-portrait .singer-deck .dk-timeline:not(#_){display:flex;flex-wrap:wrap;align-items:center;height:auto;min-height:0;gap:0;padding:12px 6px 0;margin:0}
+:root:root:root:root:root:root .deck-portrait .singer-deck .dk-timeline .dk-scrub:not(#_){flex:1 1 100%;width:100%;order:0}
+:root:root:root:root:root:root .deck-portrait .singer-deck .dk-readout:not(#_){flex:1 1 100%;order:1;display:flex;flex-direction:row;justify-content:space-between;align-items:baseline;margin:4px 0 0;padding:0 2px;gap:12px}
+:root:root:root:root:root:root .deck-portrait .singer-deck .dk-readout :is(#bar-label,.dk-time):not(#_){font-size:12.5px;line-height:16px;margin:0}
+:root:root:root:root:root:root .deck-portrait .singer-deck .dk-row:not(#_){margin-top:10px}
+:root:root:root:root:root:root .deck-sideways .singer-deck .dk-timeline:not(#_){height:auto;min-height:34px;padding:6px 4px 2px;gap:16px}
+:root:root:root:root:root:root .deck-sideways .singer-deck .dk-readout:not(#_){gap:10px}
+:root:root:root:root:root:root .deck-sideways .singer-deck .dk-row:not(#_){margin-top:6px}
+:root:root:root:root:root:root .singer-part-choices #choose-choir>span:not(.glyph):not(#_){font-size:inherit;color:inherit;font-weight:inherit}
+:root:root:root:root:root:root .deck-portrait .singer-deck .dk-timeline:not(#_){padding-top:4px;border-top:0}
+:root:root:root:root:root:root .deck-portrait .singer-deck .dk-timeline:not(#_){padding:2px 6px 0}
+:root:root:root:root:root:root .deck-portrait .singer-deck .dk-timeline .dk-scrub:not(#_){height:42px}
+:root:root:root:root:root:root .deck-portrait .singer-deck .dk-readout:not(#_){margin-top:-4px;pointer-events:none}
+:root:root:root:root:root:root .deck-portrait .singer-deck .dk-row:not(#_){margin-top:8px}
+:root:root:root:root:root:root #repeat-guide-line.rg-two>span:not(#_){line-height:17px;display:block}
+:root:root:root:root:root:root #repeat-guide-line.rg-two>.rg-dot:not(#_){display:none}
+:root:root:root:root:root:root .strip-deck #view-menu:not(#_){width:auto;min-width:0;max-width:none;flex:none}
+/* Small laptops: the leader's secondary Mixer, View and More options keep their icons and tooltips; the singer tasks keep their words. */
+@media(min-width:951px) and (max-width:1199px){
+ :root:root:root:root:root:root .strip-deck :is(#mixer-toggle,#more-toggle)>span:not(.glyph):not(#_),:root:root:root:root:root:root .strip-deck #view-menu>summary .view-word:not(#_){position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+ :root:root:root:root:root:root .strip-deck :is(#mixer-toggle,#more-toggle):not(#_){width:44px;padding:0;justify-content:center}
+ :root:root:root:root:root:root .strip-deck #view-menu>summary:not(#_){padding:0 8px;gap:4px}
+ :root:root:root:root:root:root .strip-deck #part-picker:not(#_){min-width:130px}
+}
+@media(min-width:951px) and (max-width:1099px){
+ :root:root:root:root:root:root .strip-deck .dk-group:not(#_){gap:6px}
+ :root:root:root:root:root:root .strip-deck .dk-row:not(#_){gap:10px}
+ :root:root:root:root:root:root .strip-deck #part-picker:not(#_){min-width:112px}
+ :root:root:root:root:root:root .strip-deck #follow-resume:not(#_){padding:0 10px}
+}
+/* Desktop app: More options holds the playback extras; Mixer and View have their own buttons and the header keeps the app settings. */
+:root:root:root:root:root:root .more-panel.more-strip :is(#more-volumes,#more-score,#more-app):not(#_){display:none}
+:root:root:root:root:root:root .more-panel.more-strip #more-playback:not(#_){border-bottom:0;min-height:0;padding-top:12px}
+:root:root:root:root:root:root .more-panel.more-strip:not(#_){width:420px}
+/* One plain list: the last section ends where its content ends; Settings opens the list scrolled to its end. */
+:root:root:root:root:root:root .more-panel .more-section:last-child:not(#_){min-height:0}
+@media(min-width:951px){
+ :root:root:root:root:root:root .more-panel>.sheet-head .sheet-title:not(#_){font-size:16px;font-weight:650;color:var(--text)}
+ :root:root:root:root:root:root .more-panel .dk-follow:not(#_){padding:0}
+}
+/* Repeat passage keeps one reserved width in every state, so nothing beside it moves when a repeat starts. */
+@media(min-width:951px){:root:root:root:root:root:root .strip-deck #tools-toggle:not(#_){width:172px;justify-content:center}}
+:root:root:root:root:root:root .deck-sideways .singer-deck .dk-timeline:not(#_){min-height:0;padding:2px 4px 0}
+:root:root:root:root:root:root .deck-sideways .singer-deck .dk-row:not(#_){margin-top:4px}
+/* Phone portrait: the score keeps its share; the timeline's extra room comes from tighter gaps elsewhere in the dock. */
+:root:root:root:root:root:root .deck-portrait .singer-deck:not(#_){padding-top:2px}
+:root:root:root:root:root:root .deck-portrait .singer-deck .dk-timeline:not(#_){padding:0 6px}
+:root:root:root:root:root:root .deck-portrait .singer-deck .dk-timeline .dk-scrub:not(#_){height:38px}
+:root:root:root:root:root:root .deck-portrait .singer-deck .dk-readout:not(#_){margin-top:-5px}
+:root:root:root:root:root:root .deck-portrait .singer-deck .dk-readout :is(#bar-label,.dk-time):not(#_){line-height:15px}
+:root:root:root:root:root:root .deck-portrait .singer-deck .dk-row:not(#_){margin-top:7px;row-gap:6px}
+@media(min-width:951px){:root:root:root:root:root:root .singer-deck #practice-summary:not(#_){font-size:14px}}
+/* Phones: paused scrolling offers one floating Resume pill just above the controls; Settings stays top-right. */
+@media(max-width:950px){
+ :root:root:root:root:root:root .singer-deck #follow-resume:not(#_){position:absolute;display:inline-flex;align-items:center;gap:0;left:auto;right:12px;top:auto;bottom:calc(100% + 8px);width:auto;height:44px;min-height:44px;padding:0 18px;border:0;border-radius:999px;background:var(--primary-fill,var(--blue));color:#fff;box-shadow:0 4px 14px #16181d38;transform:none;z-index:5}
+ :root:root:root:root:root:root .singer-deck #follow-resume[hidden]:not(#_){display:none}
+ :root:root:root:root:root:root .singer-deck #follow-resume .resume-state:not(#_){display:none}
+ :root:root:root:root:root:root .singer-deck #follow-resume strong:not(#_){display:inline;height:auto;padding:0;background:transparent;color:inherit;font-size:14px;font-weight:650;white-space:nowrap}
+}
+/* Dark mode: the repeated bars stay visible against dark paper. */
+:root[data-theme=dark]:root:root:root:root:root .measure-hit.in-loop:not(#_){background:color-mix(in srgb,var(--loop) 20%,transparent)!important}
