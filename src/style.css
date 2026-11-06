@@ -3703,3 +3703,123 @@ dialog:focus{outline:none}
  :root:root:root:root .dock.singer-deck:has(#singer-choose:not([hidden])) .dk-practice #tools-toggle:not(#_){width:100%;max-width:none;justify-content:center}
  :root:root:root:root .dock.singer-deck:has(#singer-choose:not([hidden])) #mobile-parts:not(#_){flex:1 1 0;min-width:0}
 }
+
+/* r17 — singers start with their voice, before browsing the repertoire. */
+:root:root:root:root .viewer .project-heading:has(.room-choose):not(#_){display:block}
+:root:root:root:root .viewer .project-heading:has(.room-choose) .room-title:not(#_){display:flex;flex-direction:column;width:100%}
+.room-choose{width:100%;margin:18px 0 12px;padding:18px 20px;border:1px solid var(--line);border-radius:var(--ctl-r);background:var(--surface)}
+.room-choose h2{margin:0 0 12px;font:650 18px/1.35 var(--font-ui,Inter,system-ui,sans-serif);color:var(--text)}
+.room-part-buttons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;max-width:840px}
+:root:root:root:root .room-part-buttons button:not(#_){display:flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:10px 16px;border:1px solid color-mix(in srgb,var(--part) 60%,var(--line));border-radius:var(--ctl-r);background:color-mix(in srgb,var(--part) 10%,var(--surface));color:var(--text);font-size:17px;font-weight:650;white-space:normal;overflow-wrap:anywhere}
+:root:root:root:root .room-part-buttons button:not(#_):hover{background:color-mix(in srgb,var(--part) 20%,var(--surface));border-color:var(--part)}
+:root:root:root:root .room-part-buttons .part-dot:not(#_){display:inline-block;flex:none;width:10px;height:10px;border-radius:50%;background:var(--part)}
+:root:root:root:root .room-listen:not(#_){display:inline-flex;align-items:center;gap:8px;min-height:44px;margin-top:8px;padding:0 4px;border:0;background:transparent;color:var(--text);font-size:14px;font-weight:600;text-decoration:underline;text-underline-offset:3px}
+:root:root:root:root .viewer .singer-song-details>summary:not(#_){width:auto;min-width:58px;height:44px;padding:0 8px;border-radius:6px;font-size:13px;font-weight:600;color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+.singer-song-details .info-glyph{display:none}
+:root:root:root:root .viewer .piece-list .singer-song:not(#_){grid-template-columns:minmax(0,1fr) auto auto 20px}
+:root:root:root:root .viewer .singer-song .track-title:not(#_){hyphens:none;-webkit-hyphens:none;overflow-wrap:anywhere}
+:root:root:root:root .viewer .long-song-title:not(#_){grid-template-areas:'identity identity identity actions' 'availability availability details actions'}
+:root:root:root:root .viewer .long-song-title .singer-song-details:not(#_){justify-self:start}
+@media(max-width:700px){
+ .room-choose{margin:6px 0 8px;padding:14px 16px}
+ .room-part-buttons{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ :root:root:root:root .room-part-buttons button:not(#_){min-height:48px;font-size:16px}
+ :root:root:root:root .viewer .project-heading:has(.room-choose) .rehearsal-note:not(#_){margin-top:0}
+ :root:root:root:root .viewer .piece-list .singer-song:not(#_){grid-template-columns:minmax(0,1fr) auto 16px;grid-template-areas:'title title actions' 'composer details actions' 'availability availability availability';gap:0 4px;padding:12px 12px 8px 14px}
+ :root:root:root:root .viewer .singer-song .track-main:not(#_){display:contents}
+ :root:root:root:root .viewer .singer-song .track-title:not(#_){grid-area:title;padding:0;min-width:0;width:100%;line-height:1.3}
+ :root:root:root:root .viewer .singer-song .track-meta:not(#_){grid-area:composer;align-self:center;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ :root:root:root:root .viewer .singer-song-details:not(#_){grid-area:details;justify-self:end}
+ :root:root:root:root .viewer .long-song-title .track-title:not(#_){grid-column:1/-1;padding-right:4px}
+ :root:root:root:root .viewer .long-song-title .row-actions:not(#_){align-self:end;margin-bottom:8px}
+ :root:root:root:root .viewer .singer-bar .search-open:not(#_){width:auto;min-width:64px;padding:0 8px;gap:5px;font-size:12px}
+ :root:root:root:root .viewer .singer-bar .search-open .glyph:not(#_){width:16px;height:16px}
+ :root:root:root:root .viewer .topbar .singer-utilities>summary:not(#_){width:auto;min-width:74px;padding:0 8px;gap:6px;font-size:12px;min-height:44px}
+ :root:root:root:root .viewer .topbar-room:not(#_){padding-right:4px}
+}
+/* A single joined speed unit, including a complete right border on the value. */
+:root:root:root:root .singer-deck .dk-speed-stepper:not(#_){display:flex;gap:0;border:1px solid var(--ctl-line);border-radius:var(--ctl-r);overflow:hidden;background:var(--surface);height:44px}
+:root:root:root:root .singer-deck .dk-speed-stepper button:not(#_){flex:none;width:43px;height:42px;min-height:42px;border:0;border-radius:0;background:transparent}
+:root:root:root:root .singer-deck .speed-value:not(#_){height:42px;border-inline:1px solid var(--ctl-line);box-sizing:border-box}
+:root:root:root:root .singer-deck #speed:not(#_){height:42px;min-height:42px;width:100%;max-width:100%;border:0;border-radius:0;background:transparent}
+:root:root:root:root .deck-portrait .singer-deck #restart .transport-word:not(#_){white-space:nowrap;font-size:13px}
+:root:root:root:root .deck-portrait .singer-deck #restart:not(#_){gap:4px;padding-inline:6px}
+:root[lang=nl] #zoom-label::before{content:'Grootte '}
+:root:root:root:root #zoom-label:not(#_){white-space:nowrap}
+/* Keep all singer-sheet exit controls outside the only scrollable region. */
+:root:root:root:root .more-panel:not(#_){overflow:hidden}
+:root:root:root:root .more-panel>.sheet-head:not(#_){position:relative;z-index:3;flex-shrink:0}
+:root:root:root:root .more-panel>.more-jumps:not(#_){flex-shrink:0}
+:root:root:root:root .more-panel>.more-scroll:not(#_){min-height:0;overflow:auto}
+.layout-hint{font-size:13px;line-height:1.45;color:var(--muted);margin:8px 0 0}
+.part-missing-notice{padding:10px 16px;font-size:14px;line-height:1.4;color:var(--text);background:var(--surface-soft);border-bottom:1px solid var(--line);flex:none}
+.part-missing-notice[hidden]{display:none}
+/* Active repeat has an explicit way back to the whole piece. */
+:root:root:root:root #loop-annotation:not(#_){display:flex;align-items:center;justify-content:space-between;gap:8px;padding:4px 12px 4px 16px;min-height:48px}
+:root:root:root:root #loop-annotation[hidden]:not(#_){display:none}
+:root:root:root:root #stop-repeat:not(#_){min-height:44px;padding:0 10px;border:1px solid var(--sel-line);border-radius:var(--ctl-r);background:var(--surface);color:var(--sel-ink);font-size:13px;font-weight:650;white-space:nowrap;flex:none}
+:root:root:root:root .dock .dk-tools .dk-loop .loop-toggle[aria-pressed=true]:not(#_){background:var(--primary-fill,var(--blue));border-color:transparent;color:#fff}
+:root:root:root:root .rg-actions .rg-line:not(#_){background:var(--surface);color:var(--sel-ink);border-color:var(--sel-line)}
+#score.picking-bars .measure-hit.offered-line{background:color-mix(in srgb,var(--sel-bg) 40%,transparent);box-shadow:inset 0 2px var(--blue),inset 0 -2px var(--blue)}
+#score.picking-bars .measure-hit.offered-line:first-of-type{border-left:2px solid var(--blue)}
+#score.picking-bars .measure-hit::after{content:attr(data-pick-number);position:absolute;left:4px;top:2px;display:block;padding:2px 5px;border-radius:4px;background:var(--surface);color:var(--sel-ink);font:650 12px/1.2 system-ui,sans-serif;box-shadow:0 0 0 1px var(--sel-line);pointer-events:none}
+@media(max-width:700px){
+ :root:root:root:root .rg-actions:not(#_){flex-wrap:wrap}
+ :root:root:root:root .rg-actions .rg-line:not(#_){flex:1 1 100%;justify-content:flex-start}
+ :root:root:root:root .rg-actions .rg-cancel:not(#_){width:auto;padding:0 10px}
+ :root:root:root:root .rg-cancel-word:not(#_){position:static;width:auto;height:auto;overflow:visible;clip-path:none}
+}
+/* Dark paper keeps a bright beat edge without obscuring noteheads. */
+:root[data-theme=dark]:not([data-dark-score=off]) #score img[id^=cursor]{box-shadow:inset 2px 0 #b5adff,inset 0 -2px #b5adff}
+@media(min-width:951px){
+ :root:root:root:root .dock:not(.singer-deck) #restart:not(#_){width:auto;padding:0 10px;gap:6px;display:inline-flex;align-items:center}
+ :root:root:root:root .dock:not(.singer-deck) #restart .transport-word:not(#_){display:inline;font-size:13px;white-space:nowrap}
+ :root:root:root:root .view-state.vs-tight .vs-size:not(#_){display:inline}
+ :root:root:root:root #view-state:not(#_){display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+}
+
+:root:root:root:root .singer-deck .dk-speed-stepper:not(#_){border:0;box-shadow:inset 0 0 0 1px var(--ctl-line)}
+:root:root:root:root .singer-deck .dk-speed-stepper button:not(#_),:root:root:root:root .singer-deck .speed-value:not(#_),:root:root:root:root .singer-deck #speed:not(#_){height:44px;min-height:44px}
+
+:root:root:root:root .viewer .project-heading:has(.room-choose) .room-title:not(#_){align-items:stretch}
+:root:root:root:root .viewer .project-heading:has(.room-choose) .room-name-row:not(#_){justify-content:flex-start;text-align:left}
+:root:root:root:root .viewer .project-heading:has(.room-choose) .rehearsal-note:not(#_){width:100%;align-self:stretch}
+@media(min-width:701px){.room-part-buttons{grid-template-columns:repeat(var(--room-parts,4),minmax(0,1fr))}:root:root:root:root .room-part-buttons button:not(#_){padding-inline:8px;font-size:15px}}
+@media(max-width:700px){
+ :root:root:root:root .viewer .singer-song-details>summary:not(#_){margin-block:-8px}
+ :root:root:root:root .viewer .singer-song .track-meta:not(#_){margin-top:0}
+ :root:root:root:root .viewer .singer-song .track-title:not(#_){margin-bottom:4px}
+}
+#score.picking-bars .measure-hit.offered-line{box-shadow:inset 0 2px var(--blue);border:0}
+#score.picking-bars .measure-hit.offered-first{box-shadow:inset 2px 0 var(--blue),inset 0 2px var(--blue)}
+#score.picking-bars .measure-hit.offered-last{box-shadow:inset -2px 0 var(--blue),inset 0 2px var(--blue)}
+@media(min-width:951px){:root:root:root:root .dock #practice-summary.ps-tight .ps-follow:not(.ps-off){display:inline}}
+
+@media(max-width:700px){:root:root:root:root .viewer .project-heading:has(.room-choose) .rehearsal-note:not(#_){width:auto}}
+
+/* Dutch summaries retain their information; the controls reserve enough room for it. */
+@media(min-width:951px){
+ :root:root:root:root .dock:not(.singer-deck) .dk-group .view-menu:not(#_),:root:root:root:root .dock:not(.singer-deck) .dk-group .view-menu>summary:not(#_){width:320px;min-width:320px}
+ :root:root:root:root .dock:not(.singer-deck) .dk-group .dk-tools-toggle:not(#_){width:284px;min-width:284px}
+}
+@media(max-width:700px){
+ :root:root:root:root .viewer .singer-bar .search-open:not(#_){padding-inline:6px;gap:4px}
+ :root:root:root:root .viewer .singer-bar .search-open .glyph:not(#_){width:14px;height:14px}
+}
+:root:root:root:root .more-panel:not(#_){overflow:visible}
+@media(max-width:700px){:root:root:root:root .viewer .singer-bar .search-open:not(#_){padding-inline:4px;gap:3px}}
+
+/* Reserve the readout's own width. A paused laptop gets a separate Resume row. */
+@media(min-width:951px){
+ :root:root:root:root .dock:not(.singer-deck) .dk-group .view-menu:not(#_),:root:root:root:root .dock:not(.singer-deck) .dk-group .view-menu>summary:not(#_){width:300px;min-width:300px}
+ :root:root:root:root .dock:not(.singer-deck) .dk-readout:not(#_){display:flex;flex-direction:column;align-items:flex-start;justify-content:center;flex:none;min-width:96px;gap:0;height:44px;margin-left:4px}
+ :root:root:root:root .dock:not(.singer-deck) .dk-readout .dk-time:not(#_){margin:0;font-size:12px;line-height:16px}
+}
+@media(min-width:951px) and (max-width:1540px){
+ :root:root:root:root .dock:not(.singer-deck) #follow-resume .resume-state:not(#_){display:none}
+ :root:root:root:root .dock:not(.singer-deck) #follow-resume:not(#_){padding-left:4px}
+}
+@media(min-width:951px) and (max-width:1439px){
+ :root:root:root:root .dock:not(.singer-deck):has(#follow-resume:not([hidden])) .dk-row:not(#_){height:84px;min-height:84px;padding-top:40px}
+ :root:root:root:root .dock:not(.singer-deck) #follow-resume:not(#_){position:absolute;left:16px;bottom:62px;margin:0}
+}
