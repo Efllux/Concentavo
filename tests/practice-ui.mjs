@@ -30,6 +30,7 @@ try{
  await p.keyboard.press('KeyL');assert.equal(await p.locator('#loop-handles').isVisible(),false,'One key press (L) disables loop');assert.equal(await p.locator('#dock-loop').count(),0,'Loop lives in Practice; the dock does not repeat it');
  await p.mouse.click(x(.5),y);assert.ok(Number(await p.locator('#seek').inputValue())>0,'Clicking the strip still seeks');
  await p.locator('#tools-toggle').click();await p.locator('#speed-down').click();assert.equal(await p.locator('#speed').inputValue(),'0.9','Practice speed stepper updates playback');assert.match(await p.locator('#practice-summary').innerText(),/90%/,'The Practice trigger summarises the speed');await p.keyboard.press('Escape');
+ await p.locator('#mixer-toggle').click();await p.locator('#tools-toggle').click();assert.equal(await p.locator('#mixer-toggle').getAttribute('aria-pressed'),'true','Opening Practice preserves the leader mixer toggle state');await p.keyboard.press('Escape');await p.locator('#mixer-toggle').click();assert.equal(await p.locator('#mixer').isVisible(),false,'Leader mixer closes in one click after Practice');
  const railBefore=await p.locator('#scrub').boundingBox();
  await p.locator('#score-viewport').dispatchEvent('wheel',{deltaY:100});const bounds=await p.evaluate(()=>({chip:document.querySelector('#follow-resume').getBoundingClientRect().top,strip:document.querySelector('.dk-timeline').getBoundingClientRect().top,score:document.querySelector('#score-viewport').getBoundingClientRect().bottom}));
  assert.equal((await p.locator('#scrub').boundingBox()).width,railBefore.width,'Pausing Follow does not shrink the rail');
@@ -40,8 +41,8 @@ try{
  const dockBefore=await p.locator('#tools-toggle').boundingBox();await p.locator('#tools-toggle').click();assert.equal(await p.locator('#speed').isVisible(),true,'Desktop Practice holds the labelled speed control');assert.equal(await p.locator('.dk-speed-stepper').count(),1,'Speed has one control, not a second copy in the dock');const dockAfter=await p.locator('#tools-toggle').boundingBox();assert.equal(dockBefore.x,dockAfter.x,'Opening Practice does not shift its trigger');const popover=await p.locator('#dock-tools').boundingBox(),dockBox=await p.locator('#dock').boundingBox();assert.ok(popover.y+popover.height<=dockBox.y-7,'Practice is anchored above the whole dock with an 8px gap');assert.ok(popover.x>=16&&popover.x+popover.width<=1280-16,`Practice stays 16px inside the window: ${JSON.stringify(popover)}`);await p.keyboard.press('Escape');
  await p.locator('.part-picker>summary').click();await p.locator('[data-practise]').nth(1).click();await p.waitForFunction(()=>document.querySelectorAll('.staff-dot-other').length>0);assert.ok(await p.locator('.staff-dot').count()>=4,'Every staff keeps its colour dot after choosing a part');
  await p.setViewportSize({width:390,height:844});assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth),390,'Phone dock has no horizontal overflow');
- assert.equal(await p.locator('#practice-summary .ps-loop').count(),0,'Practice trigger does not repeat the adjacent loop range');
- assert.ok(await p.locator('#practice-summary .ps-follow').isVisible(),'Closed phone dock shows Follow state');
+ assert.match(await p.locator('#tools-toggle').innerText(),/Repeat passage/,'Repeat is directly named');
+ assert.ok(await p.locator('#speed').isVisible(),'Phone speed stays visible without a panel');
  await p.locator('#tools-toggle').click();await p.locator('#loop-start').fill('4');await p.locator('#loop-end').fill('7');await p.locator('#loop-toggle').click();await p.keyboard.press('Escape');
  assert.ok(await p.locator('#loop-handles').isVisible(),'Phone timeline shows the loop endpoint handles');
  const phoneRail=await p.locator('#scrub').boundingBox();await p.mouse.move(phoneRail.x+phoneRail.width-12,phoneRail.y+22);await p.mouse.down();await p.mouse.move(phoneRail.x+phoneRail.width*.6,phoneRail.y+22,{steps:6});await p.mouse.up();
@@ -62,6 +63,35 @@ try{
  assert.equal(await singer.evaluate(()=>document.documentElement.scrollWidth),390,'Long collapsed notes stay within the room');
  assert.equal(await singer.locator('.singer-note').getAttribute('open'),null);await singer.locator('.singer-note > summary').click();assert.ok(await singer.locator('.singer-note-text').isVisible(),'Full rehearsal note remains reachable');
  await singer.locator('.room-part-picker > summary').click();await singer.locator('[data-my-part="Alto"]').click();assert.match(await singer.locator('.room-part-picker > summary').innerText(),/My part.*Alto/s,'Room picker names the selected part');
+ // A fresh singer link makes the first choice explicit and keeps it after reloading.
+ const firstVisit=await browser.newPage({viewport:{width:390,height:844}});
+ firstVisit.on('pageerror',e=>errors.push(e.message));
+ await firstVisit.goto(pathToFileURL(resolve('test-results/practice-site.html')).href);await firstVisit.locator('[data-open]').first().click();
+ await firstVisit.waitForFunction(()=>document.querySelector('#score svg')&&!document.querySelector('#score-part').disabled);
+ assert.ok(await firstVisit.locator('#singer-choose').isVisible(),'A fresh singer sees the inline first step');
+ assert.deepEqual(await firstVisit.locator('[data-first-part]').allTextContents(),['Soprano','Alto','Tenor','Bass'],'First choices use full part names');
+ await firstVisit.locator('[data-first-part]').nth(1).click();await firstVisit.waitForFunction(()=>!document.querySelector('#score-part').disabled);
+ assert.match(await firstVisit.locator('#part-picker-value').innerText(),/Alto/);assert.equal(await firstVisit.locator('#singer-choose').isVisible(),false);
+ await firstVisit.reload();await firstVisit.waitForFunction(()=>document.querySelector('#score svg')&&!document.querySelector('#score-part').disabled);
+ assert.match(await firstVisit.locator('#part-picker-value').innerText(),/Alto/,'Voice choice survives a direct-link refresh');
+ assert.ok(await firstVisit.locator('#speed').isVisible(),'A singer can slow down without opening a panel');
+ const originalSpeed=Number(await firstVisit.locator('#speed').inputValue());await firstVisit.locator('#speed-down').click();assert.equal(Number(await firstVisit.locator('#speed').inputValue()),Math.round((originalSpeed-.1)*10)/10);
+ const targets=await firstVisit.locator('#restart,#play,#speed-down,#speed-up,#tools-toggle,#mobile-parts,#part-picker>summary').evaluateAll(es=>es.map(e=>({text:e.innerText,height:e.getBoundingClientRect().height})));
+ assert.ok(targets.every(t=>t.height>=44),`Singer controls keep 44px targets: ${JSON.stringify(targets)}`);
+ for(const width of [360,320]){await firstVisit.setViewportSize({width,height:844});assert.equal(await firstVisit.evaluate(()=>document.documentElement.scrollWidth),width,`Singer deck fits a ${width}px phone`);assert.ok(await firstVisit.locator('#restart,#play,#speed-down,#speed-up,#tools-toggle,#mobile-parts,#part-picker>summary').evaluateAll(es=>es.every(e=>e.getBoundingClientRect().height>=44)),'Narrow phones retain 44px targets');}await firstVisit.setViewportSize({width:390,height:844});
+ const order=await firstVisit.locator('#restart,#play').evaluateAll(es=>es.map(e=>e.getBoundingClientRect().x));assert.ok(order[0]<order[1],'Restart stays before Play');
+ await firstVisit.locator('#tools-toggle').click();await firstVisit.locator('#loop-start').fill('4');await firstVisit.locator('#loop-end').fill('7');await firstVisit.locator('#loop-toggle').click();
+ assert.match(await firstVisit.locator('#loop-toggle').innerText(),/Stop repeating/,'Stopping the repeat is explicit');
+ const annotation=await firstVisit.locator('#loop-annotation').boundingBox(),scorePane=await firstVisit.locator('.score-panel').boundingBox();assert.ok(annotation.y>=scorePane.y&&annotation.y+annotation.height<=scorePane.y+scorePane.height,'Repeat annotation stays inside the score panel');
+ await firstVisit.keyboard.press('Escape');await firstVisit.locator('#mobile-parts').click();
+ assert.ok(await firstVisit.locator('#more-panel #mixer').isVisible(),'Part volumes are directly in More options');
+ assert.ok(await firstVisit.locator('#more-panel [data-flow=horizontal]').isVisible(),'Continuous sideways view remains one level deep');
+ assert.ok(await firstVisit.locator('#more-panel #follow').isVisible(),'Automatic scrolling remains directly in More options');
+ await firstVisit.keyboard.press('Escape');await firstVisit.locator('#singer-more-settings').click();assert.ok(await firstVisit.locator('#more-panel').isVisible(),'Top-right singer settings opens the same More options panel');await firstVisit.keyboard.press('Escape');await firstVisit.locator('#score-viewport').dispatchEvent('wheel',{deltaY:100});
+ assert.ok(await firstVisit.locator('#follow-resume').isVisible(),'Manual scrolling offers a visible resume action');assert.match(await firstVisit.locator('#follow-resume').innerText(),/Resume scrolling/);
+ await firstVisit.locator('#tools-toggle').click();await firstVisit.locator('#pick-loop').click();assert.ok(await firstVisit.locator('#repeat-pick-status').isVisible(),'Score selection explains the two taps');await firstVisit.locator('[data-measure="0"]').click();await firstVisit.locator('[data-measure="2"]').click();assert.equal(await firstVisit.locator('#repeat-pick-status').isVisible(),false,'Selection instruction clears after the last bar');
+ await firstVisit.setViewportSize({width:1440,height:900});await firstVisit.locator('#score-viewport').focus();await firstVisit.keyboard.press('KeyG');assert.ok(await firstVisit.locator('#dialog-jump').isVisible(),'G opens bar navigation on the desktop singer site');await firstVisit.keyboard.press('Escape');
+ await firstVisit.close();
  assert.deepEqual(errors,[]);
  console.log('PASS: timeline drag and keyboard loops, direct loop/speed, anchored Resume, phone Follow/selection, compact singer room and expandable notes.');
 }finally{await browser.close();}

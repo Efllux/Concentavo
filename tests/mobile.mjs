@@ -18,8 +18,8 @@ try{
   assert.ok(await page.locator('#export-project').isVisible(),'Export remains a named phone action');
   assert.equal(await page.locator('.piece-select').first().isVisible(),false,'Checkboxes are hidden until Select');
   await page.locator('#library-select').click();assert.ok(await page.locator('.piece-select').first().isVisible(),'Select exposes row checkboxes');await page.locator('#library-select').click();
-  // r14: the leader's phone folders are a visible, swipeable strip (no dropdown to open).
-  assert.ok(await page.locator('#folder-tabs [data-folder]').first().isVisible(),'Phone folders are visible without opening a menu');assert.ok(await page.locator('#folder-tabs [data-folder]').count()>=2&&await page.locator('#folder-tabs #add-folder').count()===1,'Folder strip exposes the complete list and New folder');
+  await page.locator('#folder-tabs summary').click();
+  assert.ok(await page.locator('#folder-tabs [data-folder]').first().isVisible(),'Phone folder selector reveals the full names');assert.ok(await page.locator('#folder-tabs [data-folder]').count()>=2&&await page.locator('#folder-tabs #add-folder').isVisible(),'Folder selector exposes the complete list and New folder');await page.keyboard.press('Escape');
   await page.locator('.room-menu > summary').click();
   for(const id of ['#language','#theme','#help','#edit-project'])assert.ok(await page.locator(`.room-menu-body ${id}`).isVisible(),`Phone room menu keeps ${id} reachable`);
   await page.locator('.room-menu > summary').click();
@@ -35,21 +35,21 @@ try{
   await page.waitForFunction(()=>{const s=document.querySelector('#score-part');return s&&!s.disabled&&s.value===document.querySelectorAll('[data-practise]')[1]?.dataset.practise;});
   assert.equal(await page.locator('[data-practise]').nth(1).getAttribute('aria-pressed'),'true','Earlier saved score-part choice restores as My part');
   assert.equal(await page.locator('.measure-hit').count(),16,'Single part retains every bar');
-  await page.locator('#view-menu > summary').click();await page.locator('[data-show="full"]').click();
+  await page.locator('#mobile-parts').click();await page.locator('[data-show="full"]').click();
   await page.waitForFunction(()=>!document.querySelector('#score-part').disabled&&document.querySelector('#score-part').value==='');
   assert.equal(await page.locator('[data-practise]').nth(1).getAttribute('aria-pressed'),'true','Full score keeps My part selected');
   await page.locator('[data-show="mine"]').click();await page.waitForFunction(()=>!document.querySelector('#score-part').disabled&&document.querySelector('#score-part').value===document.querySelectorAll('[data-practise]')[1].dataset.practise);await page.keyboard.press('Escape');
-  assert.match(await page.locator('#tools-toggle').innerText(),/Practice.*100%.*Follow/s,'Closed Practice drawer names its current settings');assert.equal(await page.locator('#practice-summary .ps-follow').getAttribute('title'),'Follow on','Compact phone summary retains the full Follow state');
-  assert.equal(await page.locator('#mobile-parts span:not(.glyph)').innerText(),'Mixer','Mixer has an explicit visible label');
+  assert.match(await page.locator('#tools-toggle').innerText(),/Repeat passage/,'Repeating is named on the closed phone deck');assert.equal(await page.locator('#speed').isVisible(),true,'Speed is directly visible');
+  assert.equal(await page.locator('#mobile-parts span:not(.glyph)').innerText(),'More options','Advanced controls have a plain entry');
   assert.match(await page.locator('.part-picker > summary').innerText(),new RegExp(await page.locator('[data-practise]').nth(1).getAttribute('aria-label')),'The dock names the chosen part in full');
   await page.locator('.part-picker > summary').click();assert.equal(await page.locator('[data-practise][aria-pressed="true"] .part-check').isVisible(),true,'Part selection has a non-colour checkmark');await page.keyboard.press('Escape');
   assert.equal(await page.locator('#score-view').count(),0,'Mixer does not duplicate the score selector');
   // Loop and speed sit in the practice tools, one tap away on an upright phone.
-  await page.locator('#tools-toggle').click();
+  await page.locator('#mobile-parts').click();
   await page.locator('#bar-controls-button').click();
   await page.locator('#dialog-jump').fill('4');
   await page.locator('#dialog-go').click();
-  assert.ok(Number(await page.locator('#seek').inputValue())>0,'Phone bar navigation works');const reading=await page.locator('#score-part').inputValue(),position=await page.locator('#seek').inputValue();await page.locator('#view-menu > summary').click();await page.locator('#notation-size').click();assert.equal(await page.locator('#score-part').inputValue(),reading,'Notation size keeps the chosen voice');assert.equal(await page.locator('#seek').inputValue(),position,'Notation size keeps playback position');await page.locator('#zoom-fit').click();
+  assert.ok(Number(await page.locator('#seek').inputValue())>0,'Phone bar navigation works');const reading=await page.locator('#score-part').inputValue(),position=await page.locator('#seek').inputValue();await page.locator('#mobile-parts').click();await page.locator('#notation-size').click();assert.equal(await page.locator('#score-part').inputValue(),reading,'Notation size keeps the chosen voice');assert.equal(await page.locator('#seek').inputValue(),position,'Notation size keeps playback position');await page.locator('#zoom-fit').click();
   await page.locator('.part-picker > summary').click();await page.locator('[data-practise][aria-pressed="true"]').click();
   await page.waitForFunction(()=>{const s=document.querySelector('#score-part');return !s.disabled&&s.value==='';});
   await page.reload();await page.waitForSelector('#score svg');assert.equal(await page.locator('#score-part').inputValue(),'','Full-score choice survives refresh on a phone');
@@ -57,7 +57,7 @@ try{
   const bounds=await page.evaluate(()=>({mixer:document.querySelector('.mixer').getBoundingClientRect().bottom,transport:document.querySelector('.dock').getBoundingClientRect().top,height:document.documentElement.scrollHeight,viewport:innerHeight}));
   assert.ok(bounds.mixer<=bounds.transport+1,'Phone mixer never covers transport controls');
   assert.equal(bounds.height,bounds.viewport,'Phone player fits viewport');
-  await page.locator('#mixer-done').click();
+  await page.locator('[data-sheet-done=more]').click();
   await page.setViewportSize({width:844,height:390});
   await page.locator('.player-menu > summary').click();const landscapeMenu=await page.locator('.player-menu-body').boundingBox();assert.ok(landscapeMenu.y>=0&&landscapeMenu.y+landscapeMenu.height<=390,'Landscape settings stay inside the screen above the dock');assert.ok(await page.locator('.player-menu-body button').evaluateAll(es=>es.filter(e=>e.offsetWidth).every(e=>e.getBoundingClientRect().height>=44)),'Landscape settings keep 44px targets');await page.locator('#score-settings-button').click();await page.locator('#view-menu [data-flow="horizontal"]').click();await page.keyboard.press('Escape');
   await page.waitForFunction(()=>!document.querySelector('#score-part').disabled);

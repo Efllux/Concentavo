@@ -1,4 +1,17 @@
 const nl={
+  'Choose your part':'Kies je partij', 'Score preview':'Voorbeeldpartituur', 'Repeating':'Herhalen', '{n} original':'{n} origineel', 'Repeating bars {first}–{last}':'Herhaling van maat {first}–{last}', 'Song details':'Stukgegevens',
+  'Soprano':'Sopraan', 'Alto':'Alt', 'Bass':'Bas', 'Baritone':'Bariton',
+  'Back to start':'Naar begin', 'Play':'Afspelen', 'Pause':'Pauze',
+  'Repeat passage':'Fragment herhalen', 'First bar':'Beginmaat', 'Last bar':'Eindmaat',
+  'More options':'Meer opties', 'Part volumes':'Volume per partij',
+  'Restore volumes':'Volumes herstellen',
+  'Your part louder, other parts softer.':'Je eigen partij luider, de andere partijen zachter.',
+  'Scroll along with the music':'Meescrollen met de muziek',
+  'Scrolling paused':'Meescrollen gestopt', 'Resume scrolling':'Meescrollen hervatten',
+  'Choose the first and last bar, or select them in the score.':'Kies de begin- en eindmaat, of tik ze aan in de partituur.',
+  'Tap the first bar, then the last bar in the score.':'Tik in de partituur op de beginmaat en daarna op de eindmaat.',
+  'Stop repeating':'Herhalen uit', 'Listen to the choir':'Luister naar het koor',
+
   'Click to play from this bar':'Klik om vanaf deze maat af te spelen',
   'The notation renderer could not display this score. Audio and rehearsal controls are still available.':'De notatieweergave kon deze partituur niet tonen. Audio en oefenbediening zijn nog beschikbaar.',
 
@@ -90,7 +103,7 @@ const nl={
   'Manual scrolling pauses Follow score. Select Resume to follow playback again.':'Handmatig scrollen pauzeert Partituur volgen. Kies Hervatten om weer mee te lezen.',
   'Use Sideways for a continuous score in landscape.':'Gebruik Zijwaarts voor een doorlopende partituur in liggende stand.',
   'Follow paused':'Volgen gepauzeerd','Keyboard':'Toetsenbord','Back or forward five seconds':'Vijf seconden terug of vooruit','Move between controls and activate':'Door de knoppen gaan (Tab) en kiezen (Enter)',
-  'Switch rooms in the header. Each room has its own website.':'Wissel van ruimte bovenaan. Elke ruimte heeft een eigen website.',
+  'Switch rooms in the header. Each room has its own website.':'Wissel bovenaan van repetitieruimte. Elke ruimte heeft een eigen website.',
   'Double-click or right-click a folder to edit it.':'Dubbelklik of rechtsklik op een map om deze te bewerken.',
   'Hidden pieces and unpublished parts stay out of exports.':'Verborgen stukken en niet-gepubliceerde partijen worden niet geëxporteerd.',
   'Rooms save on this device. Back up and restore in the room menu.':'Ruimtes worden op dit apparaat opgeslagen. Back-ups maken en terugzetten kan via het ruimtemenu.',
@@ -116,7 +129,7 @@ const nl={
   'Import scores':'Partituren importeren','Recently removed':'Recent verwijderd','No matching pieces':'Geen overeenkomende stukken','Add your first score':'Voeg je eerste partituur toe',
   'Open':'Openen','Unlock':'Ontgrendelen','Settings':'Instellingen','Parts':'Partijen','bars':'maten','Select all shown pieces':'Selecteer alle getoonde stukken',
   'Back to the room':'Terug naar de ruimte','Piece settings':'Stukinstellingen','Export HTML':'HTML exporteren','My progress':'Mijn voortgang',
-  'Show':'Tonen','Full score':'Volledige partituur','Follow score':'Partituur volgen','Follow':'Volgen','Select loop':'Herhaling kiezen','Bars':'Maten','Fit':'Passend','Print':'Afdrukken',
+  'Show':'Weergeven','Full score':'Volledige partituur','Follow score':'Partituur volgen','Follow':'Volgen','Select loop':'Herhaling kiezen','Bars':'Maten','Fit':'Passend','Print':'Afdrukken',
   'Speed':'Tempo','Pitch':'Toonhoogte','original':'origineel','Count-in':'Aftellen','Repeats':'Herhalingen','Download WAV':'WAV downloaden',
   'Go to bar':'Ga naar maat','Loop bars':'Herhaal maten','to':'tot','Loop off':'Herhaling uit','Reset mix':'Mix herstellen','Edit parts':'Partijen bewerken',
   'Voice':'Stem','Instrument':'Instrument','Focus':'Focus','Centre':'Midden','Left':'Links','Right':'Rechts','Vertical':'Verticaal','Sideways':'Zijwaarts',
@@ -157,7 +170,7 @@ const nl={
   'View':'Weergave','Readable':'Leesbaar','Overview':'Overzicht','Larger notes and lyrics':'Grotere noten en tekst','More bars at once':'Meer maten tegelijk','Score size':'Partituurgrootte','Layout':'Indeling','Smaller notation':'Noten kleiner weergeven','Larger notation':'Noten groter weergeven','View: score size and layout':'Weergave: partituurgrootte en indeling','Score size and layout':'Partituurgrootte en indeling','Hide parts':'Partijen verbergen','Parts and volume':'Partijen en volume','Repeat a passage or go to a bar (G)':'Herhaal een passage of ga naar een maat (G)','Export this piece as a practice website':'Dit stuk als oefenwebsite exporteren','Add a piece to export this room':'Voeg een stuk toe om deze ruimte te exporteren',
   'Mixer':'Mixer','Select bars':'Maten kiezen','Practice tools':'Oefenhulpmiddelen','Follow, loop and speed':'Volgen, herhaling en tempo','Volume, focus and mute for each part':'Volume, focus en dempen per partij','Close mixer':'Mixer sluiten','Close mixer (Esc)':'Mixer sluiten (Esc)','Larger notes':'Grotere noten','More bars':'Meer maten','Playback speed':'Afspeeltempo',
   'Loop, speed and follow':'Herhaling, tempo en volgen','Repeat the chosen bars (L)':'De gekozen maten herhalen (L)','Go to a bar or repeat a phrase (G)':'Naar een maat gaan of een frase herhalen (G)','Loop on or off':'Herhaling aan of uit','On':'Aan','Off':'Uit',
-  'Folders: {name}':'Mappen: {name}','Add rehearsal notes for singers':'Repetitienotities voor zangers toevoegen','Part unavailable':'Partij niet beschikbaar','Pick on score':'Aanwijzen','Add rehearsal notes':'Notities toevoegen','Relative to original tempo':'T.o.v. het oorspronkelijke tempo','% of original':'% van het origineel','Compact':'Compact','Whole systems':'Hele systemen','Space':'Spatie','Import {count} score':'{count} partituur importeren','Import {count} scores':'{count} partituren importeren','Part only':'Eigen partij','Highlighted':'Gemarkeerd','BPM':'BPM','Edit':'Bewerken',
+  'Folders: {name}':'Mappen: {name}','Add rehearsal notes for singers':'Repetitienotities voor zangers toevoegen','Part unavailable':'Partij niet beschikbaar','Pick on score':'Kies maten in de partituur','Add rehearsal notes':'Notities toevoegen','Relative to original tempo':'T.o.v. het oorspronkelijke tempo','% of original':'% van het origineel','Compact':'Compact','Whole systems':'Hele systemen','Space':'Spatie','Import {count} score':'{count} partituur importeren','Import {count} scores':'{count} partituren importeren','Part only':'Eigen partij','Highlighted':'Gemarkeerd','BPM':'BPM','Edit':'Bewerken',
   'No Soprano part':'Geen sopraanpartij','No Alto part':'Geen altpartij','No Tenor part':'Geen tenorpartij','No Bass part':'Geen baspartij','No Baritone part':'Geen baritonpartij','No Mezzo part':'Geen mezzopartij'
 };
 // Dictionary keys also serve as English source strings. Named slots preserve user data in dynamic labels.

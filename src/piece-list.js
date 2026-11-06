@@ -7,6 +7,12 @@ export function pieceListHTML(tracks,{viewer,selected,sortMode,missing,visibilit
     const bars=t.score?.measures?.length||t.barCount||0,parts=(t.score?.lanes||[]).filter(l=>l.published!==false&&!l.removed).length||t.partCount||0;
     const composer=t.composer==='Concentavo · original exercise'?'Concentavo':t.composer;
     const state=visibility(t);
+    if(viewer)return `<article class="track-row piece-list-row singer-song${missing(t)?' part-missing':''}" data-row="${t.id}" style="--folder:${folderColor(t.collection)}">
+      <div class="track-main"><button class="track-title" data-open="${t.id}">${E(t.title)}</button><div class="track-meta">${E(composer)}</div></div>
+      <div class="singer-song-availability">${availabilityHTML(t)}${missing(t)?`<button type="button" class="listen-choir" data-open="${t.id}">Listen to the choir</button>`:''}</div>
+      <details class="singer-song-details"><summary>Song details</summary><div class="song-details-body"><strong>${E(t.title)}</strong><p>${bars} bars · ${parts} parts</p><div class="track-folder">${E(t.collection)}</div><div class="track-tags">${t.tags.map(tag).join('')}<details class="piece-tags-more" hidden><summary>More tags</summary><div>${t.tags.map(tag).join('')}</div></details></div></div></details>
+      <div class="row-actions">${actionsHTML(t,sortMode)}</div></article>`;
+
     return `<article class="track-row piece-list-row ${selected.has(t.id)?'selected':''}${missing(t)?' part-missing':''}" data-row="${t.id}" style="--folder:${folderColor(t.collection)}">
       <div class="track-main"><button class="track-title" data-open="${t.id}">${E(t.title)}</button><div class="track-meta"><span>${E(composer)}</span><span class="track-mobile-details">${composer?' · ':''}${bars} bars · ${parts} parts</span></div></div>
       <div class="track-taxonomy"><div class="track-folder">${t.collection?`<span class="folder-chip">${E(t.collection)}</span>`:''}</div><div class="track-tags">${t.tags.map(tag).join('')}<details class="piece-tags-more" hidden><summary class="tag" aria-label="More tags">+0</summary><div class="piece-tags-menu">${t.tags.map(tag).join('')}</div></details></div><div class="track-status-cell">${viewer?availabilityHTML(t):(state==='visible'?'<span class="track-status status-visible visually-hidden">Visible</span>':`<span class="track-status status-${state}">${state==='hidden'?'Hidden':'Locked'}</span>`)}</div></div>
@@ -20,7 +26,7 @@ export function fitPieceTags(root){
   for(const row of root.querySelectorAll('.piece-list-row')){
     const host=row.querySelector('.track-tags'),more=host.querySelector('.piece-tags-more'),tags=[...host.children].filter(el=>el.matches('.tag'));
     tags.forEach(el=>el.hidden=false);more.hidden=true;
-    if(matchMedia('(min-width:701px)').matches)continue;
+    if(row.classList.contains('singer-song')||matchMedia('(min-width:701px)').matches)continue;
     const available=host.clientWidth,gap=parseFloat(getComputedStyle(host).gap)||0;
     let used=tags.reduce((n,el)=>n+el.getBoundingClientRect().width+gap,0),hidden=0;
     // Ensemble labels (SATB, SSA…) repeat what the part counts already say: they go into the overflow before practice tags such as accompaniment.

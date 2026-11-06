@@ -3322,3 +3322,227 @@ dialog:focus{outline:none}
  :root:root:root .app:not(.viewer) #library-primary>button .action-short:not(#_){font-size:11.5px;letter-spacing:-.005em}
  :root:root:root .app:not(.viewer) #library-primary:not(#_){gap:6px}
 }
+/* r15 — singing is a sequence: choose a voice, play, adjust speed, repeat. */
+.singer-choose,.singer-transport,.more-panel,.repeat-instruction,.volume-guidance,.transport-word{display:none}
+.loop-boundary{display:flex;flex-direction:column;gap:3px;align-items:flex-start;font-size:12px;color:var(--muted)}
+:root:root:root .dock .dk-tools .dk-loop:not(#_){flex-wrap:wrap;gap:12px}
+:root:root:root .dock .dk-loop .loop-range:not(#_){display:flex;gap:12px;align-items:flex-end}
+:root:root:root .dock .dk-loop .loop-toggle:not(#_){min-height:44px;height:auto;white-space:normal;line-height:18px;padding:8px 12px}
+:root:root:root .dock .dk-tools .dk-loop .pick-loop:not(#_){flex:1 0 100%;white-space:nowrap;min-height:44px;padding:0 12px}
+:root:root:root .singer-heading .piece-title:not(#_){flex:1;max-width:none;min-width:0}
+:root:root:root .app .player-heading .piece-title h1:not(#_){max-width:100%;flex:1;min-width:0}
+@media(min-width:951px){.player-heading .piece-title{flex-wrap:wrap;gap:2px 12px}.player-heading .piece-meta{min-width:180px;flex-shrink:0}}
+:root:root:root .singer-heading .actions:not(#_){flex:none}
+:root:root:root .viewer .singer-heading .actions:not(#_){display:none}
+:root:root:root .singer-deck:not(#_){padding:10px 16px 14px}
+:root:root:root .singer-deck .dk-timeline:not(#_){display:flex;gap:16px;align-items:center;height:28px;min-height:28px;padding:0;margin:0}
+:root:root:root .singer-deck .dk-timeline .dk-scrub:not(#_){flex:1;min-width:0;width:auto;order:0}
+:root:root:root .singer-deck .dk-readout:not(#_){display:flex;flex-direction:row;gap:10px;order:1;position:static;align-items:center;flex:none;margin:0}
+:root:root:root .singer-deck .dk-readout .dk-bar:not(#_){display:none}
+:root:root:root .singer-deck .dk-readout #bar-label:not(#_){display:block;font-size:12px;position:static}
+:root:root:root .singer-deck .dk-readout .dk-time:not(#_){display:block;font-size:12px;position:static;white-space:pre}
+:root:root:root .singer-deck .dk-readout :is(.time-sep,#duration):not(#_){display:inline}
+:root:root:root .singer-deck .dk-row:not(#_){display:flex;align-items:center;gap:16px;margin-top:10px}
+:root:root:root .singer-deck .singer-transport:not(#_){display:flex;align-items:center;gap:8px;flex:none;order:0}
+:root:root:root .singer-deck .dk-main:not(#_){display:none}
+:root:root:root .singer-deck :is(#restart,#play):not(#_){display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;height:44px;width:auto;min-width:0;margin:0;padding:0 14px;border:1px solid var(--ctl-line);border-radius:var(--ctl-r);font-size:14px;font-weight:650;position:static;order:0}
+:root:root:root .singer-deck #restart:not(#_){background:var(--surface);color:var(--text)}
+:root:root:root .singer-deck #play:not(#_){border-color:transparent;order:1}
+:root:root:root .singer-deck .transport-word:not(#_){display:inline;white-space:nowrap}
+:root:root:root .singer-deck .pr-speed:not(#_){display:flex;align-items:center;gap:8px;border:0;padding:0;margin:0 0 0 8px;min-height:44px;order:2}
+:root:root:root .singer-deck .pr-speed .pr-label:not(#_){font-size:13px;font-weight:600;min-width:0}
+:root:root:root .singer-deck .pr-speed :is(small,#speed-bpm):not(#_){display:none}
+:root:root:root .singer-deck .dk-speed-stepper:not(#_){display:flex;align-items:center;margin:0}
+:root:root:root .singer-deck .dk-speed-stepper button:not(#_){width:44px;height:44px;min-height:44px;border:1px solid var(--ctl-line);background:var(--surface);color:var(--text);font-size:20px}
+:root:root:root .singer-deck #speed:not(#_){height:44px;min-height:44px;font-size:14px;width:76px;border:1px solid var(--ctl-line);border-left:0;border-right:0;border-radius:0;background:var(--surface);color:var(--text);padding:0 8px}
+:root:root:root .singer-deck .dk-group:not(#_){display:flex;flex:1;gap:8px;margin-left:auto;width:auto;order:1}
+:root:root:root .singer-deck .dk-parts:not(#_){flex:1;min-width:0}
+:root:root:root .singer-deck .part-picker:not(#_){flex:1;min-width:0}
+:root:root:root .singer-deck .part-picker-button:not(#_){width:100%;min-width:145px;max-width:none;height:44px}
+:root:root:root .singer-deck .dk-tools-toggle:not(#_){width:auto;min-width:0;max-width:none;padding:0 12px;gap:8px;white-space:nowrap;height:44px;font-size:14px}
+:root:root:root .singer-deck #practice-summary:not(#_){display:inline;font-size:13px;color:var(--loop);overflow:visible}
+:root:root:root .singer-deck .dk-mix:not(#_){height:44px;width:auto;min-width:0;padding:0 12px;gap:8px;flex-direction:row;font-size:14px;white-space:nowrap}
+:root:root:root .singer-deck .dk-mix>span:not(#_){display:inline}
+:root:root:root .singer-deck #mobile-parts:not(#_){display:none}
+:root:root:root .singer-deck .dk-tools .repeat-instruction:not(#_){display:block;font-size:14px;line-height:1.5;margin:0 0 16px;color:var(--muted)}
+:root:root:root .singer-deck .singer-choose:not(#_){display:flex;gap:16px;align-items:center;margin:0 0 12px;padding:0 0 12px;border-bottom:1px solid var(--line)}
+:root:root:root .singer-deck .singer-choose[hidden]:not(#_){display:none}
+.singer-choose>strong{font-size:15px;color:var(--sel-ink);white-space:nowrap}
+.singer-part-choices{display:flex;flex-wrap:wrap;gap:8px}
+.singer-part-choices button{display:flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;background:var(--sel-bg);border:1px solid var(--sel-line);font-size:15px;font-weight:600;color:var(--text)}
+.singer-part-choices #choose-choir{background:transparent;border-color:transparent;font-size:13px;font-weight:500;color:var(--muted)}
+:root:root:root .more-panel:not(#_){display:none;position:fixed;z-index:65;left:var(--pop-left,auto);bottom:var(--pop-bottom,120px);width:480px;max-height:calc(100dvh - var(--sheet-bottom,120px) - 24px);overflow:auto;overscroll-behavior:contain;padding:18px;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 40px #16181d26;color:var(--text)}
+:root:root:root .more-open .more-panel:not(#_){display:block}
+:root:root:root .more-panel :is(.mixer,#view-menu,.view-menu-body):not(#_){display:block;position:static;inset:auto;width:100%;height:auto;max-height:none;min-width:0;margin:0;padding:0;border:0;box-shadow:none;border-radius:0;transform:none;background:transparent;overflow:visible}
+:root:root:root .more-panel .mixer :is(.sheet-head,.mixer-presets):not(#_){display:flex;position:static;padding:0;margin:0 0 10px}
+:root:root:root .more-panel .mixer :is(.sheet-grip,#mixer-done,#mixer-hide):not(#_){display:none}
+:root:root:root .more-panel .mixer .sheet-title:not(#_){font-size:15px}
+:root:root:root .more-panel .volume-guidance:not(#_){display:block;font-size:13px;color:var(--muted);margin:0 0 12px;line-height:1.5}
+:root:root:root .more-panel .voice-list:not(#_){display:block;overflow:visible;padding:0}
+:root:root:root .more-panel .voice:not(#_){padding:10px 0;border-bottom:1px solid var(--line)}
+:root:root:root .more-panel #view-menu:not(#_){margin-top:22px}
+:root:root:root .more-panel #view-menu>summary:not(#_){display:none}
+:root:root:root .more-panel .view-menu-body>.sheet-head:not(#_){display:block;min-height:0;padding:0;margin:0 0 10px}
+:root:root:root .more-panel .view-menu-body>.sheet-head :is(.sheet-done,.sheet-grip):not(#_){display:none}
+:root:root:root .more-panel .dk-follow:not(#_){display:flex;align-items:center;gap:12px;min-height:56px;margin-top:12px}
+:root:root:root .more-panel .dk-follow .pr-label:not(#_){flex:1;font-size:14px;line-height:20px;min-width:0}
+:root:root:root .more-panel .dk-follow .follow-state:not(#_){display:none}
+:root:root:root .more-panel .pr-goto:not(#_){display:flex;align-items:center;gap:8px;min-height:44px;width:100%;font-size:14px;margin:8px 0}
+:root:root:root .more-panel .dk-extra:not(#_){display:flex;flex-wrap:wrap;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+:root:root:root .more-panel :is(button,select,.focus-toggle,.part-menu-button):not(#_){min-height:44px}
+.singer-utilities-row{display:flex;align-items:center;flex-wrap:wrap;gap:8px;border-top:1px solid var(--line);padding-top:12px;margin-top:12px}
+.singer-utilities-row label{display:flex;align-items:center;gap:8px}
+#repeat-pick-status{position:absolute;top:8px;left:50%;transform:translateX(-50%);z-index:30;padding:10px 16px;max-width:calc(100% - 24px);border:1px solid var(--sel-line);border-radius:8px;background:var(--surface);color:var(--sel-ink);box-shadow:0 3px 12px #16181d18;font-size:14px;text-align:center}
+/* Keep the repeat tab in the bar-number lane, never in the previous line's lyrics. */
+:root:root:root .measure-hit.loop-first:not(#_)::before{top:12px;left:4px;border-radius:5px}
+@media(max-width:950px){
+ :root:root:root .singer-deck:not(#_){padding:4px 12px max(10px,env(safe-area-inset-bottom))}
+ :root:root:root .singer-deck .dk-row:not(#_){flex-wrap:wrap;gap:8px;margin-top:4px}
+ :root:root:root .singer-deck .singer-transport:not(#_){width:100%;gap:8px;justify-content:space-between}
+ :root:root:root .singer-deck :is(#restart,#play):not(#_){padding:0 10px;gap:6px;font-size:13px;flex:none}
+ :root:root:root .singer-deck #restart .glyph:not(#_){width:15px;height:15px}
+ :root:root:root .singer-deck .pr-speed:not(#_){margin:0;gap:5px;flex:1;justify-content:flex-end;flex-wrap:wrap;position:relative}
+ :root:root:root .singer-deck .pr-speed .pr-label:not(#_){position:absolute;top:-15px;left:0;font-size:11px;color:var(--muted);display:none}
+ :root:root:root .singer-deck .dk-speed-stepper:not(#_)::before{content:attr(aria-label)}
+ :root:root:root .singer-deck .dk-speed-stepper button:not(#_){width:44px}
+ :root:root:root .singer-deck #speed:not(#_){width:66px;padding:0 4px;font-size:13px}
+ :root:root:root .singer-deck .dk-group:not(#_){width:100%;margin:0;gap:6px}
+ :root:root:root .singer-deck .part-picker-button:not(#_){min-width:0;padding:0 9px;font-size:13px}
+ :root:root:root .singer-deck .part-picker-button .dk-two:not(#_){display:flex;flex-direction:column;align-items:flex-start;gap:0;min-width:0}
+ :root:root:root .singer-deck .part-picker-button .pp-label:not(#_){position:static;clip-path:none;width:auto;height:auto;display:block;font-size:11px;line-height:14px;color:var(--muted)}
+ :root:root:root .singer-deck .dk-tools-toggle:not(#_){padding:0 9px;font-size:13px;gap:5px;flex-wrap:wrap;justify-content:center;align-content:center;max-width:138px;line-height:16px}
+ :root:root:root .singer-deck .dk-tools-toggle>.glyph:not(#_){width:15px;height:15px}
+ :root:root:root .singer-deck .repeat-trigger-text:not(#_){white-space:normal;max-width:96px;text-align:left}
+ :root:root:root .singer-deck #mixer-toggle:not(#_){display:none}
+ :root:root:root .singer-deck #mobile-parts:not(#_){display:flex;flex-direction:column;justify-content:center;gap:1px;padding:0 8px;font-size:11px;line-height:14px;white-space:nowrap}
+ :root:root:root .singer-deck #mobile-parts .glyph:not(#_){width:17px;height:17px}
+ :root:root:root .singer-deck .singer-choose:not(#_){display:block;padding:8px 0 10px;margin-bottom:4px}
+ .singer-choose>strong{display:block;margin-bottom:8px;font-size:14px}
+ .singer-part-choices{gap:6px}
+ .singer-part-choices button{flex:1;padding:0 10px;font-size:14px;justify-content:center}
+ .singer-part-choices #choose-choir{flex-basis:100%;min-height:44px}
+ :root:root:root .more-panel:not(#_){left:0;right:0;bottom:var(--sheet-bottom,140px);width:auto;max-height:calc(100dvh - var(--sheet-bottom,140px) - 8px);border-radius:16px 16px 0 0;padding:0 16px 16px}
+ :root:root:root .more-panel>.sheet-head:not(#_){display:flex;position:sticky;top:0;z-index:2;background:var(--surface);min-height:52px;margin:0 -2px 10px}
+ :root:root:root .more-panel .mixer-head:not(#_){min-height:0}
+ :root:root:root .singer-deck .dk-tools .dk-loop:not(#_){gap:12px;padding:0 0 12px}
+ :root:root:root .singer-deck .dk-tools .loop-range input:not(#_){width:64px}
+ :root:root:root .singer-deck .dk-tools .loop-toggle:not(#_){flex:1;max-width:150px}
+ :root:root:root .singer-deck .dk-tools .loop-boundary:not(#_){font-size:12px}
+ :root:root:root .singer-deck .dk-tools .pick-loop:not(#_){flex-basis:100%;font-size:14px}
+ :root:root:root .singer-heading .piece-title:not(#_){padding-left:0;max-width:none}
+ :root:root:root .singer-heading .view-menu:not(#_){display:none}
+ :root:root:root .dock #follow-resume:not(#_){position:absolute;bottom:calc(100% + 6px);right:12px;top:auto;width:auto;height:44px;padding:0 12px;background:var(--surface);border:1px solid var(--line);transform:none}
+}
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px){
+ :root:root:root .app .player-heading .piece-title:not(#_){flex:1;max-width:none;width:auto}
+ :root:root:root .app .player-heading .piece-title h1:not(#_){max-width:100%;width:auto;flex:1}
+ :root:root:root .singer-deck:not(#_){padding:2px 12px 8px}
+ :root:root:root .singer-deck .dk-timeline:not(#_){height:24px;min-height:24px}
+ :root:root:root .singer-deck .dk-row:not(#_){flex-wrap:nowrap;margin-top:2px;gap:12px}
+ :root:root:root .singer-deck .singer-transport:not(#_){width:auto;gap:6px}
+ :root:root:root .singer-deck .dk-group:not(#_){width:auto;flex:1}
+ :root:root:root .singer-deck .singer-choose:not(#_){display:flex;gap:12px;padding:2px 0 6px}
+ .singer-choose>strong{margin:0}
+ .singer-part-choices #choose-choir{flex-basis:auto}
+}
+/* r15 — restore a readable folder selector beside the named leader actions. */
+@media(max-width:700px){
+ :root:root:root .app:not(.viewer) #folder-tabs:not(#_){overflow:visible}
+ :root:root:root .app:not(.viewer) .folder-picker>summary:not(#_){display:flex;width:100%;height:44px;min-height:44px}
+}
+/* All singer speed controls fit in 390px, with a visible Speed/Tempo caption. */
+@media(max-width:950px){
+ :root:root:root .singer-deck #restart:not(#_){width:110px;padding:0 6px}
+ :root:root:root .singer-deck #play:not(#_){width:80px;padding:0 6px}
+ :root:root:root .singer-deck .pr-speed:not(#_){flex:none;position:relative;width:152px}
+ :root:root:root .singer-deck .pr-speed .pr-label:not(#_){display:block;position:absolute;left:44px;right:auto;top:3px;width:64px;font-size:11px;line-height:12px;z-index:1;color:var(--muted);text-align:center;pointer-events:none}
+ :root:root:root .singer-deck .speed-value:not(#_){display:block;width:64px;min-width:0;max-width:64px}
+ :root:root:root .singer-deck #speed:not(#_){width:64px;min-width:0;padding:12px 2px 0;text-align:center}
+ :root:root:root .singer-deck .dk-speed-stepper:not(#_){gap:0}
+ :root:root:root .singer-deck .singer-choose:not(#_){position:relative}
+ .singer-choose>strong{line-height:44px;margin:0 0 4px}
+ .singer-part-choices #choose-choir{position:absolute;right:0;top:8px;width:auto;min-height:44px;padding:0 4px;font-size:12px}
+ :root:root:root .singer-deck .singer-choose:not(#_){margin-bottom:4px;padding-top:4px}
+ :root:root:root .app:has(.more-open) .player-heading:not(#_){z-index:1}
+ :root:root:root .more-panel>.sheet-head .sheet-title:not(#_){font-size:18px}
+ :root:root:root .more-panel :is(.voice-name,.voice-name strong,.voice-name input):not(#_){min-width:0}
+ :root:root:root .more-panel .voice-name:not(#_){gap:6px}
+ :root:root:root .more-panel .voice-name input:not(#_){width:100px}
+}
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px){
+ .singer-choose>strong{line-height:20px}
+ .singer-part-choices #choose-choir{position:static}
+}
+:root:root:root .singer-deck #more-content>.mode-control:not(#_){display:flex;align-items:center;gap:12px;margin:12px 0}
+:root:root:root .singer-deck .more-panel .advanced-only:not(#_){display:revert}
+:root:root:root .singer-deck .more-panel .part-options:not(#_){display:flex}
+:root:root:root .singer-deck .more-panel #balanced:not(#_){display:inline-flex}
+/* The singer's library answers which song and whether their voice is available; details are optional. */
+:root:root:root .viewer .piece-list-head:not(#_){display:none}
+:root:root:root .viewer .piece-list .singer-song:not(#_){grid-template-columns:minmax(0,1fr) auto auto 32px;grid-template-areas:'identity availability details actions';gap:24px;min-height:82px;position:relative}
+.singer-song-availability{grid-area:availability;display:flex;align-items:center;gap:12px;font-size:13px}
+.singer-song-details{grid-area:details;position:relative;z-index:3;align-self:center}
+.singer-song-details>summary{display:flex;align-items:center;min-height:44px;font-size:12px;color:var(--muted);cursor:pointer;list-style:none;text-decoration:underline;text-underline-offset:3px;padding:0 4px}
+.singer-song-details>summary::-webkit-details-marker{display:none}
+.song-details-body{position:absolute;right:0;top:100%;z-index:8;min-width:240px;width:280px;max-width:calc(100vw - 32px);padding:16px;border:1px solid var(--line);border-radius:8px;background:var(--surface);box-shadow:0 8px 28px #16181d26;font-size:13px;color:var(--text)}
+.song-details-body p{margin:8px 0}
+:root:root:root .singer-song-details .track-tags:not(#_){display:flex;flex-wrap:wrap!important;margin-top:10px}
+:root:root:root .singer-song-details .track-folder:not(#_){display:block}
+:root:root:root .singer-song .listen-choir:not(#_){position:relative;z-index:2;display:block;min-height:44px;font-size:13px;border:0;background:transparent;color:var(--sel-ink);padding:0;text-align:left}
+@media(max-width:700px){
+ :root:root:root .viewer .piece-list .singer-song:not(#_){grid-template-columns:minmax(0,1fr) auto 24px;grid-template-areas:'identity identity actions' 'availability details details';gap:0 8px;padding:12px;min-height:94px}
+ .singer-song-availability{flex-wrap:wrap;gap:0;align-items:center;min-height:44px}
+ .singer-song-availability .part-availability{display:inline-flex}
+ :root:root:root .singer-song.part-missing .singer-song-availability:not(#_){display:block}
+ .song-details-body{right:0;top:100%}
+ :root:root:root .singer-song .row-actions:not(#_){grid-area:actions;grid-row:1}
+}
+:root:root:root .singer-deck #tools-toggle>.glyph:first-child:not(#_){display:inline-flex;width:16px;height:16px}
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px){
+ :root:root:root .app .player-heading .piece-title h1:not(#_){max-width:100%!important;width:100%}
+}
+:root:root:root .more-panel .view-menu-body>.sheet-head:not(#_){position:static;top:auto;z-index:auto}
+:root:root:root .more-panel #view-menu:not(#_){scroll-margin-top:66px}
+:root:root:root .singer-deck .pr-speed.changed #speed:not(#_){color:var(--sel-ink);background:var(--sel-bg)}
+:root:root:root .singer-deck #practice-summary:not(#_){font-size:12px;line-height:14px;font-weight:650}
+@media(max-width:950px){
+ :root:root:root .singer-deck .dk-tools-toggle:not(#_){flex-wrap:nowrap;gap:5px}
+ :root:root:root .singer-deck .dk-tools-toggle.changed:not(#_){position:relative;padding-bottom:11px}
+ :root:root:root .singer-deck .dk-tools-toggle.changed #practice-summary:not(#_){position:absolute;bottom:1px;left:0;right:0;text-align:center}
+ :root:root:root .singer-deck .dk-tools .loop-toggle .glyph:not(#_){display:inline-flex;width:16px;height:16px;flex:none}
+ :root:root:root .singer-deck .dk-tools .loop-toggle:not(#_){display:flex;align-items:center;justify-content:center;gap:8px;font-size:14px}
+ :root:root:root .singer-deck #seek::-webkit-slider-thumb{width:20px;height:20px;margin-top:-8px}
+}
+/* Repeat has its own annotation lane; labels never obscure a note, lyric or header. */
+:root:root:root .measure-hit.loop-first:not(#_)::before{display:none}
+.loop-annotation{display:flex;align-items:center;min-height:26px;padding:3px 16px;background:var(--sel-bg);border-bottom:1px solid var(--sel-line);color:var(--sel-ink);font-size:12px;line-height:19px;font-weight:650;flex:none}
+:root:root:root .more-panel.is-open:not(#_){display:block}
+:root:root:root .more-panel #more-content>.mode-control:not(#_){display:flex;align-items:center;gap:12px;margin:12px 0}
+:root:root:root .more-panel .advanced-only:not(#_){display:revert}
+:root:root:root .more-panel .part-options:not(#_){display:flex}
+:root:root:root .more-panel #balanced:not(#_){display:inline-flex}
+:root:root:root .more-panel .dk-extra :is(select,label):not(#_){min-height:44px}
+@media(min-width:951px){:root:root:root .dk-main:not(#_){min-width:0;flex:0 1 auto}:root:root:root .dock .resume-follow:not(#_){max-width:180px;white-space:normal;line-height:16px}}
+@media(max-width:950px){:root:root:root .singer-deck #play:not(#_){width:84px}}
+/* The top-right settings shortcut opens the same singer options, preserving the owner's header convention. */
+:root:root:root .viewer .singer-heading .actions:not(#_){display:flex}
+:root:root:root .viewer .singer-heading .actions>:not(.player-menu):not(#_){display:none}
+:root:root:root .viewer .singer-heading .player-menu-body:not(#_){display:none}
+@media(max-width:380px){
+ :root:root:root .singer-deck .singer-transport:not(#_){gap:6px}
+ :root:root:root .singer-deck #restart:not(#_){width:84px}
+ :root:root:root .singer-deck #restart .transport-word:not(#_){white-space:normal;line-height:15px;text-align:left}
+ :root:root:root .singer-deck #play:not(#_){width:80px}
+}
+@media(max-width:349px){
+ :root:root:root .singer-deck .singer-transport:not(#_){flex-wrap:wrap;gap:8px}
+ :root:root:root .singer-deck :is(#restart,#play):not(#_){width:calc(50% - 4px)}
+ :root:root:root .singer-deck .pr-speed:not(#_){width:100%;justify-content:flex-end}
+ :root:root:root .singer-deck .pr-speed .pr-label:not(#_){left:auto;right:44px}
+ :root:root:root .singer-deck .dk-tools-toggle:not(#_){max-width:110px}
+}
+/* Resuming scrolling never changes the score pane's size or resets its scroll position. */
+:root:root:root .app .singer-heading .actions #follow-resume:not(#_){position:static;inset:auto;transform:none;margin:0;display:flex;flex-direction:column;justify-content:center;gap:1px;width:158px;max-width:158px;min-height:44px;height:44px;padding:3px 8px;border:1px solid var(--ctl-line);border-radius:var(--ctl-r);background:var(--surface);box-shadow:none;font-size:12px;line-height:15px;white-space:nowrap}
+:root:root:root .app .singer-heading.scrolling-paused .player-menu:not(#_){display:none}
+:root:root:root .app .singer-heading.scrolling-paused .actions:not(#_){max-width:none;width:auto;flex:none}
+:root:root:root .singer-deck .pp-empty .part-dot:not(#_){display:none}
