@@ -9,8 +9,8 @@ export function pieceListHTML(tracks,{viewer,selected,sortMode,missing,visibilit
     const state=visibility(t);
     if(viewer)return `<article class="track-row piece-list-row singer-song${missing(t)?' part-missing':''}" data-row="${t.id}" style="--folder:${folderColor(t.collection)}">
       <div class="track-main"><button class="track-title" data-open="${t.id}">${E(t.title)}</button><div class="track-meta">${E(composer)}</div></div>
-      <div class="singer-song-availability">${availabilityHTML(t)}${missing(t)?`<button type="button" class="listen-choir" data-open="${t.id}">Listen to the choir</button>`:''}</div>
-      <details class="singer-song-details"><summary>Song details</summary><div class="song-details-body"><strong>${E(t.title)}</strong><p>${bars} bars · ${parts} parts</p><div class="track-folder">${E(t.collection)}</div><div class="track-tags">${t.tags.map(tag).join('')}<details class="piece-tags-more" hidden><summary>More tags</summary><div>${t.tags.map(tag).join('')}</div></details></div></div></details>
+      ${availabilityHTML(t)||missing(t)?`<div class="singer-song-availability">${availabilityHTML(t)}${missing(t)?`<button type="button" class="listen-choir" data-open="${t.id}">Listen to the choir</button>`:''}</div>`:''}
+      <details class="singer-song-details"><summary aria-label="Song details" title="Song details"><svg class="info-glyph" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.25"/><path d="M12 10.5v6"/><circle cx="12" cy="7.4" r=".6"/></svg></summary><div class="song-details-body"><strong>${E(t.title)}</strong><p>${bars} bars · ${parts} parts</p><div class="track-folder">${E(t.collection)}</div><div class="track-tags">${t.tags.map(tag).join('')}<details class="piece-tags-more" hidden><summary>More tags</summary><div>${t.tags.map(tag).join('')}</div></details></div></div></details>
       <div class="row-actions">${actionsHTML(t,sortMode)}</div></article>`;
 
     return `<article class="track-row piece-list-row ${selected.has(t.id)?'selected':''}${missing(t)?' part-missing':''}" data-row="${t.id}" style="--folder:${folderColor(t.collection)}">

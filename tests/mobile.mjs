@@ -28,7 +28,8 @@ try{
   assert.ok(parseInt(await page.locator('#zoom-label').textContent())>=78&&parseInt(await page.locator('#zoom-label').textContent())<=100,'Phone score opens at a readable staff scale');
   // On phones the part buttons choose what is shown and heard; the Show list is desktop-only.
   assert.equal(await page.locator('#score-part').isVisible(),false,'Phone has one part control, not two');
-  await page.locator('.part-picker > summary').click();await page.locator('[data-practise]').nth(1).click();
+  assert.equal(await page.locator('.part-picker > summary').isVisible(),false,'Before a part is chosen, the inline chooser is the only part control');
+  await page.locator('[data-first-part]').nth(1).click();
   await page.waitForFunction(()=>{const s=document.querySelector('#score-part');return !s.disabled&&s.value===document.querySelectorAll('[data-practise]')[1].dataset.practise;});
   assert.equal(await page.locator('[data-practise]').nth(1).getAttribute('aria-pressed'),'true','Shown part is the part you practise');
   await page.evaluate(()=>{for(const key of Object.keys(localStorage))if(key.startsWith('concentavo-my-voice-'))localStorage.removeItem(key);});await page.reload();

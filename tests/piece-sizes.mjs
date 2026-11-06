@@ -48,11 +48,15 @@ try{
       const t0=Date.now();
       await page.getByRole('button',{name:p.title,exact:true}).click();await settled();
       const ms=Date.now()-t0;
+      // A first visit shows one inline chooser; the dock's My part list (every part, piano included) appears once a part is chosen.
+      if(label!=='desktop'&&!(await page.locator('.part-picker > summary').isVisible())&&await page.locator('[data-first-part]').first().isVisible()){await page.locator('[data-first-part]').first().click();await settled();}
       if(label!=='desktop'&&await page.locator('.part-picker > summary').count())await page.locator('.part-picker > summary').click();
       const shot=await page.evaluate(()=>{const vp=document.querySelector('#score-viewport'),deck=document.querySelector('.dock'),buttons=[...document.querySelectorAll('.part-chips button')].filter(b=>b.offsetParent);
         return {overflow:document.documentElement.scrollWidth>innerWidth+1,pageScroll:document.documentElement.scrollHeight>innerHeight+1,scoreShare:vp.clientHeight/innerHeight,deckBottom:deck.getBoundingClientRect().bottom,buttons:buttons.length,narrowest:Math.min(...buttons.map(b=>b.getBoundingClientRect().width)),clipped:buttons.some(b=>b.getBoundingClientRect().right>innerWidth+1),zoom:document.querySelector('#zoom-label')?.textContent};});
       await page.screenshot({path:`test-results/size-${p.file.split('.')[0]}-${label}.png`});
       report.push({piece:p.title,view:label,ms,...shot});
+      // Choosing a part above remembers a room voice; forget it so every piece is measured as a first visit.
+      await page.evaluate(()=>{for(const k of Object.keys(localStorage))if(/^concentavo-(my-voice|me)-/.test(k))localStorage.removeItem(k);});
       assert.equal(shot.overflow,false,`${p.title} · ${label}: no sideways page overflow`);
       assert.equal(shot.pageScroll,false,`${p.title} · ${label}: player fits the screen`);
       assert.ok(shot.deckBottom<=h+1,`${p.title} · ${label}: playback controls stay on screen`);

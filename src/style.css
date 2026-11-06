@@ -3546,3 +3546,160 @@ dialog:focus{outline:none}
 :root:root:root .app .singer-heading.scrolling-paused .player-menu:not(#_){display:none}
 :root:root:root .app .singer-heading.scrolling-paused .actions:not(#_){max-width:none;width:auto;flex:none}
 :root:root:root .singer-deck .pp-empty .part-dot:not(#_){display:none}
+/* r16 — compact singer rows: the whole row opens the song; details are a small, secondary info button. */
+:root:root:root:root .viewer .piece-list .singer-song:not(#_){display:grid;grid-template-columns:minmax(0,1fr) auto 44px 20px;grid-template-areas:'identity availability details actions';align-items:center;gap:0 12px;min-height:72px;padding:12px 12px 12px 16px;position:relative}
+:root:root:root:root .viewer .singer-song .track-main:not(#_){grid-area:identity;min-width:0}
+:root:root:root:root .viewer .singer-song .track-title:not(#_)::after{content:'';position:absolute;inset:0;z-index:1}
+:root:root:root:root .viewer .singer-song:not(#_):hover{background:var(--sel-bg)}
+:root:root:root:root .viewer .singer-song:not(#_):focus-within{outline:2px solid var(--blue);outline-offset:-2px}
+:root:root:root:root .viewer .singer-song .track-title:not(#_):focus-visible{outline:0}
+:root:root:root:root .viewer .singer-song-availability:not(#_){grid-area:availability;display:flex;align-items:center;flex-wrap:wrap;gap:4px 12px;min-height:0}
+:root:root:root:root .viewer .singer-song-details:not(#_){grid-area:details;position:relative;z-index:3;align-self:center;justify-self:end}
+:root:root:root:root .viewer .singer-song-details>summary:not(#_){display:flex;align-items:center;justify-content:center;width:44px;height:44px;min-height:44px;padding:0;border-radius:50%;color:var(--muted);text-decoration:none}
+:root:root:root:root .viewer .singer-song-details>summary:not(#_):hover,:root:root:root:root .viewer .singer-song-details[open]>summary:not(#_){color:var(--sel-ink);background:var(--sel-bg)}
+.info-glyph{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round}
+:root:root:root:root .viewer .singer-song .row-actions:not(#_){grid-area:actions;align-self:center;justify-content:flex-end}
+:root:root:root:root .viewer .singer-song .listen-choir:not(#_){display:inline-flex;align-items:center;min-height:44px;font-weight:600;text-decoration:underline;text-underline-offset:3px}
+@media(max-width:700px){
+ :root:root:root:root .viewer .piece-list .singer-song:not(#_){grid-template-columns:minmax(0,1fr) 44px 16px;grid-template-areas:'identity details actions' 'availability details actions';gap:0 6px;min-height:68px;padding:10px 8px 10px 14px}
+ :root:root:root:root .viewer .singer-song-availability:not(#_){margin-top:6px}
+ :root:root:root:root .viewer .singer-song.part-missing .singer-song-availability:not(#_){display:flex;margin-top:4px}
+ :root:root:root:root .viewer .singer-song .listen-choir:not(#_){min-height:44px;margin:-6px 0 -10px}
+}
+/* r16 — More options is a bounded sheet: a fixed title and Done, section jumps, and one scrolling content region. */
+:root:root:root:root .more-panel:not(#_){overflow:visible;padding:0;flex-direction:column}
+:root:root:root:root .more-open .more-panel:not(#_),:root:root:root:root .more-panel.is-open:not(#_){display:flex}
+:root:root:root:root .more-panel>.sheet-head:not(#_){display:flex;align-items:center;gap:12px;position:static;flex:none;min-height:0;margin:0;padding:14px 16px 10px;background:var(--surface)}
+:root:root:root:root .more-panel>.sheet-head .sheet-title:not(#_){flex:1;margin:0;font-size:18px}
+.more-jumps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2px;flex:none;margin:0 16px 10px;padding:3px;border:1px solid var(--line);border-radius:10px;background:var(--surface-soft)}
+:root:root:root:root .more-jumps button:not(#_){min-height:40px;height:40px;min-width:0;padding:0 4px;border:0;border-radius:7px;background:transparent;color:var(--muted);font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:none}
+:root:root:root:root .more-jumps button[aria-current]:not(#_){background:var(--surface);color:var(--sel-ink);box-shadow:0 1px 3px #16181d26}
+.more-scroll{flex:1 1 auto;min-height:0;overflow:auto;overscroll-behavior:contain;padding:0 16px 16px;border-top:1px solid var(--line)}
+.more-section{padding:16px 0 18px;border-bottom:1px solid var(--line)}
+.more-section:last-child{border-bottom:0;min-height:100%}
+:root:root:root:root .more-panel .more-heading:not(#_),:root:root:root:root .more-panel .mixer .sheet-title:not(#_),:root:root:root:root .more-panel .view-menu-body>.sheet-head .sheet-title:not(#_){display:block;margin:0 0 6px;font-size:16px;font-weight:650;line-height:22px;color:var(--text)}
+:root:root:root:root .more-panel #view-menu:not(#_){margin:0}
+:root:root:root:root .more-panel .view-menu-body>.sheet-head:not(#_){margin:0 0 4px}
+:root:root:root:root .more-panel .view-heading:not(#_){margin:16px 0 8px;font-size:13px;font-weight:600;color:var(--muted)}
+:root:root:root:root .more-panel .singer-utilities-row:not(#_){border-top:0;padding-top:4px;margin-top:0}
+:root:root:root:root .more-panel #more-app>.mode-control:not(#_){display:flex;align-items:center;gap:12px;margin:4px 0 12px}
+:root:root:root:root .more-panel .mixer-presets:not(#_){margin:0 0 8px}
+:root:root:root:root .more-panel #balanced:not(#_){display:inline-flex;align-items:center;justify-content:center;min-height:44px;height:44px;padding:0 14px;line-height:1.2}
+:root:root:root:root .more-panel .dk-follow:not(#_){margin-top:0}
+@media(min-width:951px){:root:root:root:root .more-panel:not(#_){max-height:min(640px,calc(100dvh - var(--sheet-bottom,120px) - 24px))}}
+@media(max-width:950px){
+ :root:root:root:root .more-panel:not(#_){height:calc(100dvh - var(--sheet-bottom,140px) - 8px);max-height:none}
+ :root:root:root:root .more-panel>.sheet-head:not(#_){padding:6px 16px 10px;position:relative}
+ :root:root:root:root .more-panel>.sheet-head .sheet-grip:not(#_){position:absolute;top:6px;left:50%;transform:translateX(-50%)}
+ :root:root:root:root .more-panel>.sheet-head .sheet-done:not(#_){min-height:44px;height:44px;margin-top:10px}
+ :root:root:root:root .more-panel>.sheet-head .sheet-title:not(#_){margin-top:10px}
+}
+/* r16 — transport craft: equal icons, one joined Speed stepper, More options icon inline with its word. */
+:root:root:root:root .singer-deck :is(#restart,#tools-toggle,#mobile-parts,#mixer-toggle)>.glyph:not(#_){flex:none;display:inline-flex;width:18px;height:18px}
+:root:root:root:root .singer-deck :is(#restart,#tools-toggle,#mobile-parts,#mixer-toggle)>.glyph svg:not(#_){width:100%;height:100%}
+:root:root:root:root .singer-deck .dk-speed-stepper button:not(#_){border-radius:0}
+:root:root:root:root .singer-deck #speed-down:not(#_){border-radius:var(--ctl-r) 0 0 var(--ctl-r)}
+:root:root:root:root .singer-deck #speed-up:not(#_){border-radius:0 var(--ctl-r) var(--ctl-r) 0}
+@media(max-width:950px){
+ :root:root:root:root .singer-deck #mobile-parts:not(#_){flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:0 8px;font-size:12px;line-height:14px;font-weight:600}
+}
+/* Playback options: one labelled row per setting, label left and control right, in full ink. */
+:root:root:root:root .more-panel .dk-extra:not(#_){display:flex;flex-direction:column;align-items:stretch;gap:0;padding:4px 0 0;border-top:1px solid var(--line);margin-top:8px}
+:root:root:root:root .more-panel .dk-extra>:is(.dk-pill,.dk-check):not(#_){display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px;margin:0;padding:0;border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent;color:var(--text);font-size:14px;font-weight:500}
+:root:root:root:root .more-panel .dk-extra>.dk-check:not(#_){flex-direction:row-reverse}
+:root:root:root:root .more-panel .dk-extra>.dk-check input:not(#_){width:22px;height:22px;margin:0 4px 0 0;flex:none}
+:root:root:root:root .more-panel .dk-extra>.dk-pill select:not(#_){min-height:44px;min-width:120px;max-width:55%}
+:root:root:root:root .more-panel .dk-extra>#wav:not(#_){align-self:flex-start;margin-top:12px}
+:root:root:root:root .more-panel .voice-list>.voice:last-child:not(#_){border-bottom:0}
+/* Note size: Smaller / Larger in words. */
+:root:root:root:root .view-steps :is(#zoom-out,#notation-size):not(#_){display:inline-flex;align-items:center;gap:6px;width:auto;padding:0 12px;font-size:13px;font-weight:600}
+:root:root:root:root .view-steps :is(#zoom-out,#notation-size)>[aria-hidden]:not(#_){font-size:18px;line-height:1}
+#zoom-label::before{content:"Note size "}
+:root[lang=nl] #zoom-label::before{content:"Notengrootte "}
+/* Phone portrait transport: one explicit grid, so Back to start, Play and Speed keep their own cells in every language and state. */
+:root:root:root:root .deck-portrait .singer-deck .singer-transport:not(#_){display:grid;grid-template-columns:minmax(0,1fr) auto 152px;align-items:stretch;gap:8px;width:100%}
+:root:root:root:root .deck-portrait .singer-deck #restart:not(#_){width:auto;min-width:0;padding:0 8px 0 10px;gap:7px}
+:root:root:root:root .deck-portrait .singer-deck #restart .transport-word:not(#_){white-space:normal;line-height:15px;text-align:left;min-width:0}
+:root:root:root:root .deck-portrait .singer-deck #play:not(#_){width:auto;min-width:76px;padding:0 14px}
+:root:root:root:root .deck-portrait .singer-deck .pr-speed:not(#_){width:152px;min-width:0;margin:0}
+@media(max-width:349px){
+ :root:root:root:root .deck-portrait .singer-deck .singer-transport:not(#_){grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+ :root:root:root:root .deck-portrait .singer-deck .pr-speed:not(#_){grid-column:1/-1;width:auto;justify-content:flex-end}
+}
+:root:root:root:root .deck-portrait .singer-deck .singer-transport:not(#_){grid-template-columns:minmax(0,1fr) auto 144px;gap:6px}
+:root:root:root:root .deck-portrait .singer-deck :is(#restart,#play):not(#_){font-size:13.5px}
+:root:root:root:root .deck-portrait .singer-deck #restart:not(#_){padding:0 6px 0 9px;gap:6px}
+:root:root:root:root .deck-portrait .singer-deck #play:not(#_){padding:0 12px;gap:6px}
+:root:root:root:root .deck-portrait .singer-deck .pr-speed:not(#_){width:144px}
+:root:root:root:root .deck-portrait .singer-deck :is(.speed-value,#speed):not(#_){width:56px;max-width:56px}
+:root:root:root:root .deck-portrait .singer-deck .pr-speed .pr-label:not(#_){width:56px}
+/* r16 — first visit: one chooser and one instruction; the dock's My part appears once a part is chosen. */
+:root:root:root:root .dock.singer-deck:has(#singer-choose:not([hidden])) .dk-parts:not(#_){display:none}
+.singer-choose-head{display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 8px;min-width:0}
+:root:root:root:root .singer-choose-head>strong:not(#_){font-size:15px;line-height:22px;color:var(--sel-ink);white-space:nowrap;margin:0}
+.choose-hint{font-size:13px;line-height:22px;color:var(--muted);white-space:nowrap}
+:root:root:root:root .singer-part-choices #choose-choir:not(#_){position:static;display:inline-flex;align-items:center;justify-content:center;gap:7px;width:auto;min-height:44px;padding:0 14px;border:1px solid var(--ctl-line);border-radius:var(--ctl-r);background:var(--surface);color:var(--text);font-size:14px;font-weight:600}
+:root:root:root:root .singer-part-choices #choose-choir .glyph:not(#_){display:inline-flex;width:17px;height:17px;flex:none}
+:root:root:root:root .singer-part-choices #choose-choir .glyph svg:not(#_){width:100%;height:100%}
+@media(max-width:950px){
+ :root:root:root:root .singer-deck .singer-choose-head:not(#_){margin:0 0 8px}
+ :root:root:root:root .singer-part-choices #choose-choir:not(#_){flex:1 1 100%;font-size:13.5px}
+}
+@media(max-height:500px) and (orientation:landscape) and (max-width:950px){
+ :root:root:root:root .singer-deck .singer-choose-head:not(#_){flex-direction:column;gap:0;margin:0}
+ :root:root:root:root .singer-part-choices #choose-choir:not(#_){flex:none}
+}
+/* r16 — guided Repeat passage: step text and choices in a lane above the music; bars become tap targets. */
+:root:root:root:root .repeat-guide:not(#_){position:static;transform:none;display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;max-width:none;margin:0;padding:8px 12px 8px 16px;border:0;border-bottom:1px solid var(--sel-line);border-radius:0;background:var(--sel-bg);color:var(--sel-ink);box-shadow:none;text-align:left;flex:none;z-index:auto}
+:root:root:root:root .repeat-guide[hidden]:not(#_){display:none}
+.rg-step{flex:none;padding:2px 8px;border:1px solid var(--sel-line);border-radius:999px;background:var(--surface);font-size:12px;font-weight:700;line-height:18px;white-space:nowrap}
+.rg-text{flex:1 1 200px;min-width:0;font-size:15px;font-weight:650;line-height:20px;color:var(--text)}
+.rg-actions{display:flex;flex-wrap:wrap;gap:8px;margin-left:auto}
+:root:root:root:root .rg-actions button:not(#_){display:inline-flex;align-items:center;justify-content:center;min-height:44px;height:44px;padding:0 14px;border:1px solid var(--ctl-line);border-radius:var(--ctl-r);background:var(--surface);color:var(--text);font-size:14px;font-weight:600;white-space:nowrap}
+:root:root:root:root .rg-actions button[hidden]:not(#_){display:none}
+:root:root:root:root .rg-actions .rg-line:not(#_){background:var(--primary-fill,var(--blue));border-color:transparent;color:#fff}
+#score.picking-bars .measure-hit{cursor:pointer}
+#score.picking-bars .measure-hit:hover,#score.picking-bars .measure-hit:active{background:color-mix(in srgb,var(--sel-bg) 75%,transparent);box-shadow:inset 0 0 0 1.5px var(--sel-line)}
+#score .measure-hit.loop-edge{background:color-mix(in srgb,var(--sel-bg) 85%,transparent);box-shadow:inset 3px 0 0 var(--blue),inset 0 0 0 1.5px var(--sel-line)}
+@media(max-width:700px){
+ :root:root:root:root .repeat-guide:not(#_){padding:8px 12px;gap:6px 10px}
+ .rg-text{flex-basis:calc(100% - 100px);font-size:14.5px}
+ .rg-actions{width:100%;margin:0;gap:6px}
+ :root:root:root:root .rg-actions button:not(#_){padding:0 12px;font-size:13.5px}
+ :root:root:root:root .rg-actions .rg-line:not(#_){flex:1 1 auto;min-width:0}
+}
+:root:root:root:root .rg-actions .rg-cancel:not(#_){gap:6px}
+:root:root:root:root .rg-cancel .glyph:not(#_){display:inline-flex;width:16px;height:16px}
+:root:root:root:root .rg-cancel .glyph svg:not(#_){width:100%;height:100%}
+:root:root:root:root .singer-deck #tools-toggle.picking:not(#_){background:var(--sel-bg);border-color:var(--sel-line);color:var(--sel-ink)}
+@media(max-width:700px){
+ :root:root:root:root .rg-actions:not(#_){flex-wrap:nowrap}
+ :root:root:root:root .rg-actions button:not(#_){padding:0 10px}
+ :root:root:root:root .rg-actions .rg-cancel:not(#_){width:44px;flex:none;padding:0}
+ .rg-cancel-word{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+ .rg-text{flex-basis:0;flex-grow:1}
+}
+/* r16 — desktop dock: the paused-scrolling chip stays on one line, with a full-height Resume action. */
+@media(min-width:951px){
+ :root:root:root:root .dock:not(.singer-deck) #follow-resume:not(#_){position:static;transform:none;display:inline-flex;flex-direction:row;align-items:center;gap:8px;width:auto;max-width:none;height:36px;min-height:36px;margin:0 0 0 8px;padding:0 4px 0 12px;border:1px solid var(--line-strong);border-radius:999px;background:var(--surface);box-shadow:none;white-space:nowrap;line-height:1;font-size:13px;flex:none}
+ :root:root:root:root .dock:not(.singer-deck) #follow-resume[hidden]:not(#_){display:none}
+ :root:root:root:root .dock:not(.singer-deck) #follow-resume .resume-state:not(#_){position:static;width:auto;height:auto;overflow:visible;clip-path:none;white-space:nowrap}
+ :root:root:root:root .dock:not(.singer-deck) #follow-resume strong:not(#_){display:inline-flex;align-items:center;height:28px;padding:0 12px;border-radius:999px;white-space:nowrap;font-size:13px}
+}
+.rs-short{display:none}
+@media(min-width:951px){
+ :root:root:root:root .dock:not(.singer-deck) #follow-resume .rs-long:not(#_){display:none}
+ :root:root:root:root .dock:not(.singer-deck) #follow-resume .rs-short:not(#_){display:inline}
+}
+@media(min-width:951px) and (max-width:1360px){:root:root:root:root .dock:not(.singer-deck) #follow-resume .resume-state:not(#_){display:none}:root:root:root:root .dock:not(.singer-deck) #follow-resume:not(#_){padding-left:4px}}
+@media(min-width:951px){:root:root:root:root .singer-deck .dk-parts:not(#_){flex:0 1 280px}}
+:root:root:root:root .deck-sideways .singer-deck #restart:not(#_){width:auto;padding:0 10px;white-space:nowrap}
+@media(max-width:950px){:root:root:root:root .singer-deck .dk-tools .loop-toggle:not(#_){max-width:none;flex:1 1 auto;white-space:nowrap}}
+:root:root:root:root .view-steps #notation-size .step-word:not(#_),:root:root:root:root .view-steps #zoom-out .step-word:not(#_){font-size:13.5px;vertical-align:baseline}
+:root:root:root:root .viewer .singer-song .track-title:not(#_){hyphens:auto;-webkit-hyphens:auto;overflow-wrap:break-word}
+@media(max-width:700px){:root:root:root:root .viewer .piece-list .singer-song:not(#_){gap:0 2px;padding-right:4px}}
+@media(max-width:950px){
+ :root:root:root:root .dock.singer-deck:has(#singer-choose:not([hidden])) .dk-practice:not(#_){flex:1 1 0;min-width:0}
+ :root:root:root:root .dock.singer-deck:has(#singer-choose:not([hidden])) .dk-practice #tools-toggle:not(#_){width:100%;max-width:none;justify-content:center}
+ :root:root:root:root .dock.singer-deck:has(#singer-choose:not([hidden])) #mobile-parts:not(#_){flex:1 1 0;min-width:0}
+}
