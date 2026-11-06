@@ -1,4 +1,134 @@
 const nl={
+  'Play (Space)':'Afspelen (spatie)', 'Pause (Space)':'Pauzeren (spatie)', 'Back to start (Home)':'Naar het begin (Home)',
+  'then press':'en druk op', 'Press':'Druk op', 'to start.':'om te beginnen.', '{part} is selected.':'{part} is gekozen.',
+  'bars {a}–{b}':'maten {a}–{b}', 'bar {n}':'maat {n}',
+  'Your part':'Je partij', 'Change':'Wijzigen', 'Change your part':'Je partij wijzigen', 'All parts':'Alle partijen', 'Choose a piece to practise':'Kies een stuk om te oefenen', 'Then choose a piece':'Kies daarna een stuk', 'Practise {part}':'Oefen {part}', 'Listen':'Luisteren',
+  'Which part do you sing?':'Welke partij zing jij?', '{part} is split in this piece':'{part} is in dit stuk gesplitst', 'Choose bars in the music':'Kies maten in de muziek',
+  'Options':'Opties', 'Search':'Zoeken', 'Details':'Stukinfo', 'Whole choir':'Heel koor', 'Choose another part':'Andere partij kiezen',
+  'Listen to the whole choir':'Luister naar het hele koor',
+  'Soprano 1':'Sopraan 1', 'Soprano 2':'Sopraan 2', 'Soprano 3':'Sopraan 3', 'Soprano 4':'Sopraan 4', 'Alto 1':'Alt 1', 'Alto 2':'Alt 2', 'Alto 3':'Alt 3', 'Alto 4':'Alt 4', 'Bass 1':'Bas 1', 'Bass 2':'Bas 2', 'Bass 3':'Bas 3', 'Bass 4':'Bas 4', 'Baritone 1':'Bariton 1', 'Baritone 2':'Bariton 2', 'Baritone 3':'Bariton 3', 'Baritone 4':'Bariton 4',
+  'Fit whole lines':'Hele regels in beeld', 'Sideways shows one continuous line of music.':'Zijwaarts toont de muziek in één doorlopende regel.',
+  'Repeat this line':'Herhaal deze regel', '· bars {a}–{b}':'· maten {a}–{b}', '· bar {n}':'· maat {n}', 'Repeat this line · bars {a}–{b}':'Herhaal deze regel · maten {a}–{b}', 'Repeat this line · bar {n}':'Herhaal deze regel · maat {n}', 'Type bar numbers':'Maatnummers invoeren',
+  'No {part} part in this piece. You can listen to the whole choir.':'Dit stuk heeft geen partij voor {part}. Je kunt naar het hele koor luisteren.',
+  'Tap a bar to go there. Choose':'Tik op een maat om erheen te gaan. Kies', 'and tap the first bar, then the last bar. Or choose':'en tik op de beginmaat en daarna op de eindmaat. Of kies', 'to repeat the outlined line.':'om de omlijnde regel te herhalen.',
+  'Type the first and last bar, or tap them in the music.':'Typ de begin- en eindmaat, of tik ze aan in de muziek.',
+  'Cancel (Esc)':'Annuleren (Esc)',
+  'Scrolling on':'Meescrollen: aan', 'Scrolling off':'Meescrollen: uit',
+  'Bar numbers':'Maatnummers', 'Step {n} of 2':'Stap {n} van 2', 'Tap the first bar you want to repeat.':'Tik op de eerste maat.',
+  'Now tap the last bar to repeat (from bar {n}).':'Tik nu op de laatste maat (vanaf maat {n}).', 'This line · bars {a}–{b}':'Deze regel · maten {a}–{b}', 'This line · bar {n}':'Deze regel · maat {n}',
+  'Tap the bars in the music':'Tik de maten aan in de muziek', 'Tap the first and last bar in the music':'Tik op de eerste en de laatste maat in de muziek',
+  'then press Play':'en druk op Afspelen',
+  'Jump to a section':'Ga naar een onderdeel', 'All parts equally loud':'Alle partijen even luid', 'Key':'Toonsoort', 'Play written repeats':'Herhalingstekens volgen',
+  'Volumes':'Volume', 'Playback':'Afspelen', 'Smaller':'Kleiner', 'Larger':'Groter', 'Score size and settings':'Partituurgrootte en instellingen',
+  'Choose your part':'Kies je partij', 'Score preview':'Voorbeeldpartituur', 'Repeating':'Herhalen', '{n} original':'{n} origineel', 'Repeating bars {first}–{last}':'Maten {first}–{last} worden herhaald', 'Song details':'Stukgegevens',
+  'Soprano':'Sopraan', 'Alto':'Alt', 'Bass':'Bas', 'Baritone':'Bariton',
+  'Back to start':'Naar het begin', 'Play':'Afspelen', 'Pause':'Pauze',
+  'Repeat passage':'Fragment herhalen', 'First bar':'Beginmaat', 'Last bar':'Eindmaat',
+  'More options':'Meer opties', 'Part volumes':'Volume per partij',
+  'Restore volumes':'Alle partijen even luid',
+  'Your part louder, other parts softer.':'Je eigen partij luider, de andere partijen zachter.',
+  'Scroll along with the music':'Meescrollen met de muziek',
+  'Scrolling paused':'Meescrollen gestopt', 'Resume scrolling':'Meescrollen hervatten',
+  'Choose the first and last bar, or select them in the score.':'Kies de begin- en eindmaat, of tik ze aan in de partituur.',
+  'Tap the first bar, then the last bar in the score.':'Tik in de partituur op de beginmaat en daarna op de eindmaat.',
+  'Stop repeating':'Stop met herhalen', 'Listen to the choir':'Luister naar het hele koor',
+
+  'Click to play from this bar':'Klik om vanaf deze maat af te spelen',
+  'The notation renderer could not display this score. Audio and rehearsal controls are still available.':'De notatieweergave kon deze partituur niet tonen. Audio en oefenbediening zijn nog beschikbaar.',
+
+  'Sort and filters':'Sorteren en filteren',
+
+  'Piece':'Stuk','More tags':'Meer labels','Export':'Exporteren','Update':'Bijwerken','Sort':'Sorteren','Custom order':'Eigen volgorde',
+
+  "Concentavo · Rehearsal rooms":"Concentavo · Repetitieruimtes",
+  "Double-click to edit":"Dubbelklik om te bewerken",
+  "Close dialog":"Dialoog sluiten",
+  "Import":"Importeren",
+  "Import piece":"Stuk importeren",
+  "Import {count} pieces":"{count} stukken importeren",
+  "Import results":"Importresultaten",
+  "Part name":"Partijnaam",
+  "Part type":"Partijsoort",
+  "part available":"partij beschikbaar",
+  "A message for your choir…":"Een bericht voor je koor…",
+  "Personal notes stay on each singer’s device.":"Persoonlijke notities blijven op het apparaat van elke zanger.",
+  "Moved to Recently removed.":"Verplaatst naar Recent verwijderd.",
+  "Recently removed ({count})":"Recent verwijderd ({count})",
+  "1 piece imported.":"1 stuk geïmporteerd.",
+  "{count} pieces imported.":"{count} stukken geïmporteerd.",
+  "{count} score parts · choose what appears online":"{count} partijen · kies wat online verschijnt",
+  "{count} score parts + chord accompaniment · choose what appears online":"{count} partijen + akkoordbegeleiding · kies wat online verschijnt",
+  "Select {name}":"{name} selecteren",
+  "Edit {name}":"{name} bewerken",
+  "Reorder {name}":"{name} verplaatsen",
+  "Publish {name}":"{name} publiceren",
+  "Part {number}":"Partij {number}",
+  "{name} · click to rename":"{name} · klik om de naam te wijzigen",
+  "{name} volume":"Volume van {name}",
+  "{name} sound":"Klank van {name}",
+  "{name} stereo position":"Stereopositie van {name}",
+  "More for {name}":"Meer voor {name}",
+  "Mute {name}":"{name} dempen",
+  "Solo {name}":"{name} solo",
+  "Remove {name}":"{name} verwijderen",
+  "Remove tag {name}":"Label {name} verwijderen",
+  "Bar {number}":"Maat {number}",
+  "My part: none":"Mijn partij: geen",
+  "My part: {name}":"Mijn partij: {name}",
+  "{name} · muted":"{name} · gedempt",
+  "Loop {first}–{last}":"Herhaling {first}–{last}",
+  "Drag to reorder":"Sleep om te verplaatsen",
+  "Choose custom order to reorder":"Kies eigen volgorde om te verplaatsen",
+  "Composer not specified":"Componist niet opgegeven",
+  "Re-read original score":"Oorspronkelijke partituur opnieuw lezen",
+  "Apply improved score interpretation while keeping the compact notation, part names, sounds and practice settings.":"Pas verbeterde partituurherkenning toe met behoud van de compacte notatie, partijnamen, klanken en oefeninstellingen.",
+  "Original score re-read. Your part and practice settings were kept.":"Oorspronkelijke partituur opnieuw gelezen. Partij- en oefeninstellingen zijn behouden.",
+  "Room password set for this session.":"Wachtwoord voor de ruimte ingesteld voor deze sessie.",
+  "Password set for this session.":"Wachtwoord ingesteld voor deze sessie.",
+  "Choose a valid first and last bar.":"Kies een geldige eerste en laatste maat.",
+  "That passage is not in the current playback order.":"Die passage staat niet in de huidige afspeelvolgorde.",
+  "Rendering your current mix…":"Je huidige mix wordt verwerkt…",
+  "WAV export ready.":"WAV-export gereed.",
+  "Website exported. Unzip it to find your home page.":"Website geëxporteerd. Pak het bestand uit om je startpagina te openen.",
+  "Practice page exported, with score and audio included.":"Oefenpagina geëxporteerd, inclusief partituur en audio.",
+  "No removed pieces. Removed scores stay here until restored.":"Geen verwijderde stukken. Verwijderde partituren blijven hier totdat ze worden hersteld.",
+  "Move":"Verplaatsen",
+  "Hide":"Verbergen",
+  "Lock":"Beveiligen",
+  "Clear":"Wissen",
+  "Move selected pieces":"Geselecteerde stukken verplaatsen",
+  "Move pieces":"Stukken verplaatsen",
+  "Publish at least one part.":"Publiceer ten minste één partij.",
+  "Add another part before sharing a passage.":"Voeg nog een partij toe voordat je een passage deelt.",
+  "Choose a valid source and bar range.":"Kies een geldige bronpartij en matenreeks.",
+  "Hidden pieces are excluded from HTML":"Verborgen stukken worden niet in HTML opgenomen",
+  "Custom {percent}%":"Aangepast {percent}%",
+
+  'Go to bar…':'Ga naar maat…','Select':'Selecteren','Slower':'Langzamer','Faster':'Sneller','Click to seek; drag to loop':'Klik om te springen; sleep voor een herhaling',
+  'Highlight':'Markeren','Choose a part first':'Kies eerst een partij','Choose part':'Kies partij','Full mix · no part':'Luister naar het hele koor','Choose the part you practise':'Kies de partij die je oefent',
+  'No {part} part':'Geen {part}-partij',
+
+  'My part brings your voice forward. Select it again to restore your mix.':'Mijn partij brengt je stem naar voren. Kies opnieuw om je mix te herstellen.',
+
+  'Unlock to check part':'Ontgrendel om de partij te controleren',
+
+  'Tags':'Labels','Add a tag…':'Label toevoegen…','Choose or create a folder…':'Kies of maak een map…','Works offline':'Werkt offline','Notation, mixer and shared notes included':'Partituur, mixer en gedeelde notities inbegrepen','Hidden pieces excluded':'Verborgen stukken uitgesloten','Included pieces':'Inbegrepen stukken',
+
+  'My part':'Mijn partij','My part only':'Alleen mijn partij','Highlight my part':'Mijn partij uitlichten','Practice':'Oefenen','Follow on':'Volgen: aan','Follow off':'Volgen: uit','Select all':'Alles selecteren','No matching part':'Geen passende partij',
+
+  'Switch rehearsal room':'Repetitieruimte wisselen','App settings':'App-instellingen','Room menu':'Ruimtemenu','Repertoire':'Repertoire','Rehearsal notes':'Repetitienotities','Filters':'Filters','Increase notation size':'Noten groter weergeven','Go to bar (G)':'Ga naar maat (G)',
+  'Import scores, check the detected parts, then save.':'Importeer partituren, controleer de gevonden partijen en sla op.',
+  'Use Piece settings for part names, tags and visibility.':'Gebruik Stukinstellingen voor partijnamen, labels en zichtbaarheid.',
+  'Focus brings one part forward. Select it again to restore your mix.':'Focus brengt één partij naar voren. Kies opnieuw om je mix te herstellen.',
+  'Click a bar to seek. To loop, open':'Klik op een maat om erheen te gaan. Voor een herhaling open je',', choose':', kies je','and then click or tap the first and last bar.':'en klik of tik je daarna op de eerste en de laatste maat.',
+  'Manual scrolling pauses Follow score. Select Resume to follow playback again.':'Handmatig scrollen pauzeert Partituur volgen. Kies Hervatten om weer mee te lezen.',
+  'Use Sideways for a continuous score in landscape.':'Gebruik Zijwaarts voor een doorlopende partituur in liggende stand.',
+  'Follow paused':'Volgen gepauzeerd','Keyboard':'Toetsenbord','Back or forward five seconds':'Vijf seconden terug of vooruit','Move between controls and activate':'Door de knoppen gaan (Tab) en kiezen (Enter)',
+  'Switch rooms in the header. Each room has its own website.':'Wissel bovenaan van repetitieruimte. Elke ruimte heeft een eigen website.',
+  'Double-click or right-click a folder to edit it.':'Dubbelklik of rechtsklik op een map om deze te bewerken.',
+  'Hidden pieces and unpublished parts stay out of exports.':'Verborgen stukken en niet-gepubliceerde partijen worden niet geëxporteerd.',
+  'Rooms save on this device. Back up and restore in the room menu.':'Ruimtes worden op dit apparaat opgeslagen. Back-ups maken en terugzetten kan via het ruimtemenu.',
+
   'Solo':'Solo','Mute':'Dempen','Mode':'Modus','Simple':'Eenvoudig','Advanced':'Geavanceerd','Interface mode':'Bedieningsmodus','Player settings':'Spelerinstellingen','Score settings':'Partituurinstellingen','Playback settings':'Afspeelinstellingen',
   'Shared passages':'Gedeelde passages','Lyrics from':'Tekst van','Shared choir lyrics':'Gedeelde koortekst','Own lyrics only':'Alleen eigen tekst','Source part':'Bronpartij','From bar':'Vanaf maat','Through bar':'Tot en met maat','Octave':'Octaaf','Use passage':'Passage gebruiken','Instead of own part':'In plaats van eigen partij','Only in empty bars':'Alleen in lege maten','Two octaves lower':'Twee octaven lager','Two octaves higher':'Twee octaven hoger','Add passage':'Passage toevoegen','Remove passage':'Passage verwijderen','Save passages':'Passages opslaan','Use another part for selected bars. Your original part is retained.':'Gebruik een andere partij voor de gekozen maten. Je oorspronkelijke partij blijft bewaard.',
 
@@ -13,15 +143,15 @@ const nl={
 
   'Rehearsal room':'Repetitieruimte','Rehearsal rooms':'Repetitieruimtes','New rehearsal room':'Nieuwe repetitieruimte',
   'New room':'Nieuwe ruimte','Dark mode':'Donkere modus','Toggle dark mode':'Donkere modus wisselen','Automatic':'Automatisch',
-  'Room settings':'Ruimte-instellingen','Back up room':'Ruimte back-uppen','Publish website':'Website publiceren','Update website':'Website bijwerken',
+  'Room settings':'Ruimte-instellingen','Back up room':'Back-up maken','Publish website':'Website publiceren','Update website':'Website bijwerken',
   'Help':'Hulp','Language':'Taal','English':'Engels','Dutch':'Nederlands','All pieces':'Alle stukken','New folder':'Nieuwe map','Manage folders':'Mappen beheren',
-  'Search pieces or tags':'Zoek stukken of labels','All folders':'Alle mappen','All visibility':'Alle zichtbaarheid','Visible':'Zichtbaar','Hidden':'Verborgen','Locked':'Beveiligd',
+  'Search pieces or tags':'Zoek stukken of labels','All folders':'Alle mappen','All visibility':'Alles','Visible':'Zichtbaar','Hidden':'Verborgen','Locked':'Beveiligd',
   'Sort: custom order':'Sortering: eigen volgorde','Title A–Z':'Titel A–Z','Composer A–Z':'Componist A–Z','Newest first':'Nieuwste eerst','Folder A–Z':'Map A–Z',
   'Import scores':'Partituren importeren','Recently removed':'Recent verwijderd','No matching pieces':'Geen overeenkomende stukken','Add your first score':'Voeg je eerste partituur toe',
   'Open':'Openen','Unlock':'Ontgrendelen','Settings':'Instellingen','Parts':'Partijen','bars':'maten','Select all shown pieces':'Selecteer alle getoonde stukken',
-  'Back to the room':'Terug naar de ruimte','Piece settings':'Stukinstellingen','Export HTML':'HTML exporteren','My practice':'Mijn repetitie',
-  'Show':'Toon','Full score':'Volledige partituur','Follow score':'Volg partituur','Follow':'Volgen','Select loop':'Herhaling kiezen','Bars':'Maten','Fit':'Passend','Print':'Afdrukken',
-  'Speed':'Tempo','Pitch':'Toonhoogte','original':'origineel','Count-in':'Aftellen','Repeats':'Herhalingen','Download WAV':'WAV downloaden',
+  'Back to the room':'Terug naar de ruimte','Piece settings':'Stukinstellingen','Export HTML':'HTML exporteren','My progress':'Mijn voortgang',
+  'Show':'Tonen','Full score':'Volledige partituur','Follow score':'Partituur volgen','Follow':'Volgen','Select loop':'Herhaling kiezen','Bars':'Maten','Fit':'Passend','Print':'Afdrukken',
+  'Speed':'Tempo','Pitch':'Toonhoogte','original':'origineel','Count-in':'Aftellen','Repeats':'Herhalingstekens volgen','Download WAV':'WAV downloaden',
   'Go to bar':'Ga naar maat','Loop bars':'Herhaal maten','to':'tot','Loop off':'Herhaling uit','Reset mix':'Mix herstellen','Edit parts':'Partijen bewerken',
   'Voice':'Stem','Instrument':'Instrument','Focus':'Focus','Centre':'Midden','Left':'Links','Right':'Rechts','Vertical':'Verticaal','Sideways':'Zijwaarts',
   'Studio piano · recorded':'Studiopiano · opname','Mellow piano · recorded':'Warme piano · opname','Bright piano · recorded':'Heldere piano · opname','Organ':'Orgel','Flute':'Fluit','Strings':'Strijkers','Choir · ah (synth)':'Koor · aa (synth)','Choir · oo (synth)':'Koor · oe (synth)','Soft tone':'Zachte toon',
@@ -33,16 +163,16 @@ const nl={
   'Default speed':'Standaardtempo','Default score direction':'Standaardrichting partituur','Join when resting':'Meezingen tijdens rust','Joined line':'Meegezongen partij',
   'None':'Geen','Original octave':'Oorspronkelijk octaaf','One octave lower':'Een octaaf lager','One octave higher':'Een octaaf hoger','Accompaniment':'Begeleiding',
   'Website visibility':'Zichtbaarheid op website','Tags, separated by commas':'Labels, gescheiden door komma’s','Folder colour':'Mapkleur','Shared rehearsal notes':'Gedeelde repetitienotities',
-  'Practice settings are saved in this browser.':'Repetitie-instellingen worden in deze browser bewaard.','Not started':'Niet begonnen','Learning':'Aan het leren','Confident':'Zeker',
+  'Practice settings are saved in this browser.':'Je oefeninstellingen worden in deze browser bewaard.','Not started':'Niet begonnen','Learning':'Aan het leren','Confident':'Zeker',
   'Learning progress · this browser only':'Leervoortgang · alleen in deze browser','Private notes':'Privénotities','Preparing your score…':'Partituur voorbereiden…',
   'Scroll':'Bladeren','Score scrolling direction':'Bladerrichting van partituur','Show score part':'Toon partij','Play or pause':'Afspelen of pauzeren','Restart':'Opnieuw',
   'Rehearsal room settings':'Instellingen repetitieruimte','Room name':'Naam van ruimte','Welcome message':'Welkomstbericht','Website language':'Taal van website',
   'Save changes':'Wijzigingen opslaan','Create folder':'Map aanmaken','Folder name':'Naam van map','Remove':'Verwijderen','Done':'Klaar','Restore':'Herstellen',
   'Sharing password':'Wachtwoord om te delen','Use password':'Wachtwoord gebruiken','Open piece':'Stuk openen','Optional sharing protection. Share the password with your singers.':'Optionele bescherming voor delen. Deel het wachtwoord met je zangers.',
   'Tag colour':'Labelkleur','Sort pieces':'Stukken sorteren','Visibility':'Zichtbaarheid',
-  'Search pieces':'Stukken zoeken','Folders':'Mappen','Go':'Ga','Loop on':'Herhaling aan','Choose first bar':'Kies de eerste maat','Choose last bar':'Kies de laatste maat',
+  'Search pieces':'Stukken zoeken','Close search':'Zoeken sluiten','Folders':'Mappen','Go':'Ga','Loop on':'Herhaling aan','Choose first bar':'Kies de eerste maat','Choose last bar':'Kies de laatste maat',
   'App source & licence':'Broncode en licentie','Guide & shortcuts':'Handleiding en sneltoetsen','Prepare':'Voorbereiden','Practise':'Oefenen','Organise and share':'Ordenen en delen','Local saving':'Lokaal opslaan','Check for updates':'Controleren op updates',
-  'Restore room':'Ruimte herstellen','Restore copy':'Kopie herstellen','Move from desktop':'Overzetten vanuit de desktopapp','Restore rehearsal room':'Repetitieruimte herstellen',
+  'Restore room':'Back-up terugzetten','Restore copy':'Kopie herstellen','Move from desktop':'Overzetten vanuit de desktopapp','Restore rehearsal room':'Repetitieruimte herstellen',
   'Saved on this device':'Op dit apparaat opgeslagen','Saving…':'Opslaan…','Local save failed':'Lokaal opslaan mislukt','GitHub sync':'GitHub-synchronisatie',
   'Syncing…':'Synchroniseren…','Waiting to sync':'Wacht op synchronisatie','Sign in to resume sync':'Log in om synchronisatie te hervatten','Offline · saved locally':'Offline · lokaal opgeslagen','Sync needs attention':'Synchronisatie vraagt aandacht',
   'Review sync conflict':'Controleer synchronisatieconflict','Reviewed conflict':'Conflict gecontroleerd','Synced to GitHub':'Gesynchroniseerd met GitHub','Enable sync':'Synchronisatie inschakelen','Sync now':'Nu synchroniseren',
@@ -55,19 +185,38 @@ const nl={
   'One repository for all public rooms':'Eén repository voor alle openbare ruimtes','Fewer repositories; each room gets its own URL path. Rooms share access, site settings, history and deployments.':'Minder repositories; elke ruimte krijgt een eigen URL-pad. Ruimtes delen toegang, website-instellingen, geschiedenis en publicaties.',
   'This room keeps its existing publishing layout so shared links continue working.':'Deze ruimte behoudt de huidige publicatievorm, zodat gedeelde links blijven werken.',
   'Shared repository name':'Naam van gedeelde repository','Website repository name':'Naam van website-repository',
-  'Room password':'Wachtwoord voor de ruimte','Protected rehearsal room':'Beveiligde repetitieruimte','Open room':'Ruimte openen'
+  'Practise as':'Oefenen als','I sing':'Ik zing','Full choir':'Heel koor','Repeat a passage':'Een passage herhalen','Phrases':'Frasen','Sections':'Delen','Or tap the first and last bar':'Of tik op de eerste en de laatste maat','Choose a phrase, or tap two bars.':'Kies een frase, of tik op twee maten.','Now tap the last bar.':'Tik nu op de laatste maat.','No loop':'Geen herhaling','Loop':'Herhaling','Show volume for each part':'Volume per partij tonen','Hide volume for each part':'Volume per partij verbergen','Volume per part':'Volume per partij','Dark score':'Donkere partituur','Score shows':'Partituur toont','Choir parts':'Partijen in het koor','Singers (optional)':'Zangers (optioneel)','Singers':'Zangers','Choir part':'Koorpartij','Not a choir part':'Geen koorpartij','One part per line, the way your choir is divided. Singers pick one on the website, and every piece opens on its matching part.':'Eén partij per regel, zoals je koor is ingedeeld. Zangers kiezen er een op de website en elk stuk opent op de bijbehorende partij.','One singer per line as Name: Part. Names appear on the published website, so use first names or a room password.':'Eén zanger per regel als Naam: Partij. Namen staan op de gepubliceerde website, dus gebruik voornamen of een wachtwoord voor de ruimte.','The part you practise':'De partij die je oefent',
+  'Room password':'Wachtwoord voor de ruimte','Protected rehearsal room':'Beveiligde repetitieruimte','Open room':'Ruimte openen',
+  'Export website':'Website exporteren','Export website ZIP':'Website-ZIP exporteren','Paused':'Gepauzeerd','Resume':'Hervatten','Back to the start':'Terug naar het begin','Keep the playing bar in view':'Houd de spelende maat in beeld','Show or hide the parts mixer':'Partijenmixer tonen of verbergen','Type a bar number and press Enter':'Typ een maatnummer en druk op Enter','Bar':'Maat','First loop bar':'Eerste maat van de herhaling','Last loop bar':'Laatste maat van de herhaling','Click the first and last bar in the score':'Klik op de eerste en laatste maat in de partituur','Repeat the chosen bars':'De gekozen maten herhalen','Every part at the same volume':'Alle partijen even luid','Bring this part forward; click again to restore the mix':'Breng deze partij naar voren; klik nogmaals om de mix te herstellen','More':'Meer','Dark score in dark mode':'Donkere partituur in donkere modus','Drop MusicXML or MIDI files here, or choose them from your computer.':'Sleep MusicXML- of MIDI-bestanden hierheen, of kies ze op je computer.','MusicXML (.musicxml, .xml, .mxl) and MIDI (.mid, .midi)':'MusicXML (.musicxml, .xml, .mxl) en MIDI (.mid, .midi)','Organise':'Ordenen','Name':'Naam','Type':'Soort','Put it on GitHub Pages':'Op GitHub Pages zetten','Score':'Partituur','Playback position':'Afspeelpositie',
+  'View':'Weergave','Readable':'Leesbaar','Overview':'Overzicht','Larger notes and lyrics':'Grotere noten en tekst','More bars at once':'Meer maten tegelijk','Score size':'Grootte van de muziek','Layout':'Indeling','Smaller notation':'Noten kleiner weergeven','Larger notation':'Noten groter weergeven','View: score size and layout':'Weergave: partituurgrootte en indeling','Score size and layout':'Partituurgrootte en indeling','Hide parts':'Partijen verbergen','Parts and volume':'Partijen en volume','Repeat a passage or go to a bar (G)':'Herhaal een passage of ga naar een maat (G)','Export this piece as a practice website':'Dit stuk als oefenwebsite exporteren','Add a piece to export this room':'Voeg een stuk toe om deze ruimte te exporteren',
+  'Mixer':'Mixer','Select bars':'Maten kiezen','Practice tools':'Oefenhulpmiddelen','Follow, loop and speed':'Volgen, herhaling en tempo','Volume, focus and mute for each part':'Volume, focus en dempen per partij','Close mixer':'Mixer sluiten','Close mixer (Esc)':'Mixer sluiten (Esc)','Larger notes':'Grotere noten','More bars':'Meer maten','Playback speed':'Afspeeltempo',
+  'Loop, speed and follow':'Herhaling, tempo en volgen','Repeat the chosen bars (L)':'De gekozen maten herhalen (L)','Go to a bar or repeat a phrase (G)':'Naar een maat gaan of een frase herhalen (G)','Loop on or off':'Herhaling aan of uit','On':'Aan','Off':'Uit',
+  'Folders: {name}':'Mappen: {name}','Add rehearsal notes for singers':'Repetitienotities voor zangers toevoegen','Part unavailable':'Partij niet beschikbaar','Pick on score':'Kies maten in de partituur','Add rehearsal notes':'Notities toevoegen','Relative to original tempo':'T.o.v. het oorspronkelijke tempo','% of original':'% van het origineel','Compact':'Compact','Whole systems':'Hele regels','Whole lines':'Hele regels','Space':'Spatie','Import {count} score':'{count} partituur importeren','Import {count} scores':'{count} partituren importeren','Part only':'Eigen partij','Highlighted':'Gemarkeerd','BPM':'BPM','Edit':'Bewerken',
+  'No Soprano part':'Geen sopraanpartij','No Alto part':'Geen altpartij','No Tenor part':'Geen tenorpartij','No Bass part':'Geen baspartij','No Baritone part':'Geen baritonpartij','No Mezzo part':'Geen mezzopartij'
 };
+// Dictionary keys also serve as English source strings. Named slots preserve user data in dynamic labels.
+const templates=Object.entries(nl).filter(([key])=>key.includes('{')).sort(([a],[b])=>b.replace(/\{\w+\}/g,'').length-a.replace(/\{\w+\}/g,'').length).map(([key,value])=>{
+  const names=[];
+  const pattern=key.split(/(\{\w+\})/).map(part=>{if(/^\{\w+\}$/.test(part)){names.push(part.slice(1,-1));return '(.+?)';}return part.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}).join('');
+  return {pattern:new RegExp('^'+pattern+'$'),value,names};
+});
+function dutch(text){
+  if(nl[text])return nl[text];
+  for(const {pattern,value,names} of templates){const match=text.match(pattern);if(match)return value.replace(/\{(\w+)\}/g,(_,name)=>{const v=match[names.indexOf(name)+1];return name==='part'?(nl[v]||v):v;});}
+  return text.replace(/^Shared passages · /,'Gedeelde passages · ').replace(/· staff (\d+)/g,'· notenbalk $1').replace(/^Bars (\d+)–(\d+) will repeat until you stop\.$/,'Maten $1–$2 worden herhaald tot je stopt.').replace(/^Loop bars (\d+)–(\d+)$/,'Maten $1–$2 herhalen').replace(/^Automatic · /,'Automatisch · ').replace(/^(\d+) pieces? · one self-contained website$/,(m,n)=>`${n} ${n==='1'?'stuk':'stukken'} · één zelfstandige website`).replace(/\bbars\b/g,'maten').replace(/\bparts\b/g,'partijen').replace(/ selected$/,' geselecteerd');
+}
 export function translate(root,language='en'){
   document.documentElement.lang=language;
-  if(language!=='nl')return;
+  if(typeof root==='string')return language==='nl'?dutch(root):root;
+  if(language!=='nl'||!root)return;
   const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let node;
   while(node=walker.nextNode()){
     const raw=node.nodeValue,trim=raw.trim();if(!trim)continue;
-    let value=nl[trim];
-    if(!value)value=trim.replace(/^Shared passages · /,'Gedeelde passages · ').replace(/· staff (\d+)/g,'· notenbalk $1').replace(/\bbars\b/g,'maten').replace(/\bparts\b/g,'partijen').replace(/ selected$/,' geselecteerd');
-    if(value!==trim)node.nodeValue=raw.replace(trim,value);
+    const value=dutch(trim);if(value!==trim)node.nodeValue=raw.replace(trim,value);
   }
-  root.querySelectorAll('[placeholder]').forEach(el=>{if(nl[el.placeholder])el.placeholder=nl[el.placeholder];});
-  root.querySelectorAll('[aria-label]').forEach(el=>{if(nl[el.getAttribute('aria-label')])el.setAttribute('aria-label',nl[el.getAttribute('aria-label')]);});
-  root.querySelectorAll('[title]').forEach(el=>{if(nl[el.title])el.title=nl[el.title];});
+  // Include root itself: dynamic buttons and their tooltips are often updated without re-rendering.
+  const elements=[...(root.nodeType===1?[root]:[]),...root.querySelectorAll('*')];
+  for(const el of elements)for(const attr of ['placeholder','aria-label','title','alt','aria-valuetext','aria-description','aria-roledescription',...(el.matches('optgroup,option')?['label']:[])]){
+    if(el.hasAttribute(attr))el.setAttribute(attr,dutch(el.getAttribute(attr)));
+  }
 }

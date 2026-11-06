@@ -1,5 +1,26 @@
 # Changelog
 
+## Unreleased
+
+- Redesign the phone player: a dark playback deck with a large play button and a "Practise as" row that brings one voice forward and shows its part in one tap.
+- Turn the phone Parts mixer into a sheet with voice colours, 44-pixel controls and a Done button. It still opens above playback.
+- Replace the bar dialog with a loop picker: phrase shortcuts taken from the lyrics (or four-bar sections) plus a grid of bar tiles.
+- Let singers choose "I sing…" on a published room. Pieces then open with that voice brought forward on phones, remembered in this browser only.
+- Show published rooms on phones as a numbered programme list. Keep every screen clear of notches, rounded corners and the home indicator.
+- Move to score-paper neutrals with a single ultramarine accent, in light and dark themes.
+- Redesign the desktop app: a light room sidebar, the library as a white work surface with pill folder tabs, piece rows with folder bars and visibility pills, the player as score and parts cards above a dark playback deck, and roomier dialogs with card choices for import and publishing.
+
+- On phones, the part buttons are the single part control: they choose what you see and what you hear. An arrow above them opens volume and mute for each part. Sideways mode has the same buttons beside Play.
+- The playback deck follows the light or dark theme and reaches the screen edges on phones. Optional dark score in dark mode.
+- Re-engrave the score once per settled size, so rotating a phone or scrolling the address bar no longer re-renders repeatedly. Changing your part or rotating keeps your place in the score.
+- Smaller notation on phones in portrait. The room page keeps one design at every width.
+
+- Add choir parts and singers to room settings. On the website singers pick their part or their name, and every piece opens on the linked part, matched by name (Soprano/Sopraan/S, S1/Soprano I) or set per part in Edit parts.
+- Choose what the score shows from the Parts sheet on phones: the part you practise, the full score, or any single part.
+- Show every part button, in two rows and with short labels when a piece has many parts. Hide the volume arrow for single-part pieces.
+- Smaller phone notation with a readable floor for dense bars, and less space after the last line. Give the sideways speed control its own column, and keep the desktop layout in wide but low windows.
+- Test tiny, duet, SATB and 8-voice 240-bar pieces on phone, sideways and desktop.
+
 ## 1.1.0-rc.4
 
 - Keep repeat notation compact while playback follows encoded or written D.C./D.S., segno, coda and Fine directions, nested repeats and alternate endings. Handle MuseScore text/symbol exports and return-section repeat rules.

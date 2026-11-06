@@ -56,17 +56,18 @@ await page.goto(pathToFileURL(resolve('dist/index.html')).href);await page.waitF
   await page.locator('#edit-piece').click();await page.locator('#staff-editor').click();assert.equal(await page.locator('.staff-row').count(),1);
   await page.locator('[data-separate-staff]').selectOption('2');await page.locator('#lane-name-0').fill('Soprano rehearsal');
   await page.locator('#save-staff').click();await page.waitForFunction(()=>document.querySelectorAll('[data-name]').length===2);
-  await page.locator('#score-part').selectOption('p0-s1-split1');await page.waitForFunction(()=>!document.querySelector('#score-part').disabled);
+  await page.locator('#score-part').selectOption('p0-s1-split1',{force:true});await page.waitForFunction(()=>!document.querySelector('#score-part').disabled);
   await page.reload();await page.waitForSelector('#score svg');assert.equal(await page.locator('[data-name]').count(),2,'Separation persists');
   assert.equal(await page.locator('[data-name]').first().inputValue(),'Soprano rehearsal');
-  await page.locator('[data-name]').first().fill('Soprano renamed');await page.locator('[data-name]').first().press('Tab');
+  // The full mixer opens from the dock on wide screens.
+  if(await page.locator('#mixer-toggle').getAttribute('aria-pressed')!=='true')await page.locator('#mixer-toggle').click();await page.locator('[data-name]').first().fill('Soprano renamed');await page.locator('[data-name]').first().press('Tab');
   assert.equal(await page.locator('#score-part option[value="p0-s1-split1"]').textContent(),'Soprano renamed','Inline rename updates Show immediately');
   await page.locator('[data-volume="p0-s1-split1"]').fill('37');await page.locator('[data-volume="p0-s1-split1"]').dispatchEvent('input');
-  await page.locator('#edit-piece').click();await page.locator('#reread-score').click();await page.waitForSelector('#score svg');
+  await page.locator('#edit-piece').click();await page.locator('.advanced-score > summary').click();await page.locator('#reread-score').click();await page.waitForSelector('#score svg');
   assert.equal(await page.locator('[data-name="p0-s1-split1"]').inputValue(),'Soprano renamed','Re-reading keeps custom singing part names');
   assert.equal(await page.locator('[data-volume="p0-s1-split1"]').inputValue(),'37','Re-reading preserves practice mix');
   assert.equal(await page.locator('[data-name]').count(),2,'Re-reading keeps compact shared-staff parts');
-  await page.locator('[data-remove-part="p0-s1-split2"]').click();await page.waitForFunction(()=>document.querySelectorAll('[data-name]').length===1);
+  await page.locator('[data-voice="p0-s1-split2"] .part-menu > summary').click();await page.locator('[data-remove-part="p0-s1-split2"]').click();await page.waitForFunction(()=>document.querySelectorAll('[data-name]').length===1);
   assert.equal(await page.locator('#score-part option[value="p0-s1-split2"]').count(),0,'Removed part disappears from Show');
   await page.reload();await page.waitForSelector('#score svg');assert.equal(await page.locator('[data-name]').count(),1,'Part removal persists');
   const removedDownload=page.waitForEvent('download');await page.locator('#single-export').click();await (await removedDownload).saveAs('test-results/removed-part.html');
@@ -75,7 +76,7 @@ await page.goto(pathToFileURL(resolve('dist/index.html')).href);await page.waitF
   await page.addScriptTag({content:testModule.outputFiles[0].text});
   assert.equal(await page.evaluate(t=>window.testMusic.parseMusicXML(t.xml,{voiceSeparation:{'p0-s1':'written'}}).lanes[0].notes.length,removedBoot.project.tracks[0]),4,'Removed lower notes are absent from exported notation');
   await page.locator('#back-library').click();
-  const backupDownload=page.waitForEvent('download');await page.locator('#project-backup').click();await (await backupDownload).saveAs('test-results/separated-room.concentavo');
+  const backupDownload=page.waitForEvent('download');await page.locator('.room-menu > summary').click();await page.locator('#project-backup').click();await (await backupDownload).saveAs('test-results/separated-room.concentavo');
   await page.locator('#backup-input').setInputFiles(resolve('test-results/separated-room.concentavo'));await page.waitForFunction(()=>document.querySelectorAll('[data-room]').length===2);
   await page.locator('.track-title').last().click();await page.waitForSelector('#score svg');assert.equal(await page.locator('[data-name]').count(),1,'Part removal survives backup restore');assert.equal(await page.locator('[data-name]').first().inputValue(),'Soprano renamed');
   await page.locator('#edit-piece').click();await page.locator('#staff-editor').click();assert.equal(await page.locator('[data-restore-part]').count(),1);await page.locator('[data-restore-part]').click();assert.equal(await page.locator('.staff-row').count(),2);
@@ -91,9 +92,9 @@ await page.goto(pathToFileURL(resolve('dist/index.html')).href);await page.waitF
   const html=await readFile('test-results/separated-voice.html','utf8'),boot=JSON.parse(html.match(/<script id="boot-data" type="application\/json">(.*?)<\/script>/s)[1]);
   assert.equal(boot.project.tracks[0].score.lanes.length,1,'Hidden inferred voice is absent from exported audio');
   const singer=await browser.newPage();singer.on('pageerror',error=>errors.push(error.message));await singer.goto(pathToFileURL(resolve('test-results/separated-voice.html')).href);await singer.waitForSelector('#score svg');
-  await singer.locator('#score-part').selectOption('p0-s1-split1');await singer.waitForFunction(()=>!document.querySelector('#score-part').disabled);
+  await singer.locator('#score-part').selectOption('p0-s1-split1',{force:true});await singer.waitForFunction(()=>!document.querySelector('#score-part').disabled);
   assert.equal(await singer.locator('#score .vf-stavenote').count(),4,'Exported single voice renders all four notes at their correct bars');
-  await page.locator('#back-library').click();const hiddenBackup=page.waitForEvent('download');await page.locator('#project-backup').click();await (await hiddenBackup).saveAs('test-results/hidden-part.concentavo');
+  await page.locator('#back-library').click();const hiddenBackup=page.waitForEvent('download');await page.locator('.room-menu > summary').click();await page.locator('#project-backup').click();await (await hiddenBackup).saveAs('test-results/hidden-part.concentavo');
   await page.locator('#backup-input').setInputFiles(resolve('test-results/hidden-part.concentavo'));await page.waitForFunction(()=>document.querySelectorAll('[data-room]').length===3);
   await page.locator('.track-title').last().click();await page.waitForSelector('#score svg');await page.locator('#rename-voices').click();assert.equal(await page.locator('#lane-published-1').isChecked(),false,'Backup restore preserves unpublished parts');
   assert.deepEqual(errors,[],'No runtime errors');
