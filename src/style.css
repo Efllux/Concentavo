@@ -3744,7 +3744,7 @@ dialog:focus{outline:none}
 :root:root:root:root .singer-deck #speed:not(#_){height:42px;min-height:42px;width:100%;max-width:100%;border:0;border-radius:0;background:transparent}
 :root:root:root:root .deck-portrait .singer-deck #restart .transport-word:not(#_){white-space:nowrap;font-size:13px}
 :root:root:root:root .deck-portrait .singer-deck #restart:not(#_){gap:4px;padding-inline:6px}
-:root[lang=nl] #zoom-label::before{content:'Grootte '}
+:root[lang=nl] #zoom-label::before{content:'Notengrootte '}
 :root:root:root:root #zoom-label:not(#_){white-space:nowrap}
 /* Keep all singer-sheet exit controls outside the only scrollable region. */
 :root:root:root:root .more-panel:not(#_){overflow:hidden}
@@ -3822,4 +3822,111 @@ dialog:focus{outline:none}
 @media(min-width:951px) and (max-width:1439px){
  :root:root:root:root .dock:not(.singer-deck):has(#follow-resume:not([hidden])) .dk-row:not(#_){height:84px;min-height:84px;padding-top:40px}
  :root:root:root:root .dock:not(.singer-deck) #follow-resume:not(#_){position:absolute;left:16px;bottom:62px;margin:0}
+}
+
+/* r18 — one colour-coded part control wherever a singer chooses a part (room, player, options). */
+:root:root:root:root:root .part-option:not(#_){display:flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:8px 14px;border:1px solid color-mix(in srgb,var(--part) 55%,var(--line));border-radius:var(--ctl-r);background:color-mix(in srgb,var(--part) 10%,var(--surface));color:var(--text);font-size:16px;font-weight:650;line-height:1.2;white-space:normal;overflow-wrap:anywhere;box-shadow:none}
+:root:root:root:root:root .part-option:not(#_):hover{background:color-mix(in srgb,var(--part) 18%,var(--surface));border-color:var(--part)}
+:root:root:root:root:root .part-option[aria-pressed=true]:not(#_){background:color-mix(in srgb,var(--part) 20%,var(--surface));border-color:var(--part);box-shadow:inset 0 0 0 1px var(--part)}
+:root:root:root:root:root .part-option[hidden]:not(#_){display:none}
+:root:root:root:root:root .part-option .part-dot:not(#_),.part-line .part-dot{display:inline-block;flex:none;width:10px;height:10px;border-radius:50%;background:var(--part);opacity:1}
+:root[data-theme=dark]:root:root:root:root .part-option:not(#_){background:color-mix(in srgb,var(--part) 7%,var(--surface));border-color:color-mix(in srgb,var(--part) 75%,var(--surface))}
+:root[data-theme=dark]:root:root:root:root .part-option:not(#_):hover,:root[data-theme=dark]:root:root:root:root .part-option[aria-pressed=true]:not(#_){background:color-mix(in srgb,var(--part) 16%,var(--surface))}
+:root:root:root:root:root .room-listen[aria-pressed=true]:not(#_){color:var(--sel-ink)}
+/* The player's first step uses the same buttons. */
+:root:root:root:root:root .singer-part-choices .part-option:not(#_){min-height:44px;padding:0 12px;font-size:15px;gap:8px}
+:root:root:root:root:root .singer-choose.divisi .choose-hint:not(#_){white-space:normal}
+/* Once chosen, the part is one line: Your part · Alto · Change. */
+:root:root:root:root:root .viewer .project-heading:has(.room-part-line):not(#_){display:block}
+:root:root:root:root:root .viewer .project-heading:has(.room-part-line) .room-title:not(#_){display:flex;flex-direction:column;align-items:stretch;width:100%}
+:root:root:root:root:root .viewer .project-heading:has(.room-part-line) .room-name-row:not(#_){justify-content:flex-start;text-align:left}
+.room-part-line{display:flex;align-items:center;flex-wrap:wrap;gap:4px 12px;width:100%;box-sizing:border-box;margin:14px 0 0;padding:4px 4px 4px 16px;min-height:54px;border:1px solid color-mix(in srgb,var(--part) 45%,var(--line));border-radius:var(--ctl-r);background:color-mix(in srgb,var(--part) 8%,var(--surface))}
+:root[data-theme=dark] .room-part-line{background:color-mix(in srgb,var(--part) 6%,var(--surface));border-color:color-mix(in srgb,var(--part) 60%,var(--surface))}
+.pl-label{font-size:14px;color:var(--muted);white-space:nowrap}
+.pl-value{display:inline-flex;align-items:center;gap:8px;flex:1 1 auto;min-width:0;font-size:17px;color:var(--text)}
+.pl-name{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+:root:root:root:root:root .pl-change:not(#_){flex:none;min-height:44px;height:44px;padding:0 16px;border:1px solid var(--ctl-line);border-radius:var(--ctl-r);background:var(--surface);color:var(--sel-ink);font-size:14px;font-weight:650}
+:root:root:root:root:root .room-part-line .voice-pref:not(#_){flex:1 1 100%;display:flex;align-items:center;gap:8px;margin:0 0 4px;font-size:13px;color:var(--muted)}
+.room-step-title{margin:22px 0 10px;font:650 18px/1.3 var(--font-ui,Inter,system-ui,sans-serif);color:var(--text)}
+/* Singer rows: title and composer, a quiet Details link, and one clear action. */
+:root:root:root:root:root .viewer .piece-list .singer-row:not(#_){display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:'main action';align-items:center;gap:6px 16px;padding:10px 12px 10px 18px;min-height:0}
+:root:root:root:root:root .viewer .singer-row .track-main:not(#_){grid-area:main;display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-width:0}
+:root:root:root:root:root .viewer .singer-row .track-title:not(#_){width:100%;margin:0;padding:0;text-align:left;font-size:17px;line-height:1.3;hyphens:none;-webkit-hyphens:none;overflow-wrap:anywhere}
+:root:root:root:root:root .viewer .singer-row .track-meta:not(#_){display:flex;align-items:center;justify-content:flex-start;align-self:stretch;width:100%;flex-wrap:wrap;gap:2px 12px;margin:0;min-width:0;font-size:13px;line-height:20px;color:var(--muted);white-space:normal;overflow:visible}
+:root:root:root:root:root .viewer .singer-row .track-composer:not(#_){min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+:root:root:root:root:root .viewer .singer-row .part-availability:not(#_){font-size:12px;line-height:18px}
+:root:root:root:root:root .viewer .singer-row .singer-song-details:not(#_){position:relative;grid-area:auto;align-self:center;justify-self:auto;z-index:3}
+:root:root:root:root:root .viewer .singer-row .singer-song-details>summary:not(#_){display:flex;align-items:center;width:auto;min-width:0;height:44px;min-height:44px;margin-block:-12px;padding:0 4px;border-radius:6px;background:transparent;font-size:13px;font-weight:600;color:var(--muted);text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--muted) 55%,transparent);text-underline-offset:3px}
+:root:root:root:root:root .viewer .singer-row .song-details-body:not(#_){left:0;right:auto}
+:root:root:root:root:root .viewer .singer-row .row-actions:not(#_){grid-area:action;display:flex;align-items:center;justify-content:flex-end;margin:0;align-self:center}
+:root:root:root:root:root .practise-action:not(#_){display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;height:44px;padding:0 16px 0 12px;font-size:15px;font-weight:650;white-space:nowrap;overflow-wrap:normal}
+:root:root:root:root:root .practise-action .glyph:not(#_){display:inline-flex;width:16px;height:16px;color:var(--part)}
+:root:root:root:root:root .practise-action .glyph svg:not(#_){width:100%;height:100%}
+:root:root:root:root:root .listen-action:not(#_){border:1px solid var(--ctl-line);border-radius:var(--ctl-r);background:var(--surface);color:var(--text)}
+:root:root:root:root:root .listen-action .glyph:not(#_){color:var(--muted)}
+:root:root:root:root:root .viewer .singer-row.long-song-title:has(.practise-action):not(#_){grid-template-columns:minmax(0,1fr);grid-template-areas:'main' 'action'}
+:root:root:root:root:root .viewer .singer-row.long-song-title .row-actions:not(#_){justify-content:flex-start}
+@media(max-width:700px){
+ :root:root:root:root:root .viewer .piece-list .singer-row:not(#_){gap:6px 10px;padding:10px 10px 10px 14px}
+ :root:root:root:root:root .viewer .singer-row .track-title:not(#_){font-size:17px}
+ :root:root:root:root:root .practise-action:not(#_){padding:0 12px 0 10px;gap:6px;font-size:14px}
+ .room-part-line{margin-top:10px}
+ .room-step-title{margin:18px 0 8px;font-size:17px}
+}
+/* Choose bars in the music is a button, not a field. */
+:root:root:root:root:root .dock .dk-tools .dk-loop .pick-loop:not(#_){display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 16px;border:1px solid var(--sel-line);border-radius:var(--ctl-r);background:var(--sel-bg);color:var(--sel-ink);font-weight:650;text-align:center;white-space:nowrap}
+:root:root:root:root:root .pick-loop .glyph:not(#_){display:inline-flex;width:18px;height:18px;flex:none}
+:root:root:root:root:root .pick-loop .glyph svg:not(#_){width:100%;height:100%}
+/* The singer header names its settings button. */
+:root:root:root:root:root .player-heading .labelled-settings:not(#_){width:auto;min-width:44px;padding:0 12px 0 10px;gap:6px;display:inline-flex;align-items:center;justify-content:center}
+:root:root:root:root:root .labelled-settings .gear-word:not(#_){font-size:14px;font-weight:600;white-space:nowrap}
+/* Repeat guide: the step text, then one compact row of choices. */
+:root:root:root:root:root .repeat-guide:not(#_){display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:6px 8px;padding:8px 12px}
+:root:root:root:root:root .repeat-guide[hidden]:not(#_){display:none}
+:root:root:root:root:root .repeat-guide .rg-text:not(#_){font-size:14.5px;line-height:19px}
+:root:root:root:root:root .repeat-guide .rg-actions:not(#_){grid-column:1/-1;display:flex;flex-wrap:nowrap;gap:6px;width:auto;margin:0}
+:root:root:root:root:root .repeat-guide .rg-actions button:not(#_){flex:none;min-height:44px;height:44px;padding:0 12px;font-size:13.5px;white-space:nowrap}
+:root:root:root:root:root .repeat-guide .rg-actions .rg-line:not(#_){flex:1 1 auto;min-width:0;justify-content:center;background:var(--primary-fill,var(--blue));border-color:transparent;color:#fff}
+:root:root:root:root:root .repeat-guide .rg-actions .rg-cancel:not(#_){width:auto;padding:0 12px;gap:6px}
+:root:root:root:root:root .repeat-guide .rg-cancel-word:not(#_){position:static;width:auto;height:auto;overflow:visible;clip-path:none}
+@media(min-width:701px){
+ :root:root:root:root:root .repeat-guide:not(#_){grid-template-columns:auto minmax(0,1fr) auto}
+ :root:root:root:root:root .repeat-guide .rg-actions:not(#_){grid-column:auto}
+ :root:root:root:root:root .repeat-guide .rg-actions .rg-line:not(#_){flex:none}
+}
+/* While choosing bars the guide's numbers replace the engraved ones; the offered line is a dashed outline below the tempo mark. */
+#score.picking-bars .engraved-bar-number{visibility:hidden}
+#score.picking-bars .measure-hit.offered-line,#score.picking-bars .measure-hit.offered-first,#score.picking-bars .measure-hit.offered-last{box-shadow:none;border:0;background:transparent}
+#score.picking-bars .measure-hit.offered-line::before{content:'';position:absolute;inset:24px 0 0;border-top:2px dashed var(--blue);background:color-mix(in srgb,var(--sel-bg) 35%,transparent);pointer-events:none}
+#score.picking-bars .measure-hit.offered-first::before{border-left:2px dashed var(--blue)}
+#score.picking-bars .measure-hit.offered-last::before{border-right:2px dashed var(--blue)}
+#score#score.picking-bars .measure-hit.offered-line:first-of-type{border:0}
+.rg-short .rg-range{display:none}
+@media(max-width:700px){
+ :root:root:root:root:root .repeat-guide:not(#_){grid-template-columns:auto minmax(0,1fr) auto auto}
+ :root:root:root:root:root .repeat-guide .rg-step:not(#_){grid-column:1;grid-row:1}
+ :root:root:root:root:root .repeat-guide .rg-text:not(#_){grid-column:2/4;grid-row:1}
+ :root:root:root:root:root .repeat-guide .rg-actions:not(#_){display:contents}
+ :root:root:root:root:root .repeat-guide .rg-actions .rg-cancel:not(#_){grid-column:4;grid-row:1}
+ :root:root:root:root:root .repeat-guide .rg-actions .rg-line:not(#_){grid-column:1/3;grid-row:2;min-width:0;overflow:hidden}
+ :root:root:root:root:root .repeat-guide #repeat-guide-numbers:not(#_){grid-column:3/5;grid-row:2}
+ :root:root:root:root:root .singer-part-choices:not(#_){gap:6px}
+ :root:root:root:root:root .singer-part-choices .part-option:not(#_){padding:0 6px;gap:6px;font-size:14.5px;overflow-wrap:normal;white-space:nowrap}
+ :root:root:root:root:root .singer-part-choices .part-option .part-dot:not(#_){width:9px;height:9px}
+}
+#repeat-guide-line:not(#_):not(#_){display:block;text-align:center;line-height:42px;overflow:hidden;text-overflow:clip}
+:root:root:root:root:root .listen-action .pa-text:not(#_){display:flex;flex-direction:column;align-items:flex-start;line-height:1.15}
+:root:root:root:root:root .listen-action .pa-note:not(#_){display:block;padding:0;border:0;background:none;font-size:11.5px;font-weight:500;line-height:1.2;color:var(--muted)}
+/* The dock's part control and the options' part rows wear the same colour as the room's part buttons. */
+:root:root:root:root:root .dock .part-picker.has-part>summary:not(#_){border-color:color-mix(in srgb,var(--part) 55%,var(--line));background:color-mix(in srgb,var(--part) 9%,var(--surface))}
+:root[data-theme=dark]:root:root:root:root .dock .part-picker.has-part>summary:not(#_){border-color:color-mix(in srgb,var(--part) 70%,var(--surface));background:color-mix(in srgb,var(--part) 7%,var(--surface))}
+:root:root:root:root:root .voice .part-swatch:not(#_){border-radius:50%}
+:root:root:root:root:root .voice .focus-toggle[aria-pressed=true]:not(#_){border-color:var(--part);background:color-mix(in srgb,var(--part) 20%,var(--surface));color:var(--text);box-shadow:inset 0 0 0 1px var(--part)}
+/* Dutch "Naar het begin" wraps deliberately onto two lines on upright phones, like "Fragment herhalen". */
+:root[lang=nl]:root:root:root:root .deck-portrait .singer-deck #restart .transport-word:not(#_){white-space:normal;line-height:1.15;text-align:left;font-size:13.5px}
+@media(max-width:700px){:root:root:root:root:root .repeat-guide .rg-text:not(#_){font-size:14px}}
+/* Desktop app player: Play is a labelled button too (Play / Pause), like the singer site. */
+@media(min-width:951px){
+ :root:root:root:root:root .dock:not(.singer-deck) .dk-main .dk-play:not(#_){display:inline-flex;align-items:center;justify-content:center;gap:7px;width:auto;min-width:96px;height:44px;padding:0 18px 0 16px;border-radius:22px;font-size:15px;font-weight:650}
+ :root:root:root:root:root .dock:not(.singer-deck) .dk-play .transport-word:not(#_){display:inline;white-space:nowrap}
 }

@@ -84,9 +84,9 @@ try{
   await page.locator('#export-project').click();const download=page.waitForEvent('download');await page.locator('#download-site').click();await (await download).saveAs('test-results/choir-site.zip');
   await writeFile('test-results/choir-site.html',strFromU8(unzipSync(await readFile('test-results/choir-site.zip'))['index.html']));
   const singer=await browser.newPage({viewport:{width:390,height:844}});singer.on('pageerror',e=>errors.push(e.message));
-  await singer.goto(pathToFileURL(resolve('test-results/choir-site.html')).href);await singer.waitForSelector('#room-choose');await singer.locator('[data-my-part="Bass 1"]').click();await singer.waitForSelector('#voice-pref');
+  await singer.goto(pathToFileURL(resolve('test-results/choir-site.html')).href);await singer.waitForSelector('#room-choose');const offeredAlto2=await singer.locator('[data-my-part="Alto 2"]').count();await singer.locator('[data-my-part="Bass 1"]').click();await singer.waitForSelector('#voice-pref');
   const choices=await singer.locator('#voice-pref option').allTextContents();
-  assert.ok((await singer.locator('[data-my-part="Alto 2"]').count())===1&&choices.includes('Anna · Alto 2'),'Website offers the choir parts and named singers');
+  assert.ok(offeredAlto2===1&&choices.includes('Anna · Alto 2'),'Website offers the choir parts and named singers');
 
   assert.ok((await singer.locator('.part-availability.unavailable').count())>0,'Room marks pieces without the chosen part');
   await singer.locator('#voice-pref').selectOption('@Anna');
