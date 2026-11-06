@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+## 1.1.0-rc.5
+
+- Start the singer website with "Choose your part": one large button per voice, then "Choose a piece to practise" with a Practise button on each piece. Pieces with split parts ask once (Soprano 1 or 2) and remember the answer.
+- Plain practice controls on the website and in the app player: icon Back to start and Play, a visible Speed − 100% + control, Repeat passage and My part. Musician options (part volumes, view and note size, scrolling along, key, count-in, written repeats, WAV) are in one More options panel.
+- Guided Repeat passage: tap the first and last bar, or repeat the current line in one tap. Bar-number fields stay available.
+- Fit whole systems to the screen (Compact size): two complete SATB systems on desktop, two rows on a sideways phone. Page by whole systems.
+- One consistent control style, sans-serif titles, clearer light and dark contrast, compact library and room lists, long-title handling, and a full Dutch wording pass with automated translation and overflow checks.
+
+Earlier phone-player redesign:
+
 - Redesign the phone player: a dark playback deck with a large play button and a "Practise as" row that brings one voice forward and shows its part in one tap.
 - Turn the phone Parts mixer into a sheet with voice colours, 44-pixel controls and a Done button. It still opens above playback.
 - Replace the bar dialog with a loop picker: phrase shortcuts taken from the lyrics (or four-bar sections) plus a grid of bar tiles.

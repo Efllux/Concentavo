@@ -1,11 +1,12 @@
-# Concentavo 1.1.0-rc.4
+# Concentavo 1.1.0-rc.5
 
-Import more MusicXML exports directly, preserving their compact written score.
+A redesigned player and singer website that put the score first and make practising easy for every singer, in English and Dutch.
 
-- Follow encoded or written D.C./D.S., segno, coda and Fine directions in playback. Support nested repeats and alternate endings, with the cursor returning to the original bars.
-- Read partwise/timewise scores, namespaced XML, UTF-16 and additional MXL paths. Interpret composite meters, staff-specific transposition, notation ties and more chord kinds and alterations.
-- Respect written rests when separating shared choir staves. Accept rootless N.C. harmonies and stop generated accompaniment at N.C.
-- Apply the improved importer to saved pieces using Piece settings → Re-read original score, keeping part names, sounds and practice settings.
+- Singers start by choosing their part: one large button per voice on the rehearsal-room page, then "Choose a piece to practise" with a Practise button on each piece. Pieces with split parts (Soprano 1/2) ask once and remember the answer.
+- Plain practice controls on every screen: large Back to start and Play buttons, a visible Speed − 100% + control, Repeat passage, and My part. Advanced options for musicians (part volumes, view and note size, scrolling along, key, count-in, written repeats, WAV download) live in one More options panel.
+- Repeat passage guides you: tap the first bar, then the last bar, or repeat the current line in one tap. Bar numbers remain available.
+- The score fits whole systems to the screen: two complete SATB systems on a desktop, and two rows of music on a phone held sideways.
+- A calmer, consistent design across the desktop app and the published website: one control style, sans-serif titles, light and dark themes with improved contrast, compact library and room lists, graceful handling of very long titles, and natural Dutch wording throughout.
 
 Existing desktop rooms retain their storage location. Downloads include Apple Silicon and Intel Mac packages, a Windows x64 installer, matching source and SHA-256 checksums.
 
